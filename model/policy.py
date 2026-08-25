@@ -252,7 +252,7 @@ def collect_rollout(
         obs_tensor = torch.tensor(obs, dtype=torch.float32)
         action, log_prob, value, confidence = policy.get_action(obs_tensor)
 
-        next_obs, reward, done, info = env.step(action)
+        next_obs, reward, done, info = env.step(action, confidence=confidence)
 
         obs_list.append(obs)
         actions_list.append(action)

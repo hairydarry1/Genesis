@@ -158,7 +158,11 @@ class TradingEnv:
 
         return self._get_obs()
 
-    def step(self, action: int) -> tuple[np.ndarray, float, bool, dict[str, Any]]:
+    def step(
+        self,
+        action: int,
+        confidence: float | None = None,
+    ) -> tuple[np.ndarray, float, bool, dict[str, Any]]:
         """
         Take one step in the environment.
 
@@ -166,6 +170,10 @@ class TradingEnv:
         ----------
         action : int
             0 = hold/flat, 1 = buy (long), 2 = sell (short)
+        confidence : float | None
+            The agent's stated confidence in [0, 1] for this step's action.
+            Used by the reward's calibration penalty. When None, falls back
+            to an inverse-volatility proxy.
 
         Returns
         -------
@@ -223,9 +231,14 @@ class TradingEnv:
             actual_direction = np.sign(next_return)
             correct = (predicted_direction == actual_direction) if actual_direction != 0 else None
 
-        # Confidence (use inverse of rolling vol as proxy — low vol = high confidence)
-        vol_ratio = rolling_vol / 0.002  # normalize to typical vol
-        confidence = max(0.1, min(0.9, 1.0 / vol_ratio))
+        # Confidence: prefer the agent's stated confidence (e.g. the policy's
+        # calibrated confidence head). Fall back to an inverse-vol proxy when
+        # the caller does not supply one (random/heuristic baselines).
+        if confidence is None:
+            vol_ratio = rolling_vol / 0.002  # normalize to typical vol
+            confidence = max(0.1, min(0.9, 1.0 / vol_ratio))
+        else:
+            confidence = max(0.0, min(1.0, float(confidence)))
 
         # --- Reward ---
         reward, reward_details = self.reward_fn.step(

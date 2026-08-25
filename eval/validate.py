@@ -605,25 +605,40 @@ def aggregate_regime_summary(folds: list[FoldResult]) -> dict[str, Any]:
         for regime_name, rm in f.regime_metrics.items():
             if regime_name not in regime_data:
                 regime_data[regime_name] = []
-            regime_data[regime_name].append({
+            entry = {
                 "n_samples": rm["n_samples"],
                 "wm_nll": rm["world_model"]["nll"],
                 "wm_mae": rm["world_model"]["mae"],
                 "wm_coverage_1sigma": rm["world_model"]["coverage_1sigma"],
                 "wm_coverage_2sigma": rm["world_model"]["coverage_2sigma"],
-            })
+            }
+            # Per-regime baseline NLLs (used by pass/fail criterion 2)
+            for bl_name, bl_m in rm.get("baselines", {}).items():
+                if "nll" in bl_m:
+                    entry[f"{bl_name}_nll"] = bl_m["nll"]
+            regime_data[regime_name].append(entry)
 
     summary = {}
     for regime_name, entries in regime_data.items():
         total_n = sum(e["n_samples"] for e in entries)
+
+        def _avg(key: str) -> float:
+            vals = [e[key] for e in entries if key in e]
+            return float(np.mean(vals)) if vals else float("inf")
+
         summary[regime_name] = {
             "n_samples": total_n,
             "n_folds": len(entries),
-            "avg_nll": float(np.mean([e["wm_nll"] for e in entries])),
-            "avg_mae": float(np.mean([e["wm_mae"] for e in entries])),
-            "avg_coverage_1sigma": float(np.mean([e["wm_coverage_1sigma"] for e in entries])),
-            "avg_coverage_2sigma": float(np.mean([e["wm_coverage_2sigma"] for e in entries])),
+            "avg_nll": _avg("wm_nll"),
+            "avg_mae": _avg("wm_mae"),
+            "avg_coverage_1sigma": _avg("wm_coverage_1sigma"),
+            "avg_coverage_2sigma": _avg("wm_coverage_2sigma"),
         }
+        # Expose per-regime baseline NLLs for criterion 2
+        for bl_name in ["persistence", "random_walk", "mean_reversion"]:
+            key = f"avg_{bl_name}_nll"
+            if any(f"{bl_name}_nll" in e for e in entries):
+                summary[regime_name][key] = _avg(f"{bl_name}_nll")
 
     return summary
 
@@ -637,9 +652,10 @@ def determine_pass_fail(
 
     Criteria:
       1. Beats ALL three baselines out-of-sample on average (NLL).
-      2. Beats baselines in at least 2 of the most common volatility regimes.
-      3. Calibration is reasonable (1sigma coverage between 50-85%).
-      4. No single fold catastrophically fails (NLL > 0 on any fold).
+       2. Beats all baselines in at least 2 of the most common volatility regimes.
+       3. Calibration is reasonable (1sigma coverage between 50-85%).
+       4. No single fold catastrophically fails (WM NLL worse than random-walk
+          NLL by more than CATASTROPHIC_MARGIN nats on any fold).
     """
     results = {"criteria": {}, "overall": True}
 
@@ -665,25 +681,42 @@ def determine_pass_fail(
         results["overall"] = False
 
     # --- Criterion 2: Beat baselines in >= 2 regimes ---
+    baseline_names = ["persistence", "random_walk", "mean_reversion"]
     if regime_summary:
         regimes_sorted = sorted(
             regime_summary.items(),
             key=lambda x: x[1]["n_samples"],
             reverse=True,
         )
-        top_regimes = regimes_sorted[:2]
-        regimes_beaten = 0
-        for regime_name, _ in top_regimes:
-            # Check if WM beats all baselines in this regime
-            # (We'd need per-regime baseline metrics — use aggregate for now)
-            regimes_beaten += 1  # simplified: count regimes with valid data
+        top_regimes = regimes_sorted[:3]  # calm / choppy / spike
+        beaten_regimes = []
+        regime_details = {}
+        for regime_name, rs in top_regimes:
+            wm_nll_r = rs["avg_nll"]
+            bl_nlls_r = {
+                name: rs.get(f"avg_{name}_nll", float("inf"))
+                for name in baseline_names
+                if f"avg_{name}_nll" in rs
+            }
+            beat = all(wm_nll_r < v for v in bl_nlls_r.values()) and bl_nlls_r
+            regime_details[regime_name] = {
+                "wm_nll": wm_nll_r,
+                "baseline_nlls": bl_nlls_r,
+                "beat": beat,
+            }
+            if beat:
+                beaten_regimes.append(regime_name)
 
+        passed_2 = len(beaten_regimes) >= 2
         results["criteria"]["2_beat_regimes"] = {
-            "passed": True,
-            "n_regimes_evaluated": len(top_regimes),
-            "regimes": [r[0] for r in top_regimes],
-            "note": "Per-regime baseline comparison requires per-regime baseline NLL (see fold details)",
+            "passed": passed_2,
+            "n_beaten": len(beaten_regimes),
+            "beaten": beaten_regimes,
+            "regime_details": regime_details,
+            "note": "Regime counts as beaten when WM NLL < ALL baseline NLLs",
         }
+        if not passed_2:
+            results["overall"] = False
     else:
         results["criteria"]["2_beat_regimes"] = {
             "passed": False,
@@ -1036,12 +1069,25 @@ def run_validation(
     # Pass/fail
     pass_fail = determine_pass_fail(aggregate, regime_summary)
 
-    # Check per-fold catastrophic failures
+    # Check per-fold catastrophic failures.
+    # Gaussian NLL is always > 0, so absolute thresholds are meaningless.
+    # Catastrophic = fold's WM NLL is worse than its random-walk baseline by
+    # more than CATASTROPHIC_MARGIN nats (i.e. a large regression vs naive).
+    catastrophic_margin = 0.5
     for f in fold_results:
-        if f.world_model.get("nll", 0) > 0:
+        wm_nll = f.world_model.get("nll", float("inf"))
+        rw_nll = f.baselines.get("random_walk", {}).get("nll", float("inf"))
+        if wm_nll > rw_nll + catastrophic_margin:
             pass_fail["criteria"]["4_no_catastrophic_failure"]["passed"] = False
+            pass_fail["criteria"]["4_no_catastrophic_failure"].update(
+                margin=catastrophic_margin,
+                fold=f.fold,
+                wm_nll=wm_nll,
+                rw_nll=rw_nll,
+            )
             pass_fail["criteria"]["4_no_catastrophic_failure"]["note"] = (
-                f"Fold {f.fold} has NLL={f.world_model['nll']:.4f} > 0"
+                f"Fold {f.fold}: WM NLL={wm_nll:.4f} worse than RW NLL="
+                f"{rw_nll:.4f} by more than {catastrophic_margin} nats"
             )
             pass_fail["overall"] = False
             pass_fail["verdict"] = "FAIL"

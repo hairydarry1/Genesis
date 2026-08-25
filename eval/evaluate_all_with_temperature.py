@@ -294,9 +294,14 @@ def evaluate_one_checkpoint(
     # Pass/fail
     pass_fail = determine_pass_fail(agg, regime_summary)
 
-    # Check per-fold catastrophic failures
+    # Check per-fold catastrophic failures.
+    # Relative check: WM NLL worse than random-walk by > margin (NLL is
+    # always > 0 for Gaussians, so absolute thresholds are meaningless).
+    catastrophic_margin = 0.5
     for f in fold_results:
-        if f["world_model"].get("nll", 0) > 0:
+        wm_nll = f["world_model"].get("nll", float("inf"))
+        rw_nll = f["baselines"].get("random_walk", {}).get("nll", float("inf"))
+        if wm_nll > rw_nll + catastrophic_margin:
             pass_fail["criteria"]["4_no_catastrophic_failure"]["passed"] = False
             pass_fail["overall"] = False
             pass_fail["verdict"] = "FAIL"

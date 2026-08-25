@@ -218,8 +218,6 @@ def build_dataset(
     """Build the ML dataset (states, targets, timestamps)."""
     from data.resample import resample_ticks
     from features.state import StateBuilder
-    from features.precompute import load_structures
-    from model.dataset import build_dataset as _build_dataset
 
     print(f"\n{'='*60}")
     print(f"STEP 3: Building dataset (horizon={horizon})")
@@ -230,39 +228,62 @@ def build_dataset(
     # The build_dataset function needs 'timestamp' and 'close' columns
     if "timestamp" not in candles_df.columns:
         candles_df["timestamp"] = pd.to_datetime(candles_df["epoch"], unit="s", utc=True)
+    candles_df = (
+        candles_df.sort_values("timestamp")
+        .drop_duplicates("timestamp")
+        .reset_index(drop=True)
+    )
     print(f"  Candles: {len(candles_df):,}")
 
-    # Load structures
-    structures = load_structures(structures_path)
-    print(f"  Structures: {len(structures)}")
-
-    # Build state builder
-    # We need ticks for resampling to multiple timeframes
+    # Build state builder (structures loaded lazily from parquet cache)
     tick_name = candles_path.stem.replace('candles_', '').replace('_1min', '')
     tick_path = candles_path.parent / f"ticks_{tick_name}.parquet"
     ticks = pd.read_parquet(tick_path, engine="pyarrow")
 
     state_builder = StateBuilder(
         ticks=ticks,
-        structures=structures,
+        structures_path=str(structures_path),
         timeframes=["1min", "15min", "1h"],
         instrument_cfg=instrument_cfg,
     )
 
-    # Build dataset
+    # Build states with the vectorized batch method
+    n_bars = len(candles_df)
+    min_lookback = 100
+    valid_start = min_lookback
+    valid_end = n_bars - horizon
+    timestamps = candles_df["timestamp"].iloc[valid_start:valid_end].values
+    print(f"  Valid range: [{valid_start}, {valid_end}) — {len(timestamps):,} samples")
+
     t0 = time.time()
-    states, targets, timestamps = _build_dataset(
-        candles_df, state_builder, horizon=horizon, min_lookback=100,
-    )
+    states, feature_names = state_builder.build_all_states(timestamps)
+
+    # Build targets: log returns over the next `horizon` bars
+    closes = candles_df["close"].values.astype(np.float64)
+    targets = np.zeros((states.shape[0], horizon), dtype=np.float32)
+    for i in range(states.shape[0]):
+        bar_i = valid_start + i
+        current_close = closes[bar_i]
+        if current_close <= 0:
+            continue
+        for h in range(horizon):
+            targets[i, h] = np.log(closes[bar_i + h + 1] / current_close)
     elapsed = time.time() - t0
 
-    # Get feature names
-    sample_state = state_builder.build_state(candles_df["timestamp"].iloc[100])
-    feature_names = sorted(sample_state.keys())
+    # Filter NaN rows
+    nan_mask = np.any(np.isnan(states), axis=1) | np.any(np.isnan(targets), axis=1)
+    n_nan = int(nan_mask.sum())
+    if n_nan > 0:
+        print(f"  Filtering {n_nan} NaN rows...")
+        states = states[~nan_mask]
+        targets = targets[~nan_mask]
+        timestamps = timestamps[~nan_mask]
 
-    # Normalize
-    feat_mean = states.mean(axis=0)
-    feat_std = states.std(axis=0) + 1e-8
+    # Normalize using train-portion stats only (prevents leakage)
+    train_split = int(states.shape[0] * 0.85)
+    feat_mean = np.nanmean(states[:train_split], axis=0).astype(np.float32)
+    feat_std = np.nanstd(states[:train_split], axis=0).astype(np.float32)
+    feat_std = np.where(feat_std < 1e-8, 1.0, feat_std)
     states_norm = (states - feat_mean) / feat_std
 
     print(f"  Dataset: {states.shape[0]:,} samples, {states.shape[1]} features")
