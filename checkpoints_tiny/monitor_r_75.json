@@ -1,0 +1,50 @@
+{
+  "portfolio": {
+    "total_equity": 10000.0,
+    "total_pnl": 0.0,
+    "portfolio_drawdown": 0.0,
+    "total_trades": 0,
+    "overall_win_rate": 0.0,
+    "index_count": 1,
+    "active_positions": 1,
+    "alerts": [],
+    "start_time": "2026-08-24T20:54:00.300930+00:00"
+  },
+  "indices": {
+    "R_75": {
+      "name": "R_75",
+      "equity": 10000.0,
+      "peak_equity": 10000.0,
+      "position": 1,
+      "current_price": 51670.0313,
+      "total_pnl": 0.0,
+      "realized_pnl": 0.0,
+      "trade_count": 0,
+      "win_rate": 0.0,
+      "max_drawdown": 0.0,
+      "current_drawdown": 0.0,
+      "sharpe_ratio": 0.0,
+      "sortino_ratio": 0.0,
+      "profit_factor": 0.0,
+      "wm_direction": "UP",
+      "wm_confidence": 0.07189066212292002,
+      "wm_mean": 0.0013775058323517442,
+      "wm_std": 0.009580561489462472,
+      "position_size": 0.37446837756879037,
+      "risk_score": 0.0,
+      "equity_history": [
+        10000.0,
+        10000.0,
+        10000.0,
+        10000.0,
+        10000.0,
+        10000.0,
+        10000.0,
+        10000.0,
+        10000.0
+      ],
+      "last_update": "2026-08-24T21:01:59.515436+00:00"
+    }
+  },
+  "timestamp": "2026-08-24T23:54:00.240770+00:00"
+}

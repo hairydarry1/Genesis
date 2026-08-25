@@ -1,0 +1,36 @@
+sweep.device=cpu
+sweep.dataset n=129889 features=116
+sweep.filtered to 89 original features (from 116)
+sweep.split train=13801 val=9742
+sweep.run 1/8: A1_w48_d2_f2
+  [A1_w48_d2_f2] ep  1/30 NLL=0.1585 MAE=0.006305 1s=24.3% 2s=47.3% (5s)
+  [A1_w48_d2_f2] ep 11/30 NLL=-4.5111 MAE=0.001917 1s=87.4% 2s=99.7% (21s)
+  [A1_w48_d2_f2] ep 21/30 NLL=-4.6616 MAE=0.001831 1s=77.4% 2s=98.0% (37s)
+  [A1_w48_d2_f2] ep 30/30 NLL=-4.6816 MAE=0.001822 1s=75.6% 2s=97.6% (73s)
+sweep.done A1_w48_d2_f2 NLL=-4.6816 (\u0394=0.1831) time=73s
+sweep.run 2/8: A2_w48_d3_f2
+  [A2_w48_d3_f2] ep  1/30 NLL=-1.6332 MAE=0.005371 1s=37.2% 2s=57.2% (4s)
+  [A2_w48_d3_f2] ep 11/30 NLL=-4.5524 MAE=0.001863 1s=85.9% 2s=99.5% (67s)
+  [A2_w48_d3_f2] ep 21/30 NLL=-4.6642 MAE=0.001854 1s=75.4% 2s=97.6% (103s)
+  [A2_w48_d3_f2] ep 30/30 NLL=-4.6904 MAE=0.001824 1s=74.3% 2s=97.3% (142s)
+sweep.done A2_w48_d3_f2 NLL=-4.6908 (\u0394=0.1739) time=142s
+sweep.run 3/8: A3_w64_d2_f2
+  [A3_w64_d2_f2] ep  1/30 NLL=-0.5399 MAE=0.007021 1s=25.6% 2s=47.5% (2s)
+  [A3_w64_d2_f2] ep 11/30 NLL=-4.4505 MAE=0.002029 1s=86.2% 2s=99.4% (41s)
+  [A3_w64_d2_f2] ep 21/30 NLL=-4.6393 MAE=0.001840 1s=78.3% 2s=98.2% (103s)
+  [A3_w64_d2_f2] ep 30/30 NLL=-4.6649 MAE=0.001824 1s=76.5% 2s=97.7% (137s)
+sweep.done A3_w64_d2_f2 NLL=-4.6649 (\u0394=0.1998) time=137s
+sweep.run 4/8: A4_w48_d2_f3
+  [A4_w48_d2_f3] ep  1/30 NLL=-3.9664 MAE=0.003252 1s=48.6% 2s=84.4% (8s)
+  [A4_w48_d2_f3] ep 11/30 NLL=-4.4867 MAE=0.001940 1s=88.8% 2s=99.8% (52s)
+  [A4_w48_d2_f3] ep 21/30 NLL=-4.6429 MAE=0.001839 1s=80.0% 2s=98.7% (78s)
+  [A4_w48_d2_f3] ep 30/30 NLL=-4.6698 MAE=0.001823 1s=77.9% 2s=98.3% (101s)
+sweep.done A4_w48_d2_f3 NLL=-4.6698 (\u0394=0.1949) time=101s
+sweep.run 5/8: B1_w48_lr5e4
+  [B1_w48_lr5e4] ep  1/30 NLL=0.3903 MAE=0.007730 1s=20.6% 2s=43.9% (2s)
+  [B1_w48_lr5e4] ep 11/30 NLL=-4.4453 MAE=0.001888 1s=92.1% 2s=100.0% (25s)
+  [B1_w48_lr5e4] ep 21/30 NLL=-4.5537 MAE=0.001855 1s=86.4% 2s=99.5% (50s)
+  [B1_w48_lr5e4] ep 30/30 NLL=-4.5879 MAE=0.001825 1s=85.1% 2s=99.3% (71s)
+sweep.done B1_w48_lr5e4 NLL=-4.5879 (\u0394=0.2768) time=71s
+sweep.run 6/8: B2_w48_drop05
+  [B2_w48_drop05] ep  1/30 NLL=-3.6388 MAE=0.003669 1s=52.2% 2s=80.7% (5s)

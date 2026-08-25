@@ -1,0 +1,112 @@
+device=cpu
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+split train=220907 val=38983 features=8
+model params=516
+epoch 1/50 loss=-0.9056 val_nll=-2.9533 val_mae=0.003755 cov1sig=100.00% cov2sig=100.00% lr=9.99e-04 time=11.5s
+saved T=0.0517 val_nll=-2.9533
+saved T=0.0359 val_nll=-3.9934
+saved T=0.0657 val_nll=-4.3683
+saved T=0.0944 val_nll=-4.5921
+saved T=0.1897 val_nll=-4.7035
+epoch 6/50 loss=-4.6375 val_nll=-4.8434 val_mae=0.000952 cov1sig=98.08% cov2sig=99.99% lr=9.65e-04 time=7.3s
+saved T=0.1865 val_nll=-4.8434
+saved T=0.1970 val_nll=-4.9456
+saved T=0.1812 val_nll=-5.0869
+epoch 11/50 loss=-4.8075 val_nll=-5.1594 val_mae=0.000746 cov1sig=97.09% cov2sig=99.88% lr=8.86e-04 time=10.0s
+saved T=0.2220 val_nll=-5.1594
+epoch 16/50 loss=-4.8278 val_nll=-5.1646 val_mae=0.000859 cov1sig=94.32% cov2sig=99.77% lr=7.70e-04 time=7.5s
+saved T=0.2900 val_nll=-5.1646
+saved T=0.4201 val_nll=-5.2323
+epoch 21/50 loss=-4.9954 val_nll=-5.2261 val_mae=0.000929 cov1sig=82.55% cov2sig=99.76% lr=6.28e-04 time=7.0s
+saved T=0.5153 val_nll=-5.2946
+saved T=0.3531 val_nll=-5.3603
+saved T=0.4063 val_nll=-5.4013
+epoch 26/50 loss=-5.1107 val_nll=-5.2821 val_mae=0.000893 cov1sig=79.89% cov2sig=99.73% lr=4.74e-04 time=8.0s
+saved T=0.3683 val_nll=-5.4846
+saved T=0.3764 val_nll=-5.5166
+epoch 31/50 loss=-5.1965 val_nll=-5.5012 val_mae=0.000743 cov1sig=91.37% cov2sig=99.33% lr=3.23e-04 time=7.7s
+saved T=0.4142 val_nll=-5.5749
+saved T=0.4257 val_nll=-5.5833
+saved T=0.4522 val_nll=-5.6072
+saved T=0.4394 val_nll=-5.6412
+epoch 36/50 loss=-5.3969 val_nll=-5.6792 val_mae=0.000635 cov1sig=92.19% cov2sig=98.74% lr=1.89e-04 time=14.0s
+saved T=0.4477 val_nll=-5.6792
+saved T=0.4903 val_nll=-5.7094
+saved T=0.4729 val_nll=-5.7161
+epoch 41/50 loss=-5.4754 val_nll=-5.7355 val_mae=0.000589 cov1sig=90.51% cov2sig=98.06% lr=8.71e-05 time=16.4s
+saved T=0.4844 val_nll=-5.7355
+saved T=0.4815 val_nll=-5.7472
+saved T=0.4870 val_nll=-5.7499
+saved T=0.4936 val_nll=-5.7641
+epoch 46/50 loss=-5.5182 val_nll=-5.7666 val_mae=0.000594 cov1sig=89.95% cov2sig=98.07% lr=2.56e-05 time=8.1s
+saved T=0.5017 val_nll=-5.7666
+saved T=0.4959 val_nll=-5.7719
+saved T=0.5137 val_nll=-5.7734
+saved T=0.4994 val_nll=-5.7767
+epoch 50/50 loss=-5.5316 val_nll=-5.7800 val_mae=0.000612 cov1sig=91.11% cov2sig=98.18% lr=1.00e-05 time=8.1s
+saved T=0.5031 val_nll=-5.7800
+complete best_epoch=49 best_val_nll=-5.7800
+loaded checkpoint params=516 T_saved=0.5031
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+walk_forward folds=4
+fold 0 [2026-04-25 -> 2026-05-25] n=43200 WM_NLL=-5.9155 RW_NLL=-5.5969 T=0.4968 beat=YES 1sig=80.7% time=0.2s
+  [calm] n=39122 WM=-6.0210 RW=-5.7349 beat=YES
+  [choppy] n=1141 WM=-5.7269 RW=-5.5917 beat=YES
+  [spike] n=2937 WM=-4.5842 RW=-3.7608 beat=YES
+fold 1 [2026-05-25 -> 2026-06-24] n=43200 WM_NLL=-5.8550 RW_NLL=-5.5686 T=0.4942 beat=YES 1sig=79.9% time=0.2s
+  [calm] n=39168 WM=-5.9659 RW=-5.7142 beat=YES
+  [choppy] n=1051 WM=-5.7244 RW=-5.5848 beat=YES
+  [spike] n=2981 WM=-4.4428 RW=-3.6497 beat=YES
+fold 2 [2026-06-24 -> 2026-07-24] n=43200 WM_NLL=-5.9206 RW_NLL=-5.6118 T=0.5124 beat=YES 1sig=81.5% time=0.2s
+  [calm] n=39228 WM=-6.0251 RW=-5.7389 beat=YES
+  [choppy] n=1087 WM=-5.7962 RW=-5.5864 beat=YES
+  [spike] n=2885 WM=-4.5468 RW=-3.8937 beat=YES
+fold 3 [2026-07-24 -> 2026-08-23] n=43200 WM_NLL=-5.8922 RW_NLL=-5.5923 T=0.5126 beat=YES 1sig=81.0% time=0.2s
+  [calm] n=39178 WM=-5.9988 RW=-5.7291 beat=YES
+  [choppy] n=1058 WM=-5.6964 RW=-5.5558 beat=YES
+  [spike] n=2964 WM=-4.5525 RW=-3.7972 beat=YES
+report saved to checkpoints_crash_500\walk_forward_report.json
+
+============================================================
+TINY MODEL TRAINING COMPLETE
+============================================================
+Features: 8
+Params: 516
+Best epoch: 49
+Best val NLL (raw): -5.7752
+Best val NLL (calibrated): -5.8773
+Temperature: 0.5031
+Random Walk NLL: -5.5927
+Persistence NLL: -5.4946
+Beats RW (raw)? YES
+Beats RW (cal)? YES
+Model saved: checkpoints_crash_500\world_model_best.pt
+
+================================================================================
+TINY MODEL WALK-FORWARD EVALUATION
+================================================================================
+Features: 8  Params: 516
+Saved T: 0.5031  Avg fold T: 0.5040
+
+Aggregate:
+  WM NLL:  -5.8958
+  RW NLL:  -5.5924
+  Beat RW: YES (delta=-0.3034)
+  1sig: 80.8%  2sig: 95.8%
+  Folds beating RW: 4/4
+
+Per-fold:
+  Fold 0: [2026-04-25 -> 2026-05-25]  WM=-5.9155  RW=-5.5969  T=0.4968  BEAT
+  Fold 1: [2026-05-25 -> 2026-06-24]  WM=-5.8550  RW=-5.5686  T=0.4942  BEAT
+  Fold 2: [2026-06-24 -> 2026-07-24]  WM=-5.9206  RW=-5.6118  T=0.5124  BEAT
+  Fold 3: [2026-07-24 -> 2026-08-23]  WM=-5.8922  RW=-5.5923  T=0.5126  BEAT
+
+Per-regime:
+  calm     (n=156696):  WM=-6.0027  RW=-5.7293  BEAT
+  spike    (n= 11767):  WM=-4.5316  RW=-3.7753  BEAT
+  choppy   (n=  4337):  WM=-5.7360  RW=-5.5797  BEAT
+
+Verdict: PASS
+  Beats RW on average: YES
+  Beats RW in >=2 regimes: YES
+  No catastrophic fold: YES

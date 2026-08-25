@@ -1,0 +1,33 @@
+device=cpu
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+split train=220906 val=38983 features=8
+model params=516
+epoch 1/50 loss=-0.8174 val_nll=-2.9133 val_mae=0.003522 cov1sig=100.00% cov2sig=100.00% lr=9.99e-04 time=12.4s
+saved T=0.0396 val_nll=-2.9133
+saved T=0.0758 val_nll=-3.7683
+saved T=0.2249 val_nll=-4.0703
+saved T=0.2552 val_nll=-4.2755
+saved T=0.3243 val_nll=-4.3890
+epoch 6/50 loss=-4.2756 val_nll=-4.4550 val_mae=0.001928 cov1sig=89.69% cov2sig=99.84% lr=9.65e-04 time=31.2s
+saved T=0.3982 val_nll=-4.4550
+saved T=0.3797 val_nll=-4.5132
+saved T=0.4162 val_nll=-4.5678
+epoch 11/50 loss=-4.3458 val_nll=-4.5708 val_mae=0.001814 cov1sig=85.42% cov2sig=99.60% lr=8.86e-04 time=26.7s
+saved T=0.4624 val_nll=-4.5708
+saved T=0.4121 val_nll=-4.6006
+saved T=0.4084 val_nll=-4.6093
+epoch 16/50 loss=-4.3657 val_nll=-4.5458 val_mae=0.002032 cov1sig=82.04% cov2sig=99.17% lr=7.70e-04 time=10.9s
+saved T=0.4048 val_nll=-4.6262
+saved T=0.4085 val_nll=-4.6436
+epoch 21/50 loss=-4.3962 val_nll=-4.6216 val_mae=0.001761 cov1sig=84.95% cov2sig=99.58% lr=6.28e-04 time=9.2s
+saved T=0.5411 val_nll=-4.6525
+epoch 26/50 loss=-4.4380 val_nll=-4.6835 val_mae=0.001642 cov1sig=86.19% cov2sig=99.64% lr=4.74e-04 time=10.3s
+saved T=0.4580 val_nll=-4.6835
+saved T=0.4762 val_nll=-4.7013
+epoch 31/50 loss=-4.4880 val_nll=-4.7011 val_mae=0.001670 cov1sig=84.71% cov2sig=99.48% lr=3.23e-04 time=14.7s
+saved T=0.5038 val_nll=-4.7193
+saved T=0.5228 val_nll=-4.7437
+epoch 36/50 loss=-4.5269 val_nll=-4.7393 val_mae=0.001607 cov1sig=84.29% cov2sig=99.41% lr=1.89e-04 time=13.2s
+saved T=0.5369 val_nll=-4.7494
+epoch 41/50 loss=-4.5523 val_nll=-4.7586 val_mae=0.001601 cov1sig=83.25% cov2sig=99.27% lr=8.71e-05 time=13.6s
+saved T=0.5447 val_nll=-4.7586

@@ -1,0 +1,102 @@
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+world_model_loaded path=checkpoints_tiny/world_model_best.pt features=8
+dataset range=2026-02-23 to 2026-08-22
+walk_forward folds=4
+evaluating baselines...
+baselines: random=-165.36+/-155.83  heuristic=-16.27+/-177.48
+fold 0: train=[2026-02-23 -> 2026-04-24] val=[2026-04-24 -> 2026-05-24]
+  policy=0.00+/-0.00  random=-165.36  heuristic=-16.27  beats_random=YES  beats_heuristic=YES  dd=0.0%  cal_gap=1.000  time=97.7s
+fold 1: train=[2026-03-25 -> 2026-05-24] val=[2026-05-24 -> 2026-06-23]
+  policy=0.00+/-0.00  random=-165.36  heuristic=-16.27  beats_random=YES  beats_heuristic=YES  dd=0.0%  cal_gap=1.000  time=78.2s
+fold 2: train=[2026-04-24 -> 2026-06-23] val=[2026-06-23 -> 2026-07-23]
+  policy=129.36+/-0.00  random=-165.36  heuristic=-16.27  beats_random=YES  beats_heuristic=YES  dd=0.1%  cal_gap=0.587  time=78.2s
+fold 3: train=[2026-05-24 -> 2026-07-23] val=[2026-07-23 -> 2026-08-22]
+  policy=469.62+/-0.00  random=-165.36  heuristic=-16.27  beats_random=YES  beats_heuristic=YES  dd=0.1%  cal_gap=0.542  time=80.1s
+Policy params: 5509
+Obs dim: 11, Actions: 3
+Training for 100 iterations, 500 steps each
+  iter   0/100 reward=-223.07 equity=9241.73 trades=331 policy_loss=0.0042 value_loss=682.2281
+  iter  10/100 reward=-323.94 equity=9383.97 trades=311 policy_loss=0.0002 value_loss=587.6553
+  iter  20/100 reward=-531.15 equity=9032.33 trades=302 policy_loss=0.0026 value_loss=894.8239
+  iter  30/100 reward=-235.29 equity=9417.34 trades=249 policy_loss=0.0022 value_loss=402.3764
+  iter  40/100 reward=-368.38 equity=9324.23 trades=234 policy_loss=0.0021 value_loss=495.1973
+  iter  50/100 reward=-90.37 equity=9750.74 trades=168 policy_loss=0.0040 value_loss=221.0416
+  iter  60/100 reward=-87.33 equity=9557.39 trades=238 policy_loss=0.0049 value_loss=263.2073
+  iter  70/100 reward=-128.93 equity=9628.56 trades=219 policy_loss=-0.0016 value_loss=159.3828
+  iter  80/100 reward=-65.09 equity=9505.98 trades=246 policy_loss=0.0007 value_loss=406.6104
+  iter  90/100 reward=+0.20 equity=9742.21 trades=209 policy_loss=-0.0010 value_loss=296.4018
+  iter  99/100 reward=-67.58 equity=9750.49 trades=231 policy_loss=0.0103 value_loss=194.7965
+Policy params: 5509
+Obs dim: 11, Actions: 3
+Training for 100 iterations, 500 steps each
+  iter   0/100 reward=+298.99 equity=9991.44 trades=306 policy_loss=-0.0007 value_loss=653.3825
+  iter  10/100 reward=-515.46 equity=9152.06 trades=310 policy_loss=0.0060 value_loss=614.5210
+  iter  20/100 reward=-493.09 equity=9306.75 trades=266 policy_loss=0.0018 value_loss=868.2773
+  iter  30/100 reward=+48.05 equity=9705.33 trades=259 policy_loss=0.0012 value_loss=316.8548
+  iter  40/100 reward=+341.51 equity=9808.55 trades=311 policy_loss=0.0032 value_loss=730.8663
+  iter  50/100 reward=+34.60 equity=9370.81 trades=348 policy_loss=0.0008 value_loss=522.4500
+  iter  60/100 reward=+75.25 equity=9690.79 trades=294 policy_loss=0.0002 value_loss=494.0524
+  iter  70/100 reward=-111.78 equity=9564.76 trades=325 policy_loss=0.0058 value_loss=379.1753
+  iter  80/100 reward=-114.62 equity=9685.73 trades=259 policy_loss=0.0069 value_loss=398.3366
+  iter  90/100 reward=+32.80 equity=9804.90 trades=252 policy_loss=0.0068 value_loss=336.3050
+  iter  99/100 reward=-61.52 equity=9784.46 trades=253 policy_loss=0.0041 value_loss=325.4393
+Policy params: 5509
+Obs dim: 11, Actions: 3
+Training for 100 iterations, 500 steps each
+  iter   0/100 reward=-516.94 equity=8959.94 trades=336 policy_loss=0.0092 value_loss=857.9688
+  iter  10/100 reward=-64.20 equity=9611.35 trades=316 policy_loss=0.0043 value_loss=449.1071
+  iter  20/100 reward=-211.78 equity=9290.52 trades=336 policy_loss=-0.0052 value_loss=458.0740
+  iter  30/100 reward=-413.84 equity=9029.22 trades=323 policy_loss=-0.0067 value_loss=783.1574
+  iter  40/100 reward=-252.65 equity=9238.93 trades=310 policy_loss=-0.0058 value_loss=841.5546
+  iter  50/100 reward=-55.17 equity=9390.85 trades=315 policy_loss=0.0053 value_loss=526.7602
+  iter  60/100 reward=+85.63 equity=9754.15 trades=308 policy_loss=0.0063 value_loss=501.7194
+  iter  70/100 reward=-315.58 equity=9177.45 trades=309 policy_loss=-0.0036 value_loss=505.1486
+  iter  80/100 reward=-10.87 equity=9710.36 trades=255 policy_loss=0.0065 value_loss=419.7605
+  iter  90/100 reward=+235.96 equity=9901.51 trades=252 policy_loss=0.0044 value_loss=725.7984
+  iter  99/100 reward=+24.21 equity=9827.79 trades=195 policy_loss=0.0080 value_loss=429.6929
+Policy params: 5509
+Obs dim: 11, Actions: 3
+Training for 100 iterations, 500 steps each
+  iter   0/100 reward=-109.60 equity=9558.20 trades=316 policy_loss=0.0054 value_loss=352.5389
+  iter  10/100 reward=-352.96 equity=9252.22 trades=341 policy_loss=0.0112 value_loss=676.7504
+  iter  20/100 reward=-39.58 equity=9368.82 trades=256 policy_loss=0.0089 value_loss=621.5090
+  iter  30/100 reward=-328.30 equity=9364.75 trades=210 policy_loss=0.0116 value_loss=557.1985
+  iter  40/100 reward=-371.46 equity=9487.32 trades=208 policy_loss=0.0095 value_loss=569.3428
+  iter  50/100 reward=+90.99 equity=9988.72 trades=215 policy_loss=0.0011 value_loss=564.3219
+  iter  60/100 reward=+328.75 equity=10069.61 trades=189 policy_loss=-0.0004 value_loss=798.1923
+  iter  70/100 reward=+313.76 equity=9813.88 trades=232 policy_loss=0.0014 value_loss=640.0078
+  iter  80/100 reward=-331.00 equity=9281.81 trades=272 policy_loss=0.0067 value_loss=533.6339
+  iter  90/100 reward=+284.53 equity=10175.61 trades=188 policy_loss=0.0089 value_loss=571.2081
+  iter  99/100 reward=+524.47 equity=10314.35 trades=174 policy_loss=0.0115 value_loss=630.8852
+
+==========================================================================================
+WALK-FORWARD POLICY VALIDATION
+==========================================================================================
+Dataset: data/dataset_R75_h10.npz
+Folds: 4 (train=60d, val=30d, step=30d)
+Training: 100 iterations, 500 steps/episode
+
+Baselines:
+  Random:   -165.36 +/- 155.83
+  Heuristic: -16.27 +/- 177.48
+
+Fold                    Period       Policy  vs Random    vs Heur    MaxDD   CalGap
+------------------------------------------------------------------------------------------
+   0   2026-04-24 -> 2026-05-24        +0.00       BEAT       BEAT    0.0%    1.000
+   1   2026-05-24 -> 2026-06-23        +0.00       BEAT       BEAT    0.0%    1.000
+   2   2026-06-23 -> 2026-07-23      +129.36       BEAT       BEAT    0.1%    0.587
+   3   2026-07-23 -> 2026-08-22      +469.62       BEAT       BEAT    0.1%    0.542
+------------------------------------------------------------------------------------------
+Aggregate:
+  Avg policy reward: +149.75
+  Beats random: 4/4
+  Beats heuristic: 4/4
+  Avg calibration gap: 0.782
+  Max drawdown: 0.1%
+
+Verdict: FAIL (calibration)
+
+Calibration detail (best fold 3):
+  Conf=0.13  Acc=0.56  N=10000  Gap=0.432
+
+Report saved to: checkpoints_tiny/policy_validation.json

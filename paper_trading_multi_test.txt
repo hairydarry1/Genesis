@@ -1,0 +1,141 @@
+
+Starting multi-index paper trading for: ['R_75', 'R_10']
+Each index starts with $10000.00 equity
+Total starting equity: $20000.00
+
+2026-08-24 16:17:49 [info     ] multi_index_start indices=['R_75', 'R_10'] n_indices=2
+2026-08-24 16:17:49 [info     ] world_model_loaded features=8
+2026-08-24 16:17:49 [info     ] policy_loaded
+2026-08-24 16:17:49 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 16:17:50 [info     ] world_model_loaded features=8
+2026-08-24 16:17:50 [info     ] policy_loaded
+2026-08-24 16:17:50 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 16:17:52 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 16:17:52 [info     ] connected index=R_10
+2026-08-24 16:17:53 [info     ] history_fetched index=R_10 n=500
+2026-08-24 16:17:53 [info     ] resample_bars.complete         freq=15min input_bars=500 output_bars=35
+2026-08-24 16:17:53 [info     ] resample_bars.complete         freq=1h input_bars=500 output_bars=10
+2026-08-24 16:17:53 [info     ] state_builder.init             bars={'1min': 500, '15min': 35, '1h': 10} n_ticks=500 note='structures detected lazily' timeframes=['1min', '15min', '1h']
+2026-08-24 16:17:53 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:17:54 [info     ] structures.detect_complete     bos=381 choch=29 eqh_eql=0 fvgs=89 ifvgs=47 liquidity_sweeps=0 mitigation=65 n_bars=500 obs=100 total=711
+2026-08-24 16:17:54 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:17:54 [info     ] trade.open side=short price=4767.56 equity=10000.00
+
+=================================================================
+  PAPER TRADING @ 15:17:54  |  R_10  |  Price: 4767.56
+=================================================================
+  World Model: UP (conf=0.32)  mean=+0.000370  std=0.001156
+  Policy: SELL  |  Position: SHORT
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+
+================================================================================
+  PORTFOLIO STATUS @ 15:17:54 UTC
+================================================================================
+  Total Equity: $10000.00
+  Total PnL: $+0.00
+  Portfolio DD: 0.0%
+  Trades: 0 | Win Rate: 0%
+  Active Positions: 1/1
+================================================================================
+  R_10         | Equity: $10000.00 | PnL: $   +0.00 | DD: 0.0% | Pos: SHORT | Trades: 0
+================================================================================
+2026-08-24 16:17:56 [info     ] deriv_connection.subscribed    req_id=2 sub_id=18edf94a-74f4-b192-3c09-09ca41d75c84
+2026-08-24 16:17:56 [info     ] live_active index=R_10 sub_id=18edf94a-74f4-b192-3c09-09ca41d75c84
+2026-08-24 16:17:57 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 16:17:57 [info     ] connected index=R_75
+2026-08-24 16:17:58 [info     ] history_fetched index=R_75 n=500
+2026-08-24 16:17:58 [info     ] resample_bars.complete         freq=15min input_bars=500 output_bars=35
+2026-08-24 16:17:58 [info     ] resample_bars.complete         freq=1h input_bars=500 output_bars=10
+2026-08-24 16:17:58 [info     ] state_builder.init             bars={'1min': 500, '15min': 35, '1h': 10} n_ticks=500 note='structures detected lazily' timeframes=['1min', '15min', '1h']
+2026-08-24 16:17:58 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:17:59 [info     ] structures.detect_complete     bos=343 choch=53 eqh_eql=0 fvgs=90 ifvgs=56 liquidity_sweeps=0 mitigation=61 n_bars=500 obs=105 total=708
+2026-08-24 16:17:59 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:17:59 [info     ] trade.open side=long price=51924.72 equity=10000.00
+
+=================================================================
+  PAPER TRADING @ 15:17:59  |  R_75  |  Price: 51924.72
+=================================================================
+  World Model: UP (conf=0.11)  mean=+0.001008  std=0.009334
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+
+================================================================================
+  PORTFOLIO STATUS @ 15:17:59 UTC
+================================================================================
+  Total Equity: $10000.00
+  Total PnL: $+0.00
+  Portfolio DD: 0.0%
+  Trades: 0 | Win Rate: 0%
+  Active Positions: 1/1
+================================================================================
+  R_75         | Equity: $10000.00 | PnL: $   +0.00 | DD: 0.0% | Pos: LONG | Trades: 0
+================================================================================
+2026-08-24 16:18:01 [info     ] deriv_connection.subscribed    req_id=2 sub_id=1a1a601a-fb37-2a78-4d07-c359beb35b75
+2026-08-24 16:18:01 [info     ] live_active index=R_75 sub_id=1a1a601a-fb37-2a78-4d07-c359beb35b75
+2026-08-24 16:18:01 [info     ] all_indices_connected
+
+==========================================================================================
+  PORTFOLIO STATUS @ 15:18:01 UTC
+==========================================================================================
+  Total Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Diversification: 0.00  |  Active: 0/2  |  Trades: 0
+------------------------------------------------------------------------------------------
+  R_75         | Equity: $10000.00 | PnL: $   +0.00 | DD: 0.0% | Pos: FLAT  | Trades:   0
+  R_10         | Equity: $10000.00 | PnL: $   +0.00 | DD: 0.0% | Pos: FLAT  | Trades:   0
+==========================================================================================
+2026-08-24 16:18:06 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:06 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:11 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:11 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:16 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:16 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:21 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:21 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:26 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:26 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:31 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:31 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:36 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:36 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:41 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:41 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:46 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:46 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:52 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:52 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:57 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:18:57 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:58 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+2026-08-24 16:18:58 [info     ] risk_override action=flat snr=0.32 dd=0.00%
+2026-08-24 16:18:58 [info     ] trade.close side=short entry=4767.56 exit=4767.77 pnl=-0.45 equity=9999.55
+
+=================================================================
+  PAPER TRADING @ 15:18:58  |  R_10  |  Price: 4767.77
+=================================================================
+  World Model: UP (conf=0.32)  mean=+0.000370  std=0.001156
+  Policy: HOLD  |  Position: FLAT
+  Equity: $9999.55  |  PnL: $-0.45  |  DD: 0.0%
+  Trades: 1  |  Win rate: 0%
+=================================================================
+2026-08-24 16:18:59 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 15:18:59  |  R_75  |  Price: 51860.49
+=================================================================
+  World Model: UP (conf=0.11)  mean=+0.001008  std=0.009334
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 16:19:02 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\numpy\lib\_function_base_impl.py:3023: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+2026-08-24 16:19:02 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500
+C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\numpy\lib\_function_base_impl.py:3024: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+2026-08-24 16:19:07 [debug    ] structures.swing_points        count=55 lookback=5 n_bars=500
+2026-08-24 16:19:07 [debug    ] structures.swing_points        count=47 lookback=5 n_bars=500

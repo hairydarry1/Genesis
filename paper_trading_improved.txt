@@ -1,0 +1,37 @@
+2026-08-24 16:10:28 [info     ] world_model_loaded features=8
+2026-08-24 16:10:28 [info     ] policy_loaded
+2026-08-24 16:10:28 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 16:10:31 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 16:10:31 [info     ] connected_to_deriv symbol=R_75
+2026-08-24 16:10:32 [info     ] history_fetched n=500
+2026-08-24 16:10:32 [info     ] resample_bars.complete         freq=15min input_bars=500 output_bars=34
+2026-08-24 16:10:32 [info     ] resample_bars.complete         freq=1h input_bars=500 output_bars=10
+2026-08-24 16:10:32 [info     ] state_builder.init             bars={'1min': 500, '15min': 34, '1h': 10} n_ticks=500 note='structures detected lazily' timeframes=['1min', '15min', '1h']
+2026-08-24 16:10:32 [debug    ] structures.swing_points        count=54 lookback=5 n_bars=500
+2026-08-24 16:10:33 [info     ] structures.detect_complete     bos=338 choch=53 eqh_eql=0 fvgs=88 ifvgs=54 liquidity_sweeps=0 mitigation=62 n_bars=500 obs=106 total=701
+2026-08-24 16:10:33 [debug    ] structures.swing_points        count=54 lookback=5 n_bars=500
+2026-08-24 16:10:33 [info     ] trade.open side=long price=51978.00 equity=10000.00
+
+=================================================================
+  PAPER TRADING @ 15:10:33  |  R_75  |  Price: 51978.00
+=================================================================
+  World Model: UP (conf=0.15)  mean=+0.001471  std=0.009610
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+
+================================================================================
+  PORTFOLIO STATUS @ 15:10:33 UTC
+================================================================================
+  Total Equity: $10000.00
+  Total PnL: $+0.00
+  Portfolio DD: 0.0%
+  Trades: 0 | Win Rate: 0%
+  Active Positions: 1/1
+================================================================================
+  R_75         | Equity: $10000.00 | PnL: $   +0.00 | DD: 0.0% | Pos: LONG | Trades: 0
+================================================================================
+2026-08-24 16:10:35 [info     ] deriv_connection.subscribed    req_id=2 sub_id=d4c00c3a-5d00-89cc-5388-22646e056a3a
+2026-08-24 16:10:35 [info     ] live_active sub_id=d4c00c3a-5d00-89cc-5388-22646e056a3a
+2026-08-24 16:10:58 [debug    ] structures.swing_points        count=54 lookback=5 n_bars=500

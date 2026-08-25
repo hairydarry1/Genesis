@@ -1,0 +1,49 @@
+train.device cpu
+train.loading_precomputed path=data\dataset_R75_h10.npz
+train.dataset_loaded n_samples=129889 n_features=89
+train.split train=110406 val=19483
+train.starting_training epochs=100
+train.epoch 1/100 loss=187.3281 val_nll=-4.6131 val_mae=0.001872 cov1\u03c3=82.06% cov2\u03c3=99.28% lr=1.00e-03 time=25.9s
+train.epoch 6/100 loss=-5.5960 val_nll=-4.7081 val_mae=0.001833 cov1\u03c3=69.87% cov2\u03c3=96.06% lr=9.91e-04 time=19.3s
+train.epoch 11/100 loss=-5.6138 val_nll=-4.7084 val_mae=0.001837 cov1\u03c3=68.59% cov2\u03c3=95.57% lr=9.71e-04 time=29.3s
+train.epoch 16/100 loss=-5.6145 val_nll=-4.7137 val_mae=0.001829 cov1\u03c3=69.05% cov2\u03c3=95.74% lr=9.39e-04 time=14.9s
+train.epoch 21/100 loss=-5.6150 val_nll=-4.7150 val_mae=0.001826 cov1\u03c3=69.11% cov2\u03c3=95.75% lr=8.96e-04 time=17.9s
+train.epoch 26/100 loss=-5.6152 val_nll=-4.7160 val_mae=0.001824 cov1\u03c3=68.95% cov2\u03c3=95.70% lr=8.44e-04 time=23.6s
+train.epoch 31/100 loss=-5.6147 val_nll=-4.7127 val_mae=0.001827 cov1\u03c3=68.89% cov2\u03c3=95.71% lr=7.83e-04 time=17.1s
+train.epoch 36/100 loss=-5.6433 val_nll=-4.7389 val_mae=0.001830 cov1\u03c3=64.00% cov2\u03c3=94.52% lr=7.16e-04 time=18.1s
+train.epoch 41/100 loss=-5.6499 val_nll=-4.7453 val_mae=0.001834 cov1\u03c3=64.89% cov2\u03c3=95.20% lr=6.43e-04 time=19.8s
+train.epoch 46/100 loss=-5.6939 val_nll=-4.7512 val_mae=0.001784 cov1\u03c3=65.81% cov2\u03c3=94.51% lr=5.67e-04 time=53.0s
+train.epoch 51/100 loss=-5.7367 val_nll=-4.8225 val_mae=0.001639 cov1\u03c3=68.12% cov2\u03c3=95.41% lr=4.89e-04 time=69.4s
+train.epoch 56/100 loss=-5.7423 val_nll=-4.8288 val_mae=0.001622 cov1\u03c3=66.15% cov2\u03c3=94.71% lr=4.12e-04 time=23.5s
+train.epoch 61/100 loss=-5.7475 val_nll=-4.8225 val_mae=0.001625 cov1\u03c3=63.65% cov2\u03c3=93.37% lr=3.37e-04 time=37.7s
+train.epoch 66/100 loss=-5.7482 val_nll=-4.8465 val_mae=0.001610 cov1\u03c3=67.90% cov2\u03c3=95.79% lr=2.67e-04 time=47.4s
+train.epoch 71/100 loss=-5.7533 val_nll=-4.8469 val_mae=0.001592 cov1\u03c3=71.14% cov2\u03c3=96.60% lr=2.02e-04 time=23.6s
+train.epoch 76/100 loss=-5.7570 val_nll=-4.8564 val_mae=0.001577 cov1\u03c3=70.67% cov2\u03c3=96.42% lr=1.44e-04 time=23.8s
+train.epoch 81/100 loss=-5.7602 val_nll=-4.8536 val_mae=0.001586 cov1\u03c3=67.99% cov2\u03c3=95.49% lr=9.56e-05 time=25.6s
+train.epoch 86/100 loss=-5.7622 val_nll=-4.8603 val_mae=0.001574 cov1\u03c3=70.05% cov2\u03c3=96.29% lr=5.71e-05 time=22.4s
+train.epoch 91/100 loss=-5.7648 val_nll=-4.8617 val_mae=0.001572 cov1\u03c3=70.03% cov2\u03c3=96.30% lr=2.97e-05 time=20.9s
+train.epoch 96/100 loss=-5.7656 val_nll=-4.8618 val_mae=0.001572 cov1\u03c3=69.25% cov2\u03c3=95.95% lr=1.39e-05 time=24.5s
+train.epoch 100/100 loss=-5.7671 val_nll=-4.8647 val_mae=0.001567 cov1\u03c3=69.18% cov2\u03c3=95.97% lr=1.00e-05 time=21.6s
+train.complete best_epoch=99 best_val_nll=-4.8647 saved=checkpoints\world_model_best.pt
+train.computing_baselines
+train.results_saved path=checkpoints\training_results.json
+WorldModel built: 23,188 params (23,188 trainable)
+  15min: 25 features -> 32d
+  1h: 25 features -> 32d
+  1min: 25 features -> 32d
+  structure: 14 features -> 32d
+Variance initialized: log_var range [-13.75, -11.44]
+  std range: [0.001034, 0.003273]
+
+============================================================
+TRAINING COMPLETE
+============================================================
+Best epoch: 99
+Best val NLL: -4.8647
+Model saved: checkpoints\world_model_best.pt
+
+Baseline comparison (val NLL — lower is better):
+  world_model         : NLL=-4.8644  MAE=0.001567  1sigma cov=69.3%  2sigma cov=96.0%
+  persistence         : NLL=-2.5321  MAE=0.001822  1sigma cov=100.0%  2sigma cov=100.0%
+  random_walk         : NLL=-4.7175  MAE=0.001822  1sigma cov=69.0%  2sigma cov=95.8%
+  mean_reversion      : NLL=-4.6513  MAE=0.001822  1sigma cov=58.9%  2sigma cov=89.5%

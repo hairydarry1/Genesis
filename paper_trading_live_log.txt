@@ -1,0 +1,65 @@
+2026-08-24 13:39:18 [info     ] world_model_loaded features=8
+2026-08-24 13:39:18 [info     ] policy_loaded
+2026-08-24 13:39:18 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 13:39:20 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 13:39:20 [info     ] connected_to_deriv symbol=R_75
+2026-08-24 13:39:21 [info     ] history_fetched n=500
+2026-08-24 13:39:21 [info     ] resample_bars.complete         freq=15min input_bars=500 output_bars=34
+2026-08-24 13:39:21 [info     ] resample_bars.complete         freq=1h input_bars=500 output_bars=9
+2026-08-24 13:39:21 [info     ] state_builder.init             bars={'1min': 500, '15min': 34, '1h': 9} n_ticks=500 note='structures detected lazily' timeframes=['1min', '15min', '1h']
+2026-08-24 13:39:21 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500
+2026-08-24 13:39:22 [info     ] structures.detect_complete     bos=369 choch=43 eqh_eql=0 fvgs=79 ifvgs=45 liquidity_sweeps=0 mitigation=61 n_bars=500 obs=103 total=700
+2026-08-24 13:39:22 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500
+2026-08-24 13:39:22 [info     ] trade.open side=long price=52214.49 equity=10000.00
+
+=================================================================
+  PAPER TRADING @ 12:39:22  |  R_75  |  Price: 52214.49
+=================================================================
+  World Model: UP (conf=0.18)  mean=+0.001817  std=0.009833
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 13:39:25 [info     ] deriv_connection.subscribed    req_id=2 sub_id=47893a11-9bcf-3f1a-e876-ce3ff54d5206
+2026-08-24 13:39:25 [info     ] live_active sub_id=47893a11-9bcf-3f1a-e876-ce3ff54d5206
+2026-08-24 13:39:59 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 12:39:59  |  R_75  |  Price: 52230.17
+=================================================================
+  World Model: UP (conf=0.18)  mean=+0.001817  std=0.009833
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 13:40:59 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 12:40:59  |  R_75  |  Price: 52253.83
+=================================================================
+  World Model: UP (conf=0.18)  mean=+0.001817  std=0.009833
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 13:41:59 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 12:41:59  |  R_75  |  Price: 52243.03
+=================================================================
+  World Model: UP (conf=0.18)  mean=+0.001817  std=0.009833
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 13:42:59 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 12:42:59  |  R_75  |  Price: 52230.92
+=================================================================
+  World Model: UP (conf=0.18)  mean=+0.001817  std=0.009833
+  Policy: BUY  |  Position: LONG
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 13:43:59 [debug    ] structures.swing_points        count=48 lookback=5 n_bars=500

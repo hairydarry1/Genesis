@@ -1,0 +1,45 @@
+2026-08-24 15:03:14 [info     ] world_model_loaded features=8
+2026-08-24 15:03:14 [info     ] policy_loaded
+2026-08-24 15:03:14 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 15:03:17 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 15:03:17 [info     ] connected_to_deriv symbol=BOOM500
+2026-08-24 15:03:17 [info     ] history_fetched n=500
+2026-08-24 15:03:17 [info     ] resample_bars.complete         freq=15min input_bars=500 output_bars=35
+2026-08-24 15:03:17 [info     ] resample_bars.complete         freq=1h input_bars=500 output_bars=10
+2026-08-24 15:03:17 [info     ] state_builder.init             bars={'1min': 500, '15min': 35, '1h': 10} n_ticks=500 note='structures detected lazily' timeframes=['1min', '15min', '1h']
+2026-08-24 15:03:17 [debug    ] structures.swing_points        count=51 lookback=5 n_bars=500
+2026-08-24 15:03:19 [info     ] structures.detect_complete     bos=401 choch=82 eqh_eql=0 fvgs=386 ifvgs=231 liquidity_sweeps=0 mitigation=11 n_bars=500 obs=124 total=1235
+2026-08-24 15:03:19 [debug    ] structures.swing_points        count=51 lookback=5 n_bars=500
+2026-08-24 15:03:19 [info     ] trade.open side=short price=4748.72 equity=10000.00
+
+=================================================================
+  PAPER TRADING @ 14:03:19  |  BOOM500  |  Price: 4748.72
+=================================================================
+  World Model: UP (conf=0.29)  mean=+0.001116  std=0.003906
+  Policy: SELL  |  Position: SHORT
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 15:03:21 [info     ] deriv_connection.subscribed    req_id=2 sub_id=6be9f9fc-023a-0f0a-73d9-9789a1997298
+2026-08-24 15:03:21 [info     ] live_active sub_id=6be9f9fc-023a-0f0a-73d9-9789a1997298
+2026-08-24 15:03:59 [debug    ] structures.swing_points        count=51 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 14:03:59  |  BOOM500  |  Price: 4748.31
+=================================================================
+  World Model: UP (conf=0.29)  mean=+0.001116  std=0.003906
+  Policy: SELL  |  Position: SHORT
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 15:04:59 [debug    ] structures.swing_points        count=51 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 14:04:59  |  BOOM500  |  Price: 4747.76
+=================================================================
+  World Model: UP (conf=0.29)  mean=+0.001116  std=0.003906
+  Policy: SELL  |  Position: SHORT
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 15:05:59 [debug    ] structures.swing_points        count=51 lookback=5 n_bars=500

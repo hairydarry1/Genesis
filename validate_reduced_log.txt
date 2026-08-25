@@ -1,0 +1,41 @@
+2026-08-21 14:34:31 [info     ] validate_reduced.start device=cpu
+2026-08-21 14:34:33 [info     ] validate_reduced.full_dataset n=129889 features=116
+2026-08-21 14:34:35 [info     ] validate_reduced.filtered n_features=36 (kept 36 of 116)
+WorldModel built: 14,964 params (14,964 trainable)
+  15min: 21 features -> 32d
+  1h: 15 features -> 32d
+2026-08-21 14:34:35 [info     ] validate.model_loaded epoch=94
+2026-08-21 14:34:35 [info     ] validate_reduced.model_loaded
+2026-08-21 14:34:35 [info     ] validate_reduced.data_range start=2026-05-22 end=2026-08-20 days=90
+2026-08-21 14:40:58 [info     ] validate_reduced.fold fold=0 [2026-07-21 -> 2026-08-20] n=43199 WM_NLL=-4.4256 RW_NLL=-4.7092 1sig=50.3% eval=567.5s
+2026-08-21 14:40:58 [info     ]   [calm] n=14400 WM_NLL=-4.4784 RW_NLL=-4.7364
+2026-08-21 14:40:58 [info     ]   [choppy] n=14399 WM_NLL=-4.4000 RW_NLL=-4.7034
+2026-08-21 14:40:58 [info     ]   [spike] n=14400 WM_NLL=-4.3983 RW_NLL=-4.6880
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\hp\Desktop\code\Genesis\eval\validate_reduced.py", line 368, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\validate_reduced.py", line 357, in main
+    run_validation(
+    ~~~~~~~~~~~~~~^
+        dataset_path=args.dataset,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        step_days=args.step_days,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\validate_reduced.py", line 315, in run_validation
+    print(f"\n{'Model':<20s} {'NLL':>8s} {'MAE':>10s} {'1\u03c3':>8s} {'2\u03c3':>8s}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u03c3' in position 50: character maps to <undefined>
+
+======================================================================
+REDUCED MODEL WALK-FORWARD VALIDATION RESULTS
+Features: 36 | Folds: 1
+======================================================================

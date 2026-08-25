@@ -1,0 +1,48 @@
+train.device cpu
+train.loading_precomputed path=data\dataset_R75_h10.npz
+train.dataset_loaded n_samples=129889 n_features=89
+train.split train=110406 val=19483
+train.starting_training epochs=50
+train.epoch 1/50 loss=-2.4787 val_nll=-3.1251 val_mae=0.002077 cov1\u03c3=100.00% cov2\u03c3=100.00% lr=9.99e-04 time=23.6s
+train.epoch 6/50 loss=-4.8467 val_nll=-3.9924 val_mae=0.002154 cov1\u03c3=97.20% cov2\u03c3=99.99% lr=9.65e-04 time=25.8s
+train.epoch 11/50 loss=-4.8962 val_nll=-3.9834 val_mae=0.002323 cov1\u03c3=97.20% cov2\u03c3=100.00% lr=8.86e-04 time=28.0s
+train.epoch 16/50 loss=-4.8998 val_nll=-3.9771 val_mae=0.002352 cov1\u03c3=96.15% cov2\u03c3=99.99% lr=7.70e-04 time=18.2s
+train.epoch 21/50 loss=-4.9155 val_nll=-3.9648 val_mae=0.002446 cov1\u03c3=94.85% cov2\u03c3=99.97% lr=6.28e-04 time=18.2s
+train.epoch 26/50 loss=-4.9233 val_nll=-3.9830 val_mae=0.002245 cov1\u03c3=96.32% cov2\u03c3=99.98% lr=4.74e-04 time=23.3s
+train.epoch 31/50 loss=-4.9286 val_nll=-4.0146 val_mae=0.001876 cov1\u03c3=98.74% cov2\u03c3=100.00% lr=3.23e-04 time=154.0s
+train.epoch 36/50 loss=-4.9321 val_nll=-4.0152 val_mae=0.001868 cov1\u03c3=98.75% cov2\u03c3=100.00% lr=1.89e-04 time=11.9s
+train.epoch 41/50 loss=-4.9337 val_nll=-4.0175 val_mae=0.001844 cov1\u03c3=98.96% cov2\u03c3=100.00% lr=8.71e-05 time=36.4s
+train.epoch 46/50 loss=-4.9350 val_nll=-4.0198 val_mae=0.001813 cov1\u03c3=99.08% cov2\u03c3=100.00% lr=2.56e-05 time=22.7s
+train.epoch 50/50 loss=-4.9361 val_nll=-4.0199 val_mae=0.001809 cov1\u03c3=99.06% cov2\u03c3=100.00% lr=1.00e-05 time=19.1s
+train.complete best_epoch=48 best_val_nll=-4.0202 saved=checkpoints\world_model_best.pt
+train.computing_baselines
+train.results_saved path=checkpoints\training_results.json
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\hp\Desktop\code\Genesis\model\train.py", line 481, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\hp\Desktop\code\Genesis\model\train.py", line 476, in main
+    print(f"  {name:20s}: NLL={metrics['val_nll']:.4f}  MAE={metrics['val_mae']:.6f}  "
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          f"1\u03c3 cov={metrics['coverage_1sigma']:.1%}  2\u03c3 cov={metrics['coverage_2sigma']:.1%}")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u03c3' in position 52: character maps to <undefined>
+WorldModel built: 23,188 params (23,188 trainable)
+  15min: 25 features -> 32d
+  1h: 25 features -> 32d
+  1min: 25 features -> 32d
+  structure: 14 features -> 32d
+
+============================================================
+TRAINING COMPLETE
+============================================================
+Best epoch: 48
+Best val NLL: -4.0202
+Model saved: checkpoints\world_model_best.pt
+
+Baseline comparison (val NLL — lower is better):

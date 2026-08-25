@@ -1,0 +1,65 @@
+
+################################################################################
+# PIPELINE: crash_500 (CRASH500)
+# Candles: data\candles_crash_500_1min.parquet
+# Dataset: data\dataset_crash_500_h10.npz
+# Checkpoints: checkpoints_crash_500
+################################################################################
+  Index type: crash, config: {'vol_scale': 0.5, 'spike_threshold': 4.0}
+2026-08-24 02:03:15 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 02:03:16 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+
+============================================================
+STEP 1: Fetching candles for CRASH500
+  Target: 180 days, granularity: 60s
+============================================================
+  Chunk 1: 1,000 candles, earliest: 2026-08-23
+  Chunk 20: 20,000 candles, earliest: 2026-08-10
+  Chunk 40: 40,000 candles, earliest: 2026-07-27
+  Chunk 60: 60,000 candles, earliest: 2026-07-13
+  Chunk 80: 80,000 candles, earliest: 2026-06-29
+  Chunk 100: 100,000 candles, earliest: 2026-06-15
+  Chunk 120: 120,000 candles, earliest: 2026-06-01
+  Chunk 140: 140,000 candles, earliest: 2026-05-18
+  Chunk 160: 160,000 candles, earliest: 2026-05-04
+  Chunk 180: 180,000 candles, earliest: 2026-04-21
+  Chunk 200: 200,000 candles, earliest: 2026-04-07
+  Chunk 220: 220,000 candles, earliest: 2026-03-24
+  Chunk 240: 240,000 candles, earliest: 2026-03-10
+  Chunk 260: 260,000 candles, earliest: 2026-02-24
+
+  Reached target date (180 days)
+2026-08-24 02:08:03 [info     ] deriv_connection.closing
+2026-08-24 02:08:03 [info     ] deriv_connection.closed
+
+  Saved 260,000 candles to data\candles_crash_500_1min.parquet
+  Range: 2026-02-24 to 2026-08-24
+  Span: 180.6 days
+  Price: 2746.10 to 3584.80
+  Tick-like: data\ticks_crash_500.parquet
+
+============================================================
+STEP 2: Precomputing structures
+============================================================
+  Loaded 260,000 ticks
+2026-08-24 02:08:07 [info     ] resample.complete              freq=1min input_ticks=260000 output_bars=259999
+  Resampled to 259,999 1min bars in 0.5s
+2026-08-24 02:08:07 [debug    ] structures.swing_points        count=307 lookback=5 n_bars=3000
+2026-08-24 02:08:39 [info     ] structures.detect_complete     bos=2541 choch=299 eqh_eql=0 fvgs=2975 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5815
+2026-08-24 02:08:39 [debug    ] structures.swing_points        count=317 lookback=5 n_bars=3000
+2026-08-24 02:09:12 [info     ] structures.detect_complete     bos=2557 choch=380 eqh_eql=0 fvgs=2960 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5897
+2026-08-24 02:09:12 [debug    ] structures.swing_points        count=306 lookback=5 n_bars=3000
+2026-08-24 02:09:48 [info     ] structures.detect_complete     bos=2521 choch=245 eqh_eql=0 fvgs=2976 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5742
+2026-08-24 02:09:48 [debug    ] structures.swing_points        count=312 lookback=5 n_bars=3000
+2026-08-24 02:10:26 [info     ] structures.detect_complete     bos=2616 choch=237 eqh_eql=0 fvgs=2969 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5822
+2026-08-24 02:10:26 [debug    ] structures.swing_points        count=323 lookback=5 n_bars=3000
+2026-08-24 02:10:58 [info     ] structures.detect_complete     bos=2626 choch=280 eqh_eql=0 fvgs=2960 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5866
+2026-08-24 02:10:58 [debug    ] structures.swing_points        count=319 lookback=5 n_bars=3000
+2026-08-24 02:11:12 [info     ] structures.detect_complete     bos=2407 choch=412 eqh_eql=0 fvgs=2945 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5764
+2026-08-24 02:11:13 [debug    ] structures.swing_points        count=325 lookback=5 n_bars=3000
+2026-08-24 02:11:34 [info     ] structures.detect_complete     bos=2536 choch=356 eqh_eql=0 fvgs=2953 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5845
+2026-08-24 02:11:35 [debug    ] structures.swing_points        count=303 lookback=5 n_bars=3000
+2026-08-24 02:12:02 [info     ] structures.detect_complete     bos=2535 choch=276 eqh_eql=0 fvgs=2955 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5766
+2026-08-24 02:12:02 [debug    ] structures.swing_points        count=310 lookback=5 n_bars=3000
+2026-08-24 02:13:01 [info     ] structures.detect_complete     bos=2439 choch=225 eqh_eql=0 fvgs=2954 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3000 obs=0 total=5618
+2026-08-24 02:13:01 [debug    ] structures.swing_points        count=323 lookback=5 n_bars=3000

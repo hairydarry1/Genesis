@@ -1,0 +1,199 @@
+================================================================================
+FEATURE IMPORTANCE ANALYSIS
+================================================================================
+
+--------------------------------------------------------------------------------
+METHOD 1: GRADIENT-BASED IMPORTANCE (gradient magnitude)
+--------------------------------------------------------------------------------
+
+Rank  Feature                                   Importance  Cumulative
+----------------------------------------------------------------------
+1     15min_return_1_ATR                          0.236392      0.2364
+2     15min_down_streak                           0.123011      0.3594
+3     15min_up_streak                             0.119754      0.4792
+4     15min_return_1                              0.092730      0.5719
+5     15min_return_5                              0.052451      0.6243
+6     15min_return_20                             0.050815      0.6752
+7     15min_return_20_ATR                         0.047053      0.7222
+8     15min_return_5_ATR                          0.045697      0.7679
+9     1h_return_1_ATR                             0.027067      0.7950
+10    15min_range                                 0.023576      0.8185
+11    1h_down_streak                              0.019128      0.8377
+12    1h_up_streak                                0.017659      0.8553
+13    15min_body_ATR                              0.014184      0.8695
+14    15min_autocorrelation                       0.014018      0.8835
+15    15min_mean_reversion_ratio                  0.012962      0.8965
+16    15min_body                                  0.011354      0.9079
+17    1h_return_5_ATR                             0.010924      0.9188
+18    15min_range_ATR                             0.010817      0.9296
+19    15min_close                                 0.009705      0.9393
+20    1h_return_20_ATR                            0.008148      0.9474
+21    1h_return_1                                 0.006124      0.9536
+22    15min_low                                   0.004804      0.9584
+23    15min_high                                  0.003871      0.9622
+24    15min_time_since_spike                      0.003813      0.9661
+25    15min_volume                                0.003092      0.9691
+
+--------------------------------------------------------------------------------
+METHOD 2: PERMUTATION IMPORTANCE (NLL increase when shuffled)
+--------------------------------------------------------------------------------
+
+Rank  Feature                                   NLL Increase       Std     Score
+--------------------------------------------------------------------------------
+1     15min_close                                   0.361059  0.008676    0.0742
+2     15min_low                                     0.276718  0.003657    0.0569
+3     15min_high                                    0.269126  0.003884    0.0553
+4     15min_open                                    0.175435  0.005394    0.0360
+5     1h_close                                      0.089962  0.001272    0.0185
+6     15min_range                                   0.073795  0.001489    0.0152
+7     1h_open                                       0.049410  0.001365    0.0102
+8     15min_body                                    0.035251  0.001286    0.0072
+9     1h_high                                       0.016122  0.001413    0.0033
+10    1h_low                                        0.003605  0.000534    0.0007
+11    1h_range                                      0.002869  0.000523    0.0006
+12    15min_return_20_ATR                           0.000603  0.000183    0.0001
+13    15min_return_1_ATR                            0.000484  0.000274    0.0001
+14    15min_return_5_ATR                            0.000261  0.000134    0.0001
+15    15min_up_streak                               0.000253  0.000261    0.0001
+16    1h_body                                       0.000164  0.000218    0.0000
+17    1h_down_streak                                0.000090  0.000046    0.0000
+18    1h_return_5_ATR                               0.000041  0.000018    0.0000
+19    1h_return_1_ATR                               0.000035  0.000025    0.0000
+20    15min_body_ATR                                0.000009  0.000005    0.0000
+21    1min_low                                      0.000007  0.000002    0.0000
+22    1h_return_20_ATR                              0.000007  0.000044    0.0000
+23    15min_down_streak                             0.000003  0.000268    0.0000
+24    1min_high                                     0.000003  0.000001    0.0000
+25    15min_return_5                                0.000002  0.000001    0.0000
+
+--------------------------------------------------------------------------------
+METHOD 3: BRANCH ABLATION (zero out entire feature groups)
+--------------------------------------------------------------------------------
+
+Branch              N Features  NLL Increase     Score
+------------------------------------------------------
+15min                       25      0.177891    0.0365
+1h                          25      0.092719    0.0190
+1min                        25      0.000758    0.0002
+structure                   14     -0.000041   -0.0000
+
+--------------------------------------------------------------------------------
+METHOD 4: FIRST-LAYER WEIGHT MAGNITUDE
+--------------------------------------------------------------------------------
+
+Rank  Feature                                  Weight Norm
+----------------------------------------------------------
+1     15min_return_1_ATR                          0.093834
+2     15min_down_streak                           0.062232
+3     15min_up_streak                             0.060486
+4     1h_return_1_ATR                             0.057454
+5     1h_down_streak                              0.042018
+6     15min_range                                 0.041657
+7     1h_up_streak                                0.038306
+8     15min_return_5_ATR                          0.034061
+9     15min_return_1                              0.030312
+10    1h_return_5_ATR                             0.026117
+11    1h_range                                    0.025020
+12    15min_body                                  0.023739
+13    15min_body_ATR                              0.021016
+14    15min_return_20_ATR                         0.021014
+15    1h_return_20_ATR                            0.019053
+16    15min_range_ATR                             0.018356
+17    1min_return_20_ATR                          0.017008
+18    1h_body                                     0.016113
+19    15min_return_20                             0.014478
+20    15min_return_5                              0.012476
+21    1h_return_1                                 0.012146
+22    1min_body                                   0.009713
+23    15min_autocorrelation                       0.009137
+24    1min_return_5_ATR                           0.008364
+25    1h_body_ATR                                 0.007392
+
+================================================================================
+CONSENSUS RANKING (averaged across methods)
+================================================================================
+
+Rank  Feature                                  Consensus Score
+--------------------------------------------------------------
+1     15min_close                                     101.4730
+2     15min_low                                        77.6356
+3     15min_high                                       75.4173
+4     15min_open                                       49.4426
+5     15min_return_1_ATR                               33.3027
+6     15min_range                                      27.1078
+7     1h_close                                         25.6066
+8     15min_down_streak                                18.6714
+9     15min_up_streak                                  18.2399
+10    1h_open                                          14.2641
+11    15min_body                                       13.4186
+12    15min_return_1                                   12.4503
+13    1h_return_1_ATR                                   8.5378
+14    15min_return_5_ATR                                8.1942
+15    15min_return_20_ATR                               7.1197
+16    15min_return_20                                   6.6754
+17    15min_return_5                                    6.6393
+18    1h_down_streak                                    6.2157
+19    1h_up_streak                                      5.6725
+20    1h_high                                           5.0309
+21    1h_return_5_ATR                                   3.7916
+22    15min_body_ATR                                    3.6686
+23    1h_range                                          3.6062
+24    15min_range_ATR                                   3.0591
+25    1h_return_20_ATR                                  2.7982
+26    15min_autocorrelation                             2.4616
+27    15min_mean_reversion_ratio                        2.0194
+28    1h_return_1                                       1.9031
+29    1h_body                                           1.7803
+30    1min_return_20_ATR                                1.7036
+
+================================================================================
+FEATURE GROUP SUMMARY
+================================================================================
+
+  1-minute timeframe            :  25 features, avg_score=  0.5049, max=  1.7036
+    - 1min_return_20_ATR                       1.7036
+    - 1min_body                                0.9730
+    - 1min_return_5_ATR                        0.8377
+
+  15-minute timeframe           :  25 features, avg_score= 18.8852, max=101.4730
+    - 15min_close                            101.4730
+    - 15min_low                               77.6356
+    - 15min_high                              75.4173
+
+  1-hour timeframe              :  25 features, avg_score=  3.5648, max= 25.6066
+    - 1h_close                                25.6066
+    - 1h_open                                 14.2641
+    - 1h_return_1_ATR                          8.5378
+
+  Structure features            :   1 features, avg_score=  0.5297, max=  0.5297
+    - structure_confluence                     0.5297
+
+================================================================================
+FEATURE CATEGORY BREAKDOWN (within each timeframe)
+================================================================================
+
+  Returns                  : 18 features, avg=  5.4066, max= 33.3027
+
+  Volatility               : 12 features, avg=  0.5473, max=  0.8140
+
+  Streak counters          :  6 features, avg=  8.3248, max= 18.6714
+
+  Autocorrelation          :  3 features, avg=  1.2974, max=  2.4616
+
+  Spike detection          :  3 features, avg=  0.5882, max=  0.8875
+
+  Mean reversion           :  3 features, avg=  0.9543, max=  2.0194
+
+  Price range              :  6 features, avg=  5.9184, max= 27.1078
+
+  Candle body              :  6 features, avg=  3.5336, max= 13.4186
+
+  Close price              :  3 features, avg= 42.4933, max=101.4730
+
+  High price               :  3 features, avg= 26.9569, max= 75.4173
+
+  Low price                :  3 features, avg= 26.4636, max= 77.6356
+
+  Open price               :  3 features, avg= 21.3398, max= 49.4426
+
+  Volume                   :  3 features, avg=  0.5740, max=  0.8130

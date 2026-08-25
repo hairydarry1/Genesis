@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+
+# Heavy regenerable data artifacts (parquet/npz rebuilt by pipeline)
+data/*.parquet
+data/*.npz
+data/candles/
+data/ticks/
+
+# Node deps
+dashboard/terminal/node_modules/

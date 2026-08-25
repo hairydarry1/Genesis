@@ -1,0 +1,47 @@
+train_reduced.device=cpu
+loaded full_dataset n_samples=129889 n_features=116
+reduced_dataset features=116 -> 36 (kept 36, dropped 80)
+reduced_features=36: [np.str_('15min_ATR'), np.str_('15min_autocorrelation'), np.str_('15min_body'), np.str_('15min_body_ATR'), np.str_('15min_close'), np.str_('15min_down_streak'), np.str_('15min_high'), np.str_('15min_low'), np.str_('15min_mean_reversion_ratio'), np.str_('15min_open')]
+split train=110406 val=19483
+training epochs=100 features=36
+epoch 1/100 loss=240.3585 val_nll=-4.4737 val_mae=0.001917 cov1\u03c3=89.45% cov2\u03c3=99.83% lr=1.00e-03 time=6.9s
+epoch 6/100 loss=-5.5996 val_nll=-4.7031 val_mae=0.001846 cov1\u03c3=69.80% cov2\u03c3=95.95% lr=9.91e-04 time=7.0s
+epoch 11/100 loss=-5.6124 val_nll=-4.7140 val_mae=0.001829 cov1\u03c3=68.85% cov2\u03c3=95.64% lr=9.71e-04 time=7.2s
+epoch 16/100 loss=-5.6139 val_nll=-4.7152 val_mae=0.001826 cov1\u03c3=69.03% cov2\u03c3=95.74% lr=9.39e-04 time=7.0s
+epoch 21/100 loss=-5.6142 val_nll=-4.6982 val_mae=0.001867 cov1\u03c3=68.00% cov2\u03c3=95.48% lr=8.96e-04 time=9.4s
+epoch 26/100 loss=-5.6126 val_nll=-4.7097 val_mae=0.001839 cov1\u03c3=68.78% cov2\u03c3=95.68% lr=8.44e-04 time=23.6s
+epoch 31/100 loss=-5.6153 val_nll=-4.7164 val_mae=0.001824 cov1\u03c3=69.19% cov2\u03c3=95.81% lr=7.83e-04 time=18.2s
+epoch 36/100 loss=-5.6150 val_nll=-4.7142 val_mae=0.001828 cov1\u03c3=68.86% cov2\u03c3=95.71% lr=7.16e-04 time=10.6s
+epoch 41/100 loss=-5.6444 val_nll=-4.7407 val_mae=0.001833 cov1\u03c3=67.40% cov2\u03c3=96.10% lr=6.43e-04 time=13.2s
+epoch 46/100 loss=-5.6971 val_nll=-4.8126 val_mae=0.001643 cov1\u03c3=69.48% cov2\u03c3=95.84% lr=5.67e-04 time=9.0s
+epoch 51/100 loss=-5.7300 val_nll=-4.8458 val_mae=0.001596 cov1\u03c3=69.23% cov2\u03c3=95.90% lr=4.89e-04 time=8.1s
+epoch 56/100 loss=-5.7394 val_nll=-4.8505 val_mae=0.001591 cov1\u03c3=66.71% cov2\u03c3=95.00% lr=4.12e-04 time=8.1s
+epoch 61/100 loss=-5.7435 val_nll=-4.8445 val_mae=0.001591 cov1\u03c3=65.09% cov2\u03c3=94.07% lr=3.37e-04 time=11.4s
+epoch 66/100 loss=-5.7476 val_nll=-4.8522 val_mae=0.001587 cov1\u03c3=66.23% cov2\u03c3=94.79% lr=2.67e-04 time=18.0s
+epoch 71/100 loss=-5.7512 val_nll=-4.8567 val_mae=0.001582 cov1\u03c3=69.45% cov2\u03c3=96.09% lr=2.02e-04 time=23.3s
+epoch 76/100 loss=-5.7552 val_nll=-4.8471 val_mae=0.001597 cov1\u03c3=66.03% cov2\u03c3=94.70% lr=1.44e-04 time=22.9s
+epoch 81/100 loss=-5.7587 val_nll=-4.8601 val_mae=0.001575 cov1\u03c3=69.58% cov2\u03c3=96.14% lr=9.56e-05 time=15.1s
+epoch 86/100 loss=-5.7604 val_nll=-4.8605 val_mae=0.001573 cov1\u03c3=69.05% cov2\u03c3=95.89% lr=5.71e-05 time=18.9s
+epoch 91/100 loss=-5.7616 val_nll=-4.8626 val_mae=0.001573 cov1\u03c3=68.47% cov2\u03c3=95.75% lr=2.97e-05 time=26.0s
+epoch 96/100 loss=-5.7628 val_nll=-4.8632 val_mae=0.001570 cov1\u03c3=69.03% cov2\u03c3=95.90% lr=1.39e-05 time=44.4s
+epoch 100/100 loss=-5.7636 val_nll=-4.8630 val_mae=0.001571 cov1\u03c3=68.98% cov2\u03c3=95.91% lr=1.00e-05 time=77.5s
+complete best_epoch=94 best_val_nll=-4.8632 saved=checkpoints_reduced\world_model_best.pt
+WorldModel built: 14,964 params (14,964 trainable)
+  15min: 21 features -> 32d
+  1h: 15 features -> 32d
+Variance initialized: log_var range [-13.75, -11.44]
+  std range: [0.001034, 0.003273]
+
+============================================================
+REDUCED FEATURE MODEL TRAINING COMPLETE
+============================================================
+Features: 36
+Best epoch: 94
+Best val NLL: -4.8632
+Model saved: checkpoints_reduced\world_model_best.pt
+
+Baseline comparison:
+  world_model         : NLL=-4.8613  1sig=69.0%  2sig=95.9%
+  persistence         : NLL=-3.1639  1sig=36.9%  2sig=64.1%
+  random_walk         : NLL=-4.7164  1sig=69.0%  2sig=95.7%
+  mean_reversion      : NLL=-4.6424  1sig=58.0%  2sig=88.9%

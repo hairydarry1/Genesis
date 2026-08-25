@@ -1,0 +1,81 @@
+======================================================================
+WALK-FORWARD VALIDATION REPORT
+======================================================================
+
+Instrument:      R75
+Horizon:         10 steps
+Folds:           3
+Retrain/fold:    False
+
+----------------------------------------------------------------------
+AGGREGATE METRICS (weighted by fold size)
+----------------------------------------------------------------------
+  WORLD_MODEL         : NLL= -4.8562  MAE=0.001588  RMSE=0.002072  1sig=68.4%  2sig=95.8%
+  persistence         : NLL= -3.0686  MAE=0.001846  RMSE=0.002417  1sig=36.8%  2sig=63.6%
+  random_walk         : NLL= -4.7028  MAE=0.001846  RMSE=0.002417  1sig=68.4%  2sig=95.5%
+  mean_reversion      : NLL= -4.6195  MAE=0.001846  RMSE=0.002417  1sig=57.7%  2sig=88.5%
+
+----------------------------------------------------------------------
+PER-FOLD RESULTS
+----------------------------------------------------------------------
+
+  Fold 0: 2026-06-21 -> 2026-07-21 (43200 samples)
+    WM:  NLL= -4.8502  MAE=0.001603  1sig=68.1%
+    persistence: NLL= -3.0266  MAE=0.001859  1sig=36.7%
+    random_walk: NLL= -4.6976  MAE=0.001859  1sig=68.1%
+    mean_reversion: NLL= -4.6087  MAE=0.001859  1sig=57.3%
+      [calm   ] n=14400  WM NLL= -4.8979  MAE=0.001534
+      [choppy ] n=14400  WM NLL= -4.8426  MAE=0.001615
+      [spike  ] n=14400  WM NLL= -4.8101  MAE=0.001659
+    Train time: 0.0s  Eval time: 25.7s
+
+  Fold 1: 2026-07-06 -> 2026-08-05 (43199 samples)
+    WM:  NLL= -4.8583  MAE=0.001583  1sig=68.4%
+    persistence: NLL= -3.0609  MAE=0.001848  1sig=36.7%
+    random_walk: NLL= -4.7017  MAE=0.001848  1sig=68.4%
+    mean_reversion: NLL= -4.6183  MAE=0.001848  1sig=57.7%
+      [calm   ] n=14400  WM NLL= -4.9049  MAE=0.001515
+      [choppy ] n=14399  WM NLL= -4.8487  MAE=0.001598
+      [spike  ] n=14400  WM NLL= -4.8212  MAE=0.001637
+    Train time: 0.0s  Eval time: 1.4s
+
+  Fold 2: 2026-07-21 -> 2026-08-20 (43199 samples)
+    WM:  NLL= -4.8600  MAE=0.001577  1sig=68.7%
+    persistence: NLL= -3.1184  MAE=0.001832  1sig=36.9%
+    random_walk: NLL= -4.7092  MAE=0.001832  1sig=68.8%
+    mean_reversion: NLL= -4.6316  MAE=0.001832  1sig=58.0%
+      [calm   ] n=14400  WM NLL= -4.8909  MAE=0.001536
+      [choppy ] n=14399  WM NLL= -4.8569  MAE=0.001579
+      [spike  ] n=14400  WM NLL= -4.8322  MAE=0.001616
+    Train time: 0.0s  Eval time: 1.3s
+
+----------------------------------------------------------------------
+REGIME SUMMARY (across all folds)
+----------------------------------------------------------------------
+  calm       (n= 43200):  NLL= -4.8979  MAE=0.001528  1sig=69.1%  2sig=96.2%
+  spike      (n= 43200):  NLL= -4.8212  MAE=0.001638  1sig=67.9%  2sig=95.7%
+  choppy     (n= 43198):  NLL= -4.8494  MAE=0.001597  1sig=68.1%  2sig=95.6%
+
+  Mean calibration gap: 0.0038
+
+======================================================================
+PASS/FAIL DETERMINATION
+======================================================================
+ALL CRITERIA PASSED
+  [PASS] 1_beat_baselines_avg
+    world_model_nll: -4.8562
+  [PASS] 2_beat_regimes
+    n_regimes_evaluated: 2
+    regimes: ['calm', 'spike']
+    note: Per-regime baseline comparison requires per-regime baseline NLL (see fold details)
+  [PASS] 3_calibration
+    coverage_1sigma: 0.6840
+    coverage_2sigma: 0.9582
+    calibration_gap: 0.0038
+    threshold_1sigma: 50-85%
+    threshold_gap: <0.15
+  [PASS] 4_no_catastrophic_failure
+    note: Per-fold check in fold results
+
+Overall verdict: PASS
+======================================================================

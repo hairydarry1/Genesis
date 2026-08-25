@@ -1,0 +1,225 @@
+{
+  "config": {
+    "dataset": "data/dataset_crash_500_h10.npz",
+    "n_folds": 4,
+    "train_days": 60,
+    "val_days": 30,
+    "step_days": 30,
+    "train_iterations": 50,
+    "rollout_steps": 300
+  },
+  "baselines": {
+    "random": {
+      "mean_reward": -24.648523058439864,
+      "std_reward": 105.43961853357638,
+      "mean_equity": 9585.755893401236,
+      "mean_trades": 201.4,
+      "max_drawdown": 0.054108132129188746,
+      "rewards": [
+        -46.4026995880746,
+        -88.20888666207658,
+        111.87141306371264,
+        92.39207055194416,
+        -13.177352250618124,
+        134.27558303763877,
+        -140.19145899041968,
+        -192.9729327381282,
+        -105.67290810135441,
+        1.6019410929773858
+      ]
+    },
+    "heuristic": {
+      "mean_reward": 1882.1441237111019,
+      "std_reward": 87.75449304757521,
+      "mean_equity": 10016.852311930643,
+      "mean_trades": 1.0,
+      "max_drawdown": 0.011440460655187827,
+      "rewards": [
+        1878.6896724251808,
+        1796.3519048120465,
+        1852.0747900918454,
+        1879.7127843535895,
+        1907.0234582831301,
+        1803.652539802468,
+        1781.2893442663437,
+        1846.5393132099318,
+        2068.8051038178473,
+        2007.3023260486339
+      ]
+    }
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "train_start": "2026-02-24",
+      "train_end": "2026-04-25",
+      "val_start": "2026-04-25",
+      "val_end": "2026-05-25",
+      "train_start_idx": 0,
+      "train_end_idx": 86399,
+      "val_start_idx": 86400,
+      "val_end_idx": 129599,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 1784.2027411601412,
+      "policy_std": 0.0,
+      "policy_equity": 9939.85553932467,
+      "policy_trades": 1.0,
+      "policy_max_dd": 0.006885681402583366,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.8600000000000003,
+            "accuracy": 0.86,
+            "count": 750,
+            "gap": 3.3306690738754696e-16
+          },
+          {
+            "confidence": 0.9000000000000001,
+            "accuracy": 0.9133333333333333,
+            "count": 750,
+            "gap": 0.013333333333333197
+          }
+        ],
+        "overall_gap": 0.006666666666666765,
+        "n_samples": 1500
+      },
+      "random_reward": -24.648523058439864,
+      "heuristic_reward": 1882.1441237111019,
+      "beats_random": true,
+      "beats_heuristic": false,
+      "elapsed_s": 117.35150623321533
+    },
+    {
+      "fold": 1,
+      "train_start": "2026-03-26",
+      "train_end": "2026-05-25",
+      "val_start": "2026-05-25",
+      "val_end": "2026-06-24",
+      "train_start_idx": 43200,
+      "train_end_idx": 129599,
+      "val_start_idx": 129600,
+      "val_end_idx": 172799,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 1621.760630487701,
+      "policy_std": 0.0,
+      "policy_equity": 9842.447752575314,
+      "policy_trades": 1.0,
+      "policy_max_dd": 0.016542591574685746,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.838235294117647,
+            "accuracy": 0.8382352941176471,
+            "count": 1020,
+            "gap": 1.1102230246251565e-16
+          },
+          {
+            "confidence": 0.9000000000000002,
+            "accuracy": 0.9270833333333334,
+            "count": 480,
+            "gap": 0.027083333333333126
+          }
+        ],
+        "overall_gap": 0.008666666666666677,
+        "n_samples": 1500
+      },
+      "random_reward": -24.648523058439864,
+      "heuristic_reward": 1882.1441237111019,
+      "beats_random": true,
+      "beats_heuristic": false,
+      "elapsed_s": 90.48493146896362
+    },
+    {
+      "fold": 2,
+      "train_start": "2026-04-25",
+      "train_end": "2026-06-24",
+      "val_start": "2026-06-24",
+      "val_end": "2026-07-24",
+      "train_start_idx": 86400,
+      "train_end_idx": 172799,
+      "val_start_idx": 172800,
+      "val_end_idx": 215999,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 1867.5105262134105,
+      "policy_std": 2.2737367544323206e-13,
+      "policy_equity": 10006.523901291675,
+      "policy_trades": 1.0,
+      "policy_max_dd": 0.0056538411382926895,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.8653846153846155,
+            "accuracy": 0.8653846153846154,
+            "count": 780,
+            "gap": 1.1102230246251565e-16
+          },
+          {
+            "confidence": 0.9000000000000001,
+            "accuracy": 0.9375,
+            "count": 720,
+            "gap": 0.03749999999999987
+          }
+        ],
+        "overall_gap": 0.017999999999999995,
+        "n_samples": 1500
+      },
+      "random_reward": -24.648523058439864,
+      "heuristic_reward": 1882.1441237111019,
+      "beats_random": true,
+      "beats_heuristic": false,
+      "elapsed_s": 72.32804250717163
+    },
+    {
+      "fold": 3,
+      "train_start": "2026-05-25",
+      "train_end": "2026-07-24",
+      "val_start": "2026-07-24",
+      "val_end": "2026-08-23",
+      "train_start_idx": 129600,
+      "train_end_idx": 215999,
+      "val_start_idx": 216000,
+      "val_end_idx": 259199,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 1790.906936213973,
+      "policy_std": 0.0,
+      "policy_equity": 9920.64012906506,
+      "policy_trades": 1.0,
+      "policy_max_dd": 0.009219963269196083,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.8533333333333334,
+            "accuracy": 0.8533333333333334,
+            "count": 750,
+            "gap": 0.0
+          },
+          {
+            "confidence": 0.9000000000000001,
+            "accuracy": 0.94,
+            "count": 750,
+            "gap": 0.039999999999999813
+          }
+        ],
+        "overall_gap": 0.019999999999999907,
+        "n_samples": 1500
+      },
+      "random_reward": -24.648523058439864,
+      "heuristic_reward": 1882.1441237111019,
+      "beats_random": true,
+      "beats_heuristic": false,
+      "elapsed_s": 61.128859519958496
+    }
+  ],
+  "aggregate": {
+    "avg_reward": 1766.0952085188064,
+    "n_beats_random": 4,
+    "n_beats_heuristic": 0,
+    "avg_calibration_gap": 0.013333333333333336,
+    "max_drawdown": 0.016542591574685746
+  },
+  "verdict": "FAIL (baselines)"
+}

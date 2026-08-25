@@ -1,0 +1,130 @@
+Starting structure precomputation at Sun 08/23/2026  0:59:21.60 
+Loaded 259999 ticks
+2026-08-23 00:59:26 [info     ] resample.complete              freq=1min input_ticks=259999 output_bars=259999
+Resampled to 259999 1min bars in 0.5s
+2026-08-23 00:59:26 [debug    ] structures.swing_points        count=601 lookback=5 n_bars=5000
+2026-08-23 00:59:49 [info     ] structures.detect_complete     bos=4359 choch=332 eqh_eql=0 fvgs=4352 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9043
+2026-08-23 00:59:49 [debug    ] structures.swing_points        count=614 lookback=5 n_bars=5000
+2026-08-23 01:00:36 [info     ] structures.detect_complete     bos=4155 choch=289 eqh_eql=0 fvgs=4376 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8820
+2026-08-23 01:00:36 [debug    ] structures.swing_points        count=617 lookback=5 n_bars=5000
+2026-08-23 01:00:54 [info     ] structures.detect_complete     bos=4329 choch=411 eqh_eql=0 fvgs=4338 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9078
+2026-08-23 01:00:54 [debug    ] structures.swing_points        count=586 lookback=5 n_bars=5000
+2026-08-23 01:01:21 [info     ] structures.detect_complete     bos=4421 choch=414 eqh_eql=0 fvgs=4324 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9159
+2026-08-23 01:01:22 [debug    ] structures.swing_points        count=595 lookback=5 n_bars=5000
+2026-08-23 01:02:22 [info     ] structures.detect_complete     bos=4196 choch=453 eqh_eql=0 fvgs=4341 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8990
+2026-08-23 01:02:22 [debug    ] structures.swing_points        count=625 lookback=5 n_bars=5000
+2026-08-23 01:03:04 [info     ] structures.detect_complete     bos=4407 choch=503 eqh_eql=0 fvgs=4335 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9245
+2026-08-23 01:03:04 [debug    ] structures.swing_points        count=596 lookback=5 n_bars=5000
+2026-08-23 01:03:31 [info     ] structures.detect_complete     bos=4437 choch=500 eqh_eql=0 fvgs=4369 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9306
+2026-08-23 01:03:31 [debug    ] structures.swing_points        count=607 lookback=5 n_bars=5000
+2026-08-23 01:03:50 [info     ] structures.detect_complete     bos=4346 choch=362 eqh_eql=0 fvgs=4331 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9039
+2026-08-23 01:03:50 [debug    ] structures.swing_points        count=614 lookback=5 n_bars=5000
+2026-08-23 01:04:24 [info     ] structures.detect_complete     bos=4321 choch=440 eqh_eql=0 fvgs=4380 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9141
+2026-08-23 01:04:24 [debug    ] structures.swing_points        count=617 lookback=5 n_bars=5000
+2026-08-23 01:05:13 [info     ] structures.detect_complete     bos=4368 choch=342 eqh_eql=0 fvgs=4352 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9062
+2026-08-23 01:05:13 [info     ] precompute.progress            chunk=10 end=45500 start=40500 total_structures=83200
+2026-08-23 01:05:13 [debug    ] structures.swing_points        count=618 lookback=5 n_bars=5000
+2026-08-23 01:05:41 [info     ] structures.detect_complete     bos=4547 choch=320 eqh_eql=0 fvgs=4335 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9202
+2026-08-23 01:05:41 [debug    ] structures.swing_points        count=607 lookback=5 n_bars=5000
+2026-08-23 01:05:59 [info     ] structures.detect_complete     bos=4275 choch=511 eqh_eql=0 fvgs=4322 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9108
+2026-08-23 01:05:59 [debug    ] structures.swing_points        count=604 lookback=5 n_bars=5000
+2026-08-23 01:06:25 [info     ] structures.detect_complete     bos=4272 choch=489 eqh_eql=0 fvgs=4366 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9127
+2026-08-23 01:06:25 [debug    ] structures.swing_points        count=611 lookback=5 n_bars=5000
+2026-08-23 01:06:48 [info     ] structures.detect_complete     bos=4322 choch=334 eqh_eql=0 fvgs=4349 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9005
+2026-08-23 01:06:48 [debug    ] structures.swing_points        count=620 lookback=5 n_bars=5000
+2026-08-23 01:07:03 [info     ] structures.detect_complete     bos=4522 choch=398 eqh_eql=0 fvgs=4359 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9279
+2026-08-23 01:07:03 [debug    ] structures.swing_points        count=633 lookback=5 n_bars=5000
+2026-08-23 01:07:19 [info     ] structures.detect_complete     bos=4482 choch=455 eqh_eql=0 fvgs=4341 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9278
+2026-08-23 01:07:19 [debug    ] structures.swing_points        count=619 lookback=5 n_bars=5000
+2026-08-23 01:07:38 [info     ] structures.detect_complete     bos=4253 choch=445 eqh_eql=0 fvgs=4339 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9037
+2026-08-23 01:07:38 [debug    ] structures.swing_points        count=571 lookback=5 n_bars=5000
+2026-08-23 01:07:53 [info     ] structures.detect_complete     bos=4134 choch=357 eqh_eql=0 fvgs=4338 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8829
+2026-08-23 01:07:53 [debug    ] structures.swing_points        count=584 lookback=5 n_bars=5000
+2026-08-23 01:08:07 [info     ] structures.detect_complete     bos=4374 choch=439 eqh_eql=0 fvgs=4363 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9176
+2026-08-23 01:08:07 [debug    ] structures.swing_points        count=595 lookback=5 n_bars=5000
+2026-08-23 01:08:22 [info     ] structures.detect_complete     bos=4581 choch=352 eqh_eql=0 fvgs=4341 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9274
+2026-08-23 01:08:22 [info     ] precompute.progress            chunk=20 end=90500 start=85500 total_structures=165733
+2026-08-23 01:08:22 [debug    ] structures.swing_points        count=581 lookback=5 n_bars=5000
+2026-08-23 01:08:37 [info     ] structures.detect_complete     bos=4250 choch=452 eqh_eql=0 fvgs=4330 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9032
+2026-08-23 01:08:37 [debug    ] structures.swing_points        count=595 lookback=5 n_bars=5000
+2026-08-23 01:08:53 [info     ] structures.detect_complete     bos=4190 choch=487 eqh_eql=0 fvgs=4315 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8992
+2026-08-23 01:08:53 [debug    ] structures.swing_points        count=594 lookback=5 n_bars=5000
+2026-08-23 01:09:08 [info     ] structures.detect_complete     bos=4496 choch=400 eqh_eql=0 fvgs=4338 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9234
+2026-08-23 01:09:08 [debug    ] structures.swing_points        count=629 lookback=5 n_bars=5000
+2026-08-23 01:09:22 [info     ] structures.detect_complete     bos=4299 choch=355 eqh_eql=0 fvgs=4282 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8936
+2026-08-23 01:09:22 [debug    ] structures.swing_points        count=617 lookback=5 n_bars=5000
+2026-08-23 01:09:37 [info     ] structures.detect_complete     bos=4153 choch=386 eqh_eql=0 fvgs=4331 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8870
+2026-08-23 01:09:37 [debug    ] structures.swing_points        count=624 lookback=5 n_bars=5000
+2026-08-23 01:09:53 [info     ] structures.detect_complete     bos=4445 choch=358 eqh_eql=0 fvgs=4356 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9159
+2026-08-23 01:09:53 [debug    ] structures.swing_points        count=616 lookback=5 n_bars=5000
+2026-08-23 01:10:12 [info     ] structures.detect_complete     bos=4167 choch=390 eqh_eql=0 fvgs=4329 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8886
+2026-08-23 01:10:12 [debug    ] structures.swing_points        count=592 lookback=5 n_bars=5000
+2026-08-23 01:10:28 [info     ] structures.detect_complete     bos=4346 choch=451 eqh_eql=0 fvgs=4321 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9118
+2026-08-23 01:10:29 [debug    ] structures.swing_points        count=586 lookback=5 n_bars=5000
+2026-08-23 01:10:42 [info     ] structures.detect_complete     bos=4244 choch=386 eqh_eql=0 fvgs=4319 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8949
+2026-08-23 01:10:42 [debug    ] structures.swing_points        count=615 lookback=5 n_bars=5000
+2026-08-23 01:10:58 [info     ] structures.detect_complete     bos=4575 choch=362 eqh_eql=0 fvgs=4381 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9318
+2026-08-23 01:10:58 [info     ] precompute.progress            chunk=30 end=135500 start=130500 total_structures=247661
+2026-08-23 01:10:58 [debug    ] structures.swing_points        count=599 lookback=5 n_bars=5000
+2026-08-23 01:11:11 [info     ] structures.detect_complete     bos=4438 choch=447 eqh_eql=0 fvgs=4338 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9223
+2026-08-23 01:11:12 [debug    ] structures.swing_points        count=637 lookback=5 n_bars=5000
+2026-08-23 01:11:25 [info     ] structures.detect_complete     bos=4560 choch=468 eqh_eql=0 fvgs=4365 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9393
+2026-08-23 01:11:25 [debug    ] structures.swing_points        count=611 lookback=5 n_bars=5000
+2026-08-23 01:11:43 [info     ] structures.detect_complete     bos=4378 choch=410 eqh_eql=0 fvgs=4310 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9098
+2026-08-23 01:11:43 [debug    ] structures.swing_points        count=597 lookback=5 n_bars=5000
+2026-08-23 01:11:58 [info     ] structures.detect_complete     bos=4352 choch=365 eqh_eql=0 fvgs=4310 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9027
+2026-08-23 01:11:58 [debug    ] structures.swing_points        count=612 lookback=5 n_bars=5000
+2026-08-23 01:12:16 [info     ] structures.detect_complete     bos=4248 choch=270 eqh_eql=0 fvgs=4352 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8870
+2026-08-23 01:12:16 [debug    ] structures.swing_points        count=612 lookback=5 n_bars=5000
+2026-08-23 01:12:36 [info     ] structures.detect_complete     bos=4443 choch=291 eqh_eql=0 fvgs=4372 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9106
+2026-08-23 01:12:36 [debug    ] structures.swing_points        count=596 lookback=5 n_bars=5000
+2026-08-23 01:12:54 [info     ] structures.detect_complete     bos=4552 choch=359 eqh_eql=0 fvgs=4334 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9245
+2026-08-23 01:12:54 [debug    ] structures.swing_points        count=599 lookback=5 n_bars=5000
+2026-08-23 01:13:12 [info     ] structures.detect_complete     bos=4485 choch=413 eqh_eql=0 fvgs=4354 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9252
+2026-08-23 01:13:12 [debug    ] structures.swing_points        count=597 lookback=5 n_bars=5000
+2026-08-23 01:13:31 [info     ] structures.detect_complete     bos=4324 choch=411 eqh_eql=0 fvgs=4355 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9090
+2026-08-23 01:13:31 [debug    ] structures.swing_points        count=601 lookback=5 n_bars=5000
+2026-08-23 01:13:50 [info     ] structures.detect_complete     bos=4466 choch=415 eqh_eql=0 fvgs=4397 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9278
+2026-08-23 01:13:50 [info     ] precompute.progress            chunk=40 end=180500 start=175500 total_structures=330304
+2026-08-23 01:13:50 [debug    ] structures.swing_points        count=618 lookback=5 n_bars=5000
+2026-08-23 01:14:13 [info     ] structures.detect_complete     bos=4417 choch=405 eqh_eql=0 fvgs=4364 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9186
+2026-08-23 01:14:14 [debug    ] structures.swing_points        count=611 lookback=5 n_bars=5000
+2026-08-23 01:14:42 [info     ] structures.detect_complete     bos=4494 choch=428 eqh_eql=0 fvgs=4349 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9271
+2026-08-23 01:14:42 [debug    ] structures.swing_points        count=598 lookback=5 n_bars=5000
+2026-08-23 01:15:02 [info     ] structures.detect_complete     bos=4352 choch=443 eqh_eql=0 fvgs=4363 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9158
+2026-08-23 01:15:02 [debug    ] structures.swing_points        count=621 lookback=5 n_bars=5000
+2026-08-23 01:15:29 [info     ] structures.detect_complete     bos=4566 choch=396 eqh_eql=0 fvgs=4328 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9290
+2026-08-23 01:15:29 [debug    ] structures.swing_points        count=598 lookback=5 n_bars=5000
+2026-08-23 01:15:49 [info     ] structures.detect_complete     bos=4318 choch=380 eqh_eql=0 fvgs=4366 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9064
+2026-08-23 01:15:49 [debug    ] structures.swing_points        count=591 lookback=5 n_bars=5000
+2026-08-23 01:16:03 [info     ] structures.detect_complete     bos=4491 choch=388 eqh_eql=0 fvgs=4370 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9249
+2026-08-23 01:16:03 [debug    ] structures.swing_points        count=610 lookback=5 n_bars=5000
+2026-08-23 01:16:23 [info     ] structures.detect_complete     bos=4377 choch=397 eqh_eql=0 fvgs=4355 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9129
+2026-08-23 01:16:23 [debug    ] structures.swing_points        count=609 lookback=5 n_bars=5000
+2026-08-23 01:16:42 [info     ] structures.detect_complete     bos=4407 choch=379 eqh_eql=0 fvgs=4379 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9165
+2026-08-23 01:16:42 [debug    ] structures.swing_points        count=603 lookback=5 n_bars=5000
+2026-08-23 01:16:57 [info     ] structures.detect_complete     bos=4316 choch=412 eqh_eql=0 fvgs=4360 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9088
+2026-08-23 01:16:57 [debug    ] structures.swing_points        count=617 lookback=5 n_bars=5000
+2026-08-23 01:17:13 [info     ] structures.detect_complete     bos=4417 choch=377 eqh_eql=0 fvgs=4380 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9174
+2026-08-23 01:17:13 [info     ] precompute.progress            chunk=50 end=225500 start=220500 total_structures=413203
+2026-08-23 01:17:14 [debug    ] structures.swing_points        count=591 lookback=5 n_bars=5000
+2026-08-23 01:17:55 [info     ] structures.detect_complete     bos=4118 choch=443 eqh_eql=0 fvgs=4388 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=8949
+2026-08-23 01:17:55 [debug    ] structures.swing_points        count=598 lookback=5 n_bars=5000
+2026-08-23 01:18:12 [info     ] structures.detect_complete     bos=4408 choch=400 eqh_eql=0 fvgs=4346 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9154
+2026-08-23 01:18:12 [debug    ] structures.swing_points        count=643 lookback=5 n_bars=5000
+2026-08-23 01:18:28 [info     ] structures.detect_complete     bos=4425 choch=326 eqh_eql=0 fvgs=4394 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9145
+2026-08-23 01:18:29 [debug    ] structures.swing_points        count=600 lookback=5 n_bars=5000
+2026-08-23 01:18:45 [info     ] structures.detect_complete     bos=4399 choch=533 eqh_eql=0 fvgs=4371 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9303
+2026-08-23 01:18:45 [debug    ] structures.swing_points        count=621 lookback=5 n_bars=5000
+2026-08-23 01:19:02 [info     ] structures.detect_complete     bos=4434 choch=398 eqh_eql=0 fvgs=4338 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9170
+2026-08-23 01:19:02 [debug    ] structures.swing_points        count=617 lookback=5 n_bars=5000
+2026-08-23 01:19:23 [info     ] structures.detect_complete     bos=4414 choch=332 eqh_eql=0 fvgs=4365 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9111
+2026-08-23 01:19:23 [debug    ] structures.swing_points        count=582 lookback=5 n_bars=5000
+2026-08-23 01:19:42 [info     ] structures.detect_complete     bos=4285 choch=411 eqh_eql=0 fvgs=4365 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=5000 obs=0 total=9061
+2026-08-23 01:19:42 [debug    ] structures.swing_points        count=403 lookback=5 n_bars=3499
+2026-08-23 01:19:55 [info     ] structures.detect_complete     bos=3075 choch=264 eqh_eql=0 fvgs=3035 ifvgs=0 liquidity_sweeps=0 mitigation=0 n_bars=3499 obs=0 total=6374
+2026-08-23 01:19:55 [info     ] precompute.complete            chunks=58 n_bars=259999 n_structures=476476
+Detected 476476 structures in 1229.9s
+Saved to data/structures_R75.parquet
+Done at Sun 08/23/2026  1:20:01.62 
+COMPLETE 

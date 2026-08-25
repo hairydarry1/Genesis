@@ -1,0 +1,35 @@
+Starting training at Sun 08/23/2026  1:58:42.71 
+train_reduced.device=cpu
+loaded full_dataset n_samples=259889 n_features=116
+reduced_dataset features=116 -> 53 (kept 53, dropped 63)
+reduced_features=53: [np.str_('15min_ATR'), np.str_('15min_autocorrelation'), np.str_('15min_body'), np.str_('15min_body_ATR'), np.str_('15min_close_position_in_range'), np.str_('15min_down_streak'), np.str_('15min_mean_reversion_ratio'), np.str_('15min_momentum_acceleration'), np.str_('15min_momentum_score'), np.str_('15min_price_z_score')]
+split train=220906 val=38983
+training epochs=20 features=53
+epoch 1/20 loss=118.7569 val_nll=-4.6936 val_mae=0.001662 cov1sig=83.51% cov2sig=99.11% lr=9.94e-04 time=108.5s
+epoch 6/20 loss=-5.7711 val_nll=-4.8808 val_mae=0.001525 cov1sig=69.13% cov2sig=95.71% lr=7.96e-04 time=72.8s
+epoch 11/20 loss=-5.7978 val_nll=-4.8811 val_mae=0.001525 cov1sig=67.48% cov2sig=95.06% lr=4.28e-04 time=143.5s
+epoch 16/20 loss=-5.8088 val_nll=-4.9022 val_mae=0.001490 cov1sig=68.11% cov2sig=95.18% lr=1.05e-04 time=117.7s
+epoch 20/20 loss=-5.8140 val_nll=-4.9039 val_mae=0.001489 cov1sig=68.15% cov2sig=95.24% lr=1.00e-05 time=91.7s
+complete best_epoch=19 best_val_nll=-4.9039 saved=checkpoints_reduced\world_model_best.pt
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+Variance initialized: log_var range [-13.75, -11.45]
+  std range: [0.001032, 0.003259]
+
+============================================================
+REDUCED FEATURE MODEL TRAINING COMPLETE
+============================================================
+Features: 53
+Best epoch: 19
+Best val NLL: -4.9039
+Model saved: checkpoints_reduced\world_model_best.pt
+
+Baseline comparison:
+  world_model         : NLL=-4.9020  1sig=68.1%  2sig=95.2%
+  persistence         : NLL=-3.1080  1sig=36.9%  2sig=63.9%
+  random_walk         : NLL=-4.7084  1sig=68.7%  2sig=95.6%
+  mean_reversion      : NLL=-4.6292  1sig=57.9%  2sig=88.7%
+Done at Sun 08/23/2026  2:25:44.01 
+COMPLETE 

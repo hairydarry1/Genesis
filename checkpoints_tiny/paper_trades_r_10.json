@@ -1,0 +1,240 @@
+[
+  {
+    "timestamp": "2026-08-24T17:10:07.611568+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4769.785,
+    "equity": 10000.0
+  },
+  {
+    "timestamp": "2026-08-24T17:10:58.833649+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4769.785,
+    "exit_price": 4770.75,
+    "pnl": -2.022742755332276,
+    "win": false,
+    "equity": 9997.977257244667
+  },
+  {
+    "timestamp": "2026-08-24T17:11:58.871086+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4771.393,
+    "equity": 9997.977257244667
+  },
+  {
+    "timestamp": "2026-08-24T17:12:58.853869+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4771.393,
+    "exit_price": 4770.648,
+    "pnl": 1.5613168392734458,
+    "win": true,
+    "equity": 9999.538574083941
+  },
+  {
+    "timestamp": "2026-08-24T17:13:58.886861+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4770.293,
+    "equity": 9999.538574083941
+  },
+  {
+    "timestamp": "2026-08-24T17:14:58.818306+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4770.293,
+    "exit_price": 4770.385,
+    "pnl": -0.19284765251048963,
+    "win": false,
+    "equity": 9999.345726431431
+  },
+  {
+    "timestamp": "2026-08-24T17:15:58.791758+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4770.699,
+    "equity": 9999.345726431431
+  },
+  {
+    "timestamp": "2026-08-24T17:16:58.798476+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4770.699,
+    "exit_price": 4770.716,
+    "pnl": -0.035631732711962426,
+    "win": false,
+    "equity": 9999.31009469872
+  },
+  {
+    "timestamp": "2026-08-24T17:17:58.720295+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4770.381,
+    "equity": 9999.31009469872
+  },
+  {
+    "timestamp": "2026-08-24T17:18:58.929167+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4770.381,
+    "exit_price": 4769.98,
+    "pnl": 0.8406163858090979,
+    "win": true,
+    "equity": 10000.150711084529
+  },
+  {
+    "timestamp": "2026-08-24T17:19:58.859043+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4769.162,
+    "equity": 10000.150711084529
+  },
+  {
+    "timestamp": "2026-08-24T17:20:58.821588+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4769.162,
+    "exit_price": 4768.349,
+    "pnl": 1.7050183466253708,
+    "win": true,
+    "equity": 10001.855729431154
+  },
+  {
+    "timestamp": "2026-08-24T17:21:58.726473+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4767.776,
+    "equity": 10001.855729431154
+  },
+  {
+    "timestamp": "2026-08-24T17:22:58.618447+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4767.776,
+    "exit_price": 4768.444,
+    "pnl": -1.4011362254156197,
+    "win": false,
+    "equity": 10000.454593205739
+  },
+  {
+    "timestamp": "2026-08-24T17:23:58.749882+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4767.461,
+    "equity": 10000.454593205739
+  },
+  {
+    "timestamp": "2026-08-24T17:24:59.004606+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4767.461,
+    "exit_price": 4767.183,
+    "pnl": 0.5831801248061317,
+    "win": true,
+    "equity": 10001.037773330545
+  },
+  {
+    "timestamp": "2026-08-24T17:25:58.696659+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4766.468,
+    "equity": 10001.037773330545
+  },
+  {
+    "timestamp": "2026-08-24T17:26:58.611678+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4766.468,
+    "exit_price": 4766.716,
+    "pnl": -0.5203283283063215,
+    "win": false,
+    "equity": 10000.517445002239
+  },
+  {
+    "timestamp": "2026-08-24T17:27:58.706354+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4765.773,
+    "equity": 10000.517445002239
+  },
+  {
+    "timestamp": "2026-08-24T17:28:58.606425+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4765.773,
+    "exit_price": 4765.942,
+    "pnl": -0.35461771213415283,
+    "win": false,
+    "equity": 10000.162827290105
+  },
+  {
+    "timestamp": "2026-08-24T17:29:58.837274+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4765.927,
+    "equity": 10000.162827290105
+  },
+  {
+    "timestamp": "2026-08-24T17:30:58.684708+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4765.927,
+    "exit_price": 4765.986,
+    "pnl": -0.12379591690199693,
+    "win": false,
+    "equity": 10000.039031373204
+  },
+  {
+    "timestamp": "2026-08-24T17:31:58.612403+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4766.939,
+    "equity": 10000.039031373204
+  },
+  {
+    "timestamp": "2026-08-24T17:32:58.599566+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4766.939,
+    "exit_price": 4767.616,
+    "pnl": -1.420002454945293,
+    "win": false,
+    "equity": 9998.61902891826
+  },
+  {
+    "timestamp": "2026-08-24T17:33:58.684851+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4768.149,
+    "equity": 9998.61902891826
+  },
+  {
+    "timestamp": "2026-08-24T17:34:58.793563+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4768.149,
+    "exit_price": 4768.1,
+    "pnl": 0.10275210931330644,
+    "win": true,
+    "equity": 9998.721781027572
+  },
+  {
+    "timestamp": "2026-08-24T17:35:58.630018+00:00",
+    "action": "open",
+    "side": "short",
+    "entry_price": 4767.817,
+    "equity": 9998.721781027572
+  },
+  {
+    "timestamp": "2026-08-24T17:36:58.569365+00:00",
+    "action": "close",
+    "side": "short",
+    "entry_price": 4767.817,
+    "exit_price": 4767.457,
+    "pnl": 0.755023032439863,
+    "win": true,
+    "equity": 9999.476804060012
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "baseline",
+    "hidden_dim": 32,
+    "branch_depth": 2,
+    "fusion_depth": 2,
+    "n_params": 23188,
+    "best_epoch": 39,
+    "best_val_nll": -4.751687526702881,
+    "val_mae": 0.001744372770190239,
+    "val_rmse": 0.002267601666972041,
+    "coverage_1sigma": 0.7044346353231022,
+    "coverage_2sigma": 0.9624852435456552,
+    "calibration_gap": 0.014297336139198308,
+    "training_time_s": 577.4508066177368
+  },
+  {
+    "name": "wide",
+    "hidden_dim": 64,
+    "branch_depth": 2,
+    "fusion_depth": 2,
+    "n_params": 83220,
+    "best_epoch": 39,
+    "best_val_nll": -4.8488078117370605,
+    "val_mae": 0.001588314538821578,
+    "val_rmse": 0.002068520523607731,
+    "coverage_1sigma": 0.6891597803213058,
+    "coverage_2sigma": 0.958050608222553,
+    "calibration_gap": 0.0031541397763772696,
+    "training_time_s": 1368.6969273090363
+  },
+  {
+    "name": "deep",
+    "hidden_dim": 32,
+    "branch_depth": 3,
+    "fusion_depth": 3,
+    "n_params": 31956,
+    "best_epoch": 39,
+    "best_val_nll": -4.716372489929199,
+    "val_mae": 0.001821924583055079,
+    "val_rmse": 0.0023769710678607225,
+    "coverage_1sigma": 0.6892880973156085,
+    "coverage_2sigma": 0.9570907971051686,
+    "calibration_gap": 0.004014782117743704,
+    "training_time_s": 1230.3423120975494
+  },
+  {
+    "name": "widedepth",
+    "hidden_dim": 64,
+    "branch_depth": 3,
+    "fusion_depth": 2,
+    "n_params": 100372,
+    "best_epoch": 39,
+    "best_val_nll": -4.723761558532715,
+    "val_mae": 0.0018219660269096494,
+    "val_rmse": 0.0023772616405040026,
+    "coverage_1sigma": 0.6765487861212339,
+    "coverage_2sigma": 0.9538674742082841,
+    "calibration_gap": 0.004900426012421055,
+    "training_time_s": 1957.3488755226135
+  }
+]

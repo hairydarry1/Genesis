@@ -1,0 +1,226 @@
+{
+  "config": {
+    "dataset": "data/dataset_R75_h10.npz",
+    "n_folds": 4,
+    "train_days": 60,
+    "val_days": 30,
+    "step_days": 30,
+    "train_iterations": 100,
+    "rollout_steps": 500
+  },
+  "baselines": {
+    "random": {
+      "mean_reward": -213.31756283198325,
+      "std_reward": 180.44398587058106,
+      "mean_equity": 9271.65897611616,
+      "mean_trades": 332.05,
+      "max_drawdown": 0.10448422947236216,
+      "rewards": [
+        -552.1458374157993,
+        -368.4432657705755,
+        -313.7066156567898,
+        -295.35366875709747,
+        -91.44522148830745,
+        -313.0996537293445,
+        -59.581153801190204,
+        -296.4193573450855,
+        0.3631974158703848,
+        -143.02359167881917,
+        -220.2107302240327,
+        -23.215018431694716,
+        160.22365836736165,
+        -178.42800959107416,
+        -4.0610821049236865,
+        -581.9545346933061,
+        -260.92586282262636,
+        -239.63229887449478,
+        -123.7434430751128,
+        -361.5487669626228
+      ]
+    },
+    "heuristic": {
+      "mean_reward": -70.2298358473205,
+      "std_reward": 161.94886556555522,
+      "mean_equity": 9987.034993333396,
+      "mean_trades": 1.0,
+      "max_drawdown": 0.04620906142804013,
+      "rewards": [
+        -311.0839725260382,
+        -310.2427894786436,
+        -67.43475685603318,
+        -27.663492335287465,
+        -165.33105054609072,
+        114.4673825627939,
+        214.10836287328348,
+        -84.99338792739819,
+        -378.5938901180882,
+        -10.803399914010711,
+        -12.668636208368756,
+        -160.85068749094378,
+        -36.38497164539464,
+        144.23336394976758,
+        -11.271272411880119,
+        52.48803567435323,
+        -333.63760626366076,
+        -88.74405226606613,
+        122.18167248256587,
+        -52.371568501269685
+      ]
+    }
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "train_start": "2026-02-23",
+      "train_end": "2026-04-24",
+      "val_start": "2026-04-24",
+      "val_end": "2026-05-24",
+      "train_start_idx": 0,
+      "train_end_idx": 86399,
+      "val_start_idx": 86400,
+      "val_end_idx": 129599,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 146.08677411126644,
+      "policy_std": 2.842170943040401e-14,
+      "policy_equity": 10055.954474568953,
+      "policy_trades": 43.0,
+      "policy_max_dd": 0.017405946870101496,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.5364705882352941,
+            "accuracy": 0.5364705882352941,
+            "count": 4250,
+            "gap": 0.0
+          },
+          {
+            "confidence": 0.6133333333333333,
+            "accuracy": 0.6133333333333333,
+            "count": 750,
+            "gap": 0.0
+          }
+        ],
+        "overall_gap": 0.0,
+        "n_samples": 5000
+      },
+      "random_reward": -213.31756283198325,
+      "heuristic_reward": -70.2298358473205,
+      "beats_random": true,
+      "beats_heuristic": true,
+      "elapsed_s": 112.1662847995758
+    },
+    {
+      "fold": 1,
+      "train_start": "2026-03-25",
+      "train_end": "2026-05-24",
+      "val_start": "2026-05-24",
+      "val_end": "2026-06-23",
+      "train_start_idx": 43200,
+      "train_end_idx": 129599,
+      "val_start_idx": 129600,
+      "val_end_idx": 172799,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 276.37856094742256,
+      "policy_std": 0.0,
+      "policy_equity": 10539.206029949859,
+      "policy_trades": 19.0,
+      "policy_max_dd": 0.0011955755366207781,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.47540983606557374,
+            "accuracy": 0.47540983606557374,
+            "count": 610,
+            "gap": 0.0
+          },
+          {
+            "confidence": 0.530751708428246,
+            "accuracy": 0.530751708428246,
+            "count": 4390,
+            "gap": 0.0
+          }
+        ],
+        "overall_gap": 0.0,
+        "n_samples": 5000
+      },
+      "random_reward": -213.31756283198325,
+      "heuristic_reward": -70.2298358473205,
+      "beats_random": true,
+      "beats_heuristic": true,
+      "elapsed_s": 109.33032059669495
+    },
+    {
+      "fold": 2,
+      "train_start": "2026-04-24",
+      "train_end": "2026-06-23",
+      "val_start": "2026-06-23",
+      "val_end": "2026-07-23",
+      "train_start_idx": 86400,
+      "train_end_idx": 172799,
+      "val_start_idx": 172800,
+      "val_end_idx": 215999,
+      "n_train": 86400,
+      "n_val": 43200,
+      "policy_reward": 0.0,
+      "policy_std": 0.0,
+      "policy_equity": 10000.0,
+      "policy_trades": 0.0,
+      "policy_max_dd": 0.0,
+      "calibration": {
+        "bins": [],
+        "overall_gap": 0.0,
+        "n_samples": 0
+      },
+      "random_reward": -213.31756283198325,
+      "heuristic_reward": -70.2298358473205,
+      "beats_random": true,
+      "beats_heuristic": true,
+      "elapsed_s": 104.10755729675293
+    },
+    {
+      "fold": 3,
+      "train_start": "2026-05-24",
+      "train_end": "2026-07-23",
+      "val_start": "2026-07-23",
+      "val_end": "2026-08-22",
+      "train_start_idx": 129600,
+      "train_end_idx": 215999,
+      "val_start_idx": 216000,
+      "val_end_idx": 259198,
+      "n_train": 86400,
+      "n_val": 43199,
+      "policy_reward": 343.4569094633826,
+      "policy_std": 0.0,
+      "policy_equity": 10534.275468562084,
+      "policy_trades": 7.0,
+      "policy_max_dd": 0.0,
+      "calibration": {
+        "bins": [
+          {
+            "confidence": 0.554,
+            "accuracy": 0.554,
+            "count": 5000,
+            "gap": 0.0
+          }
+        ],
+        "overall_gap": 0.0,
+        "n_samples": 5000
+      },
+      "random_reward": -213.31756283198325,
+      "heuristic_reward": -70.2298358473205,
+      "beats_random": true,
+      "beats_heuristic": true,
+      "elapsed_s": 107.1268539428711
+    }
+  ],
+  "aggregate": {
+    "avg_reward": 191.4805611305179,
+    "n_beats_random": 4,
+    "n_beats_heuristic": 4,
+    "avg_calibration_gap": 0.0,
+    "max_drawdown": 0.017405946870101496
+  },
+  "verdict": "PASS"
+}

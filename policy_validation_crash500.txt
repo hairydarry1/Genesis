@@ -1,0 +1,11 @@
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+world_model_loaded path=checkpoints_crash_500/world_model_best.pt features=8
+dataset range=2026-02-24 to 2026-08-24
+walk_forward folds=4
+evaluating baselines...
+baselines: random=-147.05+/-186.03  heuristic=3051.49+/-147.18
+fold 0: train=[2026-02-24 -> 2026-04-25] val=[2026-04-25 -> 2026-05-25]
+  policy=2986.52+/-0.00  random=-147.05  heuristic=3051.49  beats_random=YES  beats_heuristic=NO  dd=0.5%  cal_gap=0.008  time=212.0s
+fold 1: train=[2026-03-26 -> 2026-05-25] val=[2026-05-25 -> 2026-06-24]
+  policy=2869.75+/-0.00  random=-147.05  heuristic=3051.49  beats_random=YES  beats_heuristic=NO  dd=1.5%  cal_gap=0.010  time=198.6s
+fold 2: train=[2026-04-25 -> 2026-06-24] val=[2026-06-24 -> 2026-07-24]

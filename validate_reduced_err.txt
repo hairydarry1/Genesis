@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\hp\Desktop\code\Genesis\eval\validate_reduced.py", line 368, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\validate_reduced.py", line 357, in main
+    run_validation(
+    ~~~~~~~~~~~~~~^
+        dataset_path=args.dataset,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        step_days=args.step_days,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\validate_reduced.py", line 315, in run_validation
+    print(f"\n{'Model':<20s} {'NLL':>8s} {'MAE':>10s} {'1\u03c3':>8s} {'2\u03c3':>8s}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u03c3' in position 50: character maps to <undefined>

@@ -1,0 +1,28 @@
+C:\Users\hp\Desktop\code\Genesis\model\policy.py:274: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  "obs": torch.tensor(obs_list, dtype=torch.float32),
+Obs dim: 11
+Tiny features: ['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+Tiny feature count: 8
+Policy params: 5509
+Obs dim: 11, Actions: 3
+Training for 100 iterations, 500 steps each
+  iter   0/100 reward=-537.88 equity=9067.17 trades=329 policy_loss=0.0032 value_loss=869.2571
+  iter  10/100 reward=-168.69 equity=9437.40 trades=317 policy_loss=0.0018 value_loss=504.0819
+  iter  20/100 reward=-59.53 equity=9559.77 trades=300 policy_loss=0.0000 value_loss=612.5121
+  iter  30/100 reward=-175.36 equity=9725.67 trades=134 policy_loss=0.0075 value_loss=218.3490
+  iter  40/100 reward=+30.79 equity=9956.83 trades=145 policy_loss=0.0025 value_loss=157.3950
+  iter  50/100 reward=-134.28 equity=9671.57 trades=103 policy_loss=0.0079 value_loss=101.1190
+  iter  60/100 reward=-2.78 equity=9880.09 trades=62 policy_loss=0.0026 value_loss=47.5004
+  iter  70/100 reward=-38.94 equity=9853.64 trades=71 policy_loss=0.0048 value_loss=50.1597
+  iter  80/100 reward=-110.23 equity=9836.55 trades=85 policy_loss=-0.0023 value_loss=140.5273
+  iter  90/100 reward=-51.87 equity=9842.15 trades=63 policy_loss=0.0043 value_loss=43.3122
+  iter  99/100 reward=+123.99 equity=9980.03 trades=59 policy_loss=-0.0029 value_loss=94.7241
+
+TRAINING COMPLETE
+  Obs dim: 11
+  Iterations: 100
+  First reward: -537.88
+  Last reward:  +123.99
+  Best reward:  +209.20
+  Final equity: 9980.03
+  Saved to checkpoints_tiny/policy_best.pt

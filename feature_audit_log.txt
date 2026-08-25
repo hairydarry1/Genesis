@@ -1,0 +1,303 @@
+device=cpu
+reduced_dataset features=116 -> 53 (kept 53, dropped 63)
+data loaded: features=53 train=220906 val=38983
+
+================================================================================
+1. PEARSON CORRELATION WITH TARGETS
+================================================================================
+
+Top 20 features by |r| with step-0 return:
+  15min_return_1                                r=+0.2401  R²=0.0576
+  15min_return_1_ATR                            r=+0.2390  R²=0.0571
+  15min_return_x_vol_regime                     r=+0.2379  R²=0.0566
+  15min_up_streak                               r=+0.1380  R²=0.0191
+  15min_down_streak                             r=-0.1347  R²=0.0181
+  1h_return_1                                   r=+0.1255  R²=0.0157
+  1h_return_1_ATR                               r=+0.1251  R²=0.0156
+  1h_return_x_vol_regime                        r=+0.1243  R²=0.0154
+  15min_return_5                                r=+0.1058  R²=0.0112
+  15min_return_5_ATR                            r=+0.1053  R²=0.0111
+  1h_up_streak                                  r=+0.0737  R²=0.0054
+  15min_price_z_score                           r=+0.0718  R²=0.0052
+  1h_down_streak                                r=-0.0682  R²=0.0047
+  15min_close_position_in_range                 r=+0.0675  R²=0.0046
+  1h_return_5                                   r=+0.0567  R²=0.0032
+  1h_return_5_ATR                               r=+0.0566  R²=0.0032
+  15min_return_20                               r=+0.0543  R²=0.0029
+  15min_return_20_ATR                           r=+0.0536  R²=0.0029
+  1h_price_z_score                              r=+0.0364  R²=0.0013
+  1h_close_position_in_range                    r=+0.0345  R²=0.0012
+
+Top 20 features by |r| with step-9 return:
+  15min_return_1                                r=+0.5143  R²=0.2645
+  15min_return_1_ATR                            r=+0.5123  R²=0.2624
+  15min_return_x_vol_regime                     r=+0.5101  R²=0.2602
+  1h_return_1                                   r=+0.3684  R²=0.1357
+  1h_return_1_ATR                               r=+0.3670  R²=0.1347
+  1h_return_x_vol_regime                        r=+0.3651  R²=0.1333
+  15min_up_streak                               r=+0.2939  R²=0.0864
+  15min_down_streak                             r=-0.2882  R²=0.0830
+  15min_return_5                                r=+0.2240  R²=0.0502
+  15min_return_5_ATR                            r=+0.2227  R²=0.0496
+  1h_up_streak                                  r=+0.2160  R²=0.0467
+  1h_down_streak                                r=-0.1998  R²=0.0399
+  1h_return_5                                   r=+0.1665  R²=0.0277
+  1h_return_5_ATR                               r=+0.1659  R²=0.0275
+  15min_price_z_score                           r=+0.1538  R²=0.0237
+  15min_close_position_in_range                 r=+0.1472  R²=0.0217
+  15min_return_20                               r=+0.1165  R²=0.0136
+  15min_return_20_ATR                           r=+0.1152  R²=0.0133
+  1h_price_z_score                              r=+0.1064  R²=0.0113
+  1h_close_position_in_range                    r=+0.1013  R²=0.0103
+
+Features with |r| > 0.05 per horizon step:
+  Step  0:  18 features
+  Step  1:  19 features
+  Step  2:  20 features
+  Step  3:  22 features
+  Step  4:  22 features
+  Step  5:  22 features
+  Step  6:  22 features
+  Step  7:  22 features
+  Step  8:  22 features
+  Step  9:  22 features
+
+================================================================================
+2. MUTUAL INFORMATION WITH TARGETS
+================================================================================
+
+Top 20 features by MI with step-0 return:
+  15min_return_1                                MI=0.0294
+  15min_return_1_ATR                            MI=0.0291
+  15min_return_x_vol_regime                     MI=0.0290
+  15min_up_streak                               MI=0.0186
+  15min_down_streak                             MI=0.0186
+  1h_return_1                                   MI=0.0084
+  1h_return_1_ATR                               MI=0.0084
+  1h_return_x_vol_regime                        MI=0.0084
+  15min_return_5_ATR                            MI=0.0062
+  15min_range_ATR                               MI=0.0062
+  15min_return_5                                MI=0.0062
+  15min_close_position_in_range                 MI=0.0059
+  15min_range                                   MI=0.0051
+  1h_down_streak                                MI=0.0050
+  1h_up_streak                                  MI=0.0050
+  15min_price_z_score                           MI=0.0037
+  1h_return_5_ATR                               MI=0.0024
+  1h_return_5                                   MI=0.0023
+  15min_return_20                               MI=0.0022
+  15min_return_20_ATR                           MI=0.0022
+
+================================================================================
+3. PERMUTATION IMPORTANCE (NLL degradation)
+================================================================================
+
+Top features by NLL increase when permuted:
+  premium_discount_position                     \u0394NLL=+0.3715 ± 0.0163
+  15min_close_position_in_range                 \u0394NLL=+0.0571 ± 0.0006
+  15min_price_z_score                           \u0394NLL=+0.0477 ± 0.0027
+  15min_range_ATR                               \u0394NLL=+0.0328 ± 0.0013
+  nearest_structure_distance                    \u0394NLL=+0.0239 ± 0.0018
+  15min_range                                   \u0394NLL=+0.0214 ± 0.0005
+  15min_momentum_score                          \u0394NLL=+0.0207 ± 0.0019
+  15min_return_20_ATR                           \u0394NLL=+0.0190 ± 0.0007
+  1h_range                                      \u0394NLL=+0.0160 ± 0.0001
+  15min_return_1_ATR                            \u0394NLL=+0.0113 ± 0.0007
+  15min_return_x_vol_regime                     \u0394NLL=+0.0100 ± 0.0016
+  15min_return_20                               \u0394NLL=+0.0092 ± 0.0007
+  1h_return_5_ATR                               \u0394NLL=+0.0086 ± 0.0012
+  15min_mean_reversion_ratio                    \u0394NLL=+0.0077 ± 0.0008
+  15min_momentum_acceleration                   \u0394NLL=+0.0077 ± 0.0009
+  15min_return_x_streak                         \u0394NLL=+0.0070 ± 0.0008
+  15min_up_streak                               \u0394NLL=+0.0057 ± 0.0011
+  1h_return_x_streak                            \u0394NLL=+0.0048 ± 0.0004
+  15min_return_1                                \u0394NLL=+0.0044 ± 0.0012
+  nearest_structure_size                        \u0394NLL=+0.0040 ± 0.0011
+
+Bottom 10 least important features:
+  1h_close_position_in_range                    \u0394NLL=+0.0002 ± 0.0000
+  1h_autocorrelation                            \u0394NLL=+0.0001 ± 0.0000
+  15min_time_since_large_move                   \u0394NLL=+0.0001 ± 0.0000
+  1h_momentum_acceleration                      \u0394NLL=+0.0000 ± 0.0001
+  1h_time_since_spike                           \u0394NLL=+0.0000 ± 0.0000
+  15min_time_since_spike                        \u0394NLL=+0.0000 ± 0.0000
+  1h_return_1                                   \u0394NLL=-0.0000 ± 0.0001
+  1h_time_since_large_move                      \u0394NLL=-0.0000 ± 0.0000
+  1h_vol_short_long_ratio                       \u0394NLL=-0.0001 ± 0.0001
+  15min_autocorrelation                         \u0394NLL=-0.0001 ± 0.0001
+
+================================================================================
+4. FEATURE REDUNDANCY (|corr| > 0.7)
+================================================================================
+C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\numpy\lib\_function_base_impl.py:3023: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\numpy\lib\_function_base_impl.py:3024: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+
+Highly correlated pairs: 58
+  15min_vol_regime                    <-> 15min_vol_short_long_ratio           r=+1.000
+  1h_vol_regime                       <-> 1h_vol_short_long_ratio              r=+1.000
+  1h_return_5                         <-> 1h_return_5_ATR                      r=+0.997
+  1h_return_1                         <-> 1h_return_1_ATR                      r=+0.996
+  15min_return_1                      <-> 15min_return_1_ATR                   r=+0.996
+  15min_return_5                      <-> 15min_return_5_ATR                   r=+0.996
+  15min_return_20                     <-> 15min_return_20_ATR                  r=+0.996
+  1h_return_20                        <-> 1h_return_20_ATR                     r=+0.996
+  15min_return_1                      <-> 15min_return_x_vol_regime            r=+0.991
+  1h_return_1                         <-> 1h_return_x_vol_regime               r=+0.990
+  15min_return_1_ATR                  <-> 15min_return_x_vol_regime            r=+0.981
+  1h_return_1_ATR                     <-> 1h_return_x_vol_regime               r=+0.980
+  15min_body_ATR                      <-> 15min_vol_breakout                   r=+0.975
+  15min_close_position_in_range       <-> 15min_price_z_score                  r=+0.964
+  1h_close_position_in_range          <-> 1h_price_z_score                     r=+0.963
+  15min_time_since_large_move         <-> 1h_time_since_large_move             r=+0.946
+  15min_body                          <-> 15min_body_ATR                       r=+0.940
+  15min_price_z_score                 <-> premium_discount_position            r=+0.933
+  15min_close_position_in_range       <-> premium_discount_position            r=+0.930
+  15min_return_20                     <-> 1h_return_5                          r=+0.923
+  15min_return_20                     <-> 1h_return_5_ATR                      r=+0.920
+  15min_return_20_ATR                 <-> 1h_return_5                          r=+0.918
+  15min_return_20_ATR                 <-> 1h_return_5_ATR                      r=+0.918
+  15min_body                          <-> 15min_vol_breakout                   r=+0.916
+  1h_body                             <-> 1h_vol_breakout                      r=+0.910
+  15min_ATR                           <-> 1h_ATR                               r=+0.892
+  15min_momentum_score                <-> 15min_return_20_ATR                  r=+0.867
+  15min_momentum_score                <-> 15min_return_20                      r=+0.865
+  1h_momentum_score                   <-> 1h_return_20_ATR                     r=+0.865
+  1h_momentum_score                   <-> 1h_return_20                         r=+0.862
+
+================================================================================
+5. LINEAR REGRESSION BASELINE (top-K features)
+================================================================================
+
+Top-5 features linear model:
+  step_0: R²=0.057637  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_1: R²=0.106802  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_2: R²=0.148118  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+
+Top-10 features linear model:
+  step_0: R²=0.057713  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_1: R²=0.107127  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_2: R²=0.148981  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+
+Top-15 features linear model:
+  step_0: R²=0.057720  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_1: R²=0.107161  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_2: R²=0.149068  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+
+Top-53 features linear model:
+  step_0: R²=0.073195  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_1: R²=0.136114  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+  step_2: R²=0.189552  features=[np.str_('15min_return_1'), np.str_('15min_return_1_ATR'), np.str_('15min_return_x_vol_regime'), np.str_('15min_up_streak'), np.str_('15min_down_streak')]
+
+================================================================================
+6. INFORMATION COEFFICIENT (Spearman rank correlation)
+================================================================================
+
+Top 20 features by |IC| with step-0 return:
+  15min_return_1                                IC=+0.2304  p=0.00e+00
+  15min_return_1_ATR                            IC=+0.2299  p=0.00e+00
+  15min_return_x_vol_regime                     IC=+0.2293  p=0.00e+00
+  15min_up_streak                               IC=+0.1769  p=0.00e+00
+  15min_down_streak                             IC=-0.1767  p=0.00e+00
+  1h_return_1                                   IC=+0.1198  p=0.00e+00
+  1h_return_1_ATR                               IC=+0.1196  p=0.00e+00
+  1h_return_x_vol_regime                        IC=+0.1193  p=0.00e+00
+  15min_return_5                                IC=+0.1009  p=0.00e+00
+  15min_return_5_ATR                            IC=+0.1006  p=0.00e+00
+  1h_up_streak                                  IC=+0.0914  p=0.00e+00
+  1h_down_streak                                IC=-0.0898  p=0.00e+00
+  15min_close_position_in_range                 IC=+0.0697  p=7.12e-236
+  15min_price_z_score                           IC=+0.0673  p=3.23e-220
+  1h_return_5                                   IC=+0.0543  p=6.91e-144
+  1h_return_5_ATR                               IC=+0.0542  p=1.75e-143
+  15min_return_20                               IC=+0.0522  p=3.52e-133
+  15min_return_20_ATR                           IC=+0.0519  p=2.13e-131
+  1h_close_position_in_range                    IC=+0.0351  p=3.09e-61
+  1h_price_z_score                              IC=+0.0337  p=1.24e-56
+
+================================================================================
+SUMMARY: RECOMMENDED FEATURE SET
+================================================================================
+
+Feature voting (appears in top-10 of each method):
+  15min_return_1                                votes=5/5
+  15min_return_1_ATR                            votes=5/5
+  15min_return_x_vol_regime                     votes=5/5
+  15min_up_streak                               votes=5/5
+  15min_price_z_score                           votes=5/5
+  15min_close_position_in_range                 votes=5/5
+  1h_return_5_ATR                               votes=5/5
+  15min_return_20                               votes=5/5
+  15min_return_20_ATR                           votes=5/5
+  15min_down_streak                             votes=4/5
+  1h_return_1                                   votes=4/5
+  1h_return_1_ATR                               votes=4/5
+  1h_return_x_vol_regime                        votes=4/5
+  15min_return_5                                votes=4/5
+  15min_return_5_ATR                            votes=4/5
+  1h_up_streak                                  votes=4/5
+  1h_down_streak                                votes=4/5
+  1h_return_5                                   votes=4/5
+  1h_price_z_score                              votes=3/5
+  1h_close_position_in_range                    votes=3/5
+  15min_range_ATR                               votes=2/5
+  15min_range                                   votes=2/5
+  premium_discount_position                     votes=1/5
+  nearest_structure_distance                    votes=1/5
+  15min_momentum_score                          votes=1/5
+  1h_range                                      votes=1/5
+  15min_mean_reversion_ratio                    votes=1/5
+  15min_momentum_acceleration                   votes=1/5
+  15min_return_x_streak                         votes=1/5
+  1h_return_x_streak                            votes=1/5
+  nearest_structure_size                        votes=1/5
+
+RECOMMENDED features (\u22653 votes): 20
+  - 15min_return_1
+  - 15min_return_1_ATR
+  - 15min_return_x_vol_regime
+  - 15min_up_streak
+  - 15min_price_z_score
+  - 15min_close_position_in_range
+  - 1h_return_5_ATR
+  - 15min_return_20
+  - 15min_return_20_ATR
+  - 15min_down_streak
+  - 1h_return_1
+  - 1h_return_1_ATR
+  - 1h_return_x_vol_regime
+  - 15min_return_5
+  - 15min_return_5_ATR
+  - 1h_up_streak
+  - 1h_down_streak
+  - 1h_return_5
+  - 1h_price_z_score
+  - 1h_close_position_in_range
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\hp\Desktop\code\Genesis\eval\feature_audit.py", line 535, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\feature_audit.py", line 525, in main
+    run_feature_audit(
+    ~~~~~~~~~~~~~~~~~^
+        dataset_path=args.dataset,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        device_str=args.device,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\feature_audit.py", line 472, in run_feature_audit
+    f.write("\n".join(report_lines))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0394' in position 5124: character maps to <undefined>
+WorldModel built: 24,596 params (24,596 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d

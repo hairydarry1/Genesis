@@ -1,0 +1,18 @@
+train_v7.device=cpu var_reg=0.10 var_grad_scale=1
+reduced_dataset features=116 -> 53 (kept 53, dropped 63)
+split train=220906 val=38983 features=53
+training epochs=50 features=53 var_reg=0.10 sep_optim=True
+epoch 1/50 loss=43.8619 val_nll=-4.7857 val_mae=0.001662 cov1sig=71.01% cov2sig=96.21% lr=9.99e-04 time=25.8s
+saved T=0.8777 val_nll=-4.7857
+saved T=0.8569 val_nll=-4.8289
+saved T=0.8406 val_nll=-4.8303
+saved T=0.8394 val_nll=-4.8624
+epoch 6/50 loss=-5.7664 val_nll=-4.8860 val_mae=0.001508 cov1sig=71.01% cov2sig=96.32% lr=9.65e-04 time=26.1s
+saved T=0.9006 val_nll=-4.8860
+saved T=0.8585 val_nll=-4.8868
+epoch 11/50 loss=-5.7810 val_nll=-4.8785 val_mae=0.001501 cov1sig=73.18% cov2sig=96.89% lr=8.86e-04 time=25.5s
+saved T=0.8676 val_nll=-4.8876
+saved T=0.8525 val_nll=-4.8924
+epoch 16/50 loss=-5.7888 val_nll=-4.8979 val_mae=0.001493 cov1sig=70.63% cov2sig=96.22% lr=7.70e-04 time=25.6s
+saved T=0.9089 val_nll=-4.8979
+epoch 21/50 loss=-5.7944 val_nll=-4.8914 val_mae=0.001493 cov1sig=71.97% cov2sig=96.48% lr=6.28e-04 time=24.0s

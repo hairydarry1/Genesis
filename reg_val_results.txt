@@ -1,0 +1,184 @@
+=== Original (drop=0.1, wd=1e-4, ep=20) === 
+2026-08-23 03:23:39 [info     ] validate_reduced.start device=cpu
+2026-08-23 03:23:40 [info     ] validate_reduced.full_dataset n=259889 features=116
+2026-08-23 03:23:40 [info     ] validate_reduced.filtered n_features=53 (kept 53 of 116)
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+2026-08-23 03:23:40 [info     ] validate.model_loaded epoch=19
+2026-08-23 03:23:40 [info     ] validate_reduced.model_loaded
+2026-08-23 03:23:40 [info     ] validate_reduced.data_range start=2026-02-23 end=2026-08-22 days=180
+2026-08-23 03:23:41 [info     ] temperature.fitted T=1.7042
+2026-08-23 03:23:47 [info     ] validate_reduced.fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.6351 RW_NLL=-4.7031 1sig=69.9% eval=6.9s
+2026-08-23 03:23:47 [info     ]   [calm] n=14400 WM_NLL=-4.6397 RW_NLL=-4.7312
+2026-08-23 03:23:47 [info     ]   [choppy] n=14400 WM_NLL=-4.6372 RW_NLL=-4.7081
+2026-08-23 03:23:47 [info     ]   [spike] n=14400 WM_NLL=-4.6284 RW_NLL=-4.6701
+2026-08-23 03:23:47 [info     ] temperature.fitted T=1.7080
+2026-08-23 03:23:49 [info     ] validate_reduced.fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.6313 RW_NLL=-4.6990 1sig=69.8% eval=2.2s
+2026-08-23 03:23:49 [info     ]   [calm] n=14400 WM_NLL=-4.6511 RW_NLL=-4.7297
+2026-08-23 03:23:49 [info     ]   [choppy] n=14400 WM_NLL=-4.6339 RW_NLL=-4.7118
+2026-08-23 03:23:49 [info     ]   [spike] n=14400 WM_NLL=-4.6088 RW_NLL=-4.6555
+2026-08-23 03:23:50 [info     ] temperature.fitted T=1.8311
+2026-08-23 03:23:52 [info     ] validate_reduced.fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.6378 RW_NLL=-4.7021 1sig=69.9% eval=2.2s
+2026-08-23 03:23:52 [info     ]   [calm] n=14400 WM_NLL=-4.6472 RW_NLL=-4.7431
+2026-08-23 03:23:52 [info     ]   [choppy] n=14400 WM_NLL=-4.6385 RW_NLL=-4.6972
+2026-08-23 03:23:52 [info     ]   [spike] n=14400 WM_NLL=-4.6276 RW_NLL=-4.6660
+2026-08-23 03:23:52 [info     ] temperature.fitted T=1.8902
+2026-08-23 03:23:54 [info     ] validate_reduced.fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.6267 RW_NLL=-4.7060 1sig=69.9% eval=2.9s
+2026-08-23 03:23:54 [info     ]   [calm] n=14400 WM_NLL=-4.6374 RW_NLL=-4.7264
+2026-08-23 03:23:54 [info     ]   [choppy] n=14399 WM_NLL=-4.6287 RW_NLL=-4.7037
+2026-08-23 03:23:54 [info     ]   [spike] n=14400 WM_NLL=-4.6141 RW_NLL=-4.6878
+
+======================================================================
+REDUCED MODEL WALK-FORWARD VALIDATION RESULTS
+Features: 53 | Folds: 4
+======================================================================
+
+Model                     NLL        MAE     1sig     2sig
+-------------------------------------------------------
+World Model           -4.6327   0.001964   69.9%   95.6%
+Persistence           -3.0644   0.001847   36.7%   63.6%
+Random Walk           -4.7026   0.001847   68.4%   95.5%
+Mean Reversion        -4.6185   0.001847   57.7%   88.5%
+
+Calibration gap: 0.0108
+
+Fold   Period                        N   WM NLL   RW NLL Beat RW?
+-----------------------------------------------------------------
+0      2026-04-24 -> 2026-05-24 43200  -4.6351  -4.7031       NO
+1      2026-05-24 -> 2026-06-23 43200  -4.6313  -4.6990       NO
+2      2026-06-23 -> 2026-07-23 43200  -4.6378  -4.7021       NO
+3      2026-07-23 -> 2026-08-22 43199  -4.6267  -4.7060       NO
+
+Regime            N   WM NLL     1sig     2sig
+---------------------------------------------
+calm          57600  -4.6439   71.1%   96.0%
+spike         57600  -4.6197   68.5%   95.1%
+choppy        57599  -4.6346   70.0%   95.6%
+
+Verdict: CONDITIONAL
+======================================================================
+=== Variant A (drop=0.2, wd=1e-3, ep=20) === 
+2026-08-23 03:24:02 [info     ] validate_reduced.start device=cpu
+2026-08-23 03:24:03 [info     ] validate_reduced.full_dataset n=259889 features=116
+2026-08-23 03:24:03 [info     ] validate_reduced.filtered n_features=53 (kept 53 of 116)
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+2026-08-23 03:24:03 [info     ] validate.model_loaded epoch=19
+2026-08-23 03:24:03 [info     ] validate_reduced.model_loaded
+2026-08-23 03:24:03 [info     ] validate_reduced.data_range start=2026-02-23 end=2026-08-22 days=180
+2026-08-23 03:24:03 [info     ] temperature.fitted T=1.5875
+2026-08-23 03:24:10 [info     ] validate_reduced.fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.6406 RW_NLL=-4.7031 1sig=69.5% eval=6.8s
+2026-08-23 03:24:10 [info     ]   [calm] n=14400 WM_NLL=-4.6490 RW_NLL=-4.7312
+2026-08-23 03:24:10 [info     ]   [choppy] n=14400 WM_NLL=-4.6431 RW_NLL=-4.7081
+2026-08-23 03:24:10 [info     ]   [spike] n=14400 WM_NLL=-4.6298 RW_NLL=-4.6701
+2026-08-23 03:24:11 [info     ] temperature.fitted T=1.6061
+2026-08-23 03:24:13 [info     ] validate_reduced.fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.6522 RW_NLL=-4.6990 1sig=69.5% eval=2.8s
+2026-08-23 03:24:13 [info     ]   [calm] n=14400 WM_NLL=-4.6726 RW_NLL=-4.7297
+2026-08-23 03:24:13 [info     ]   [choppy] n=14400 WM_NLL=-4.6568 RW_NLL=-4.7118
+2026-08-23 03:24:13 [info     ]   [spike] n=14400 WM_NLL=-4.6272 RW_NLL=-4.6555
+2026-08-23 03:24:13 [info     ] temperature.fitted T=1.7264
+2026-08-23 03:24:15 [info     ] validate_reduced.fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.6708 RW_NLL=-4.7021 1sig=69.5% eval=2.6s
+2026-08-23 03:24:15 [info     ]   [calm] n=14400 WM_NLL=-4.6818 RW_NLL=-4.7431
+2026-08-23 03:24:15 [info     ]   [choppy] n=14400 WM_NLL=-4.6739 RW_NLL=-4.6972
+2026-08-23 03:24:15 [info     ]   [spike] n=14400 WM_NLL=-4.6568 RW_NLL=-4.6660
+2026-08-23 03:24:16 [info     ] temperature.fitted T=1.7196
+2026-08-23 03:24:18 [info     ] validate_reduced.fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.6746 RW_NLL=-4.7060 1sig=69.5% eval=2.4s
+2026-08-23 03:24:18 [info     ]   [calm] n=14400 WM_NLL=-4.6884 RW_NLL=-4.7264
+2026-08-23 03:24:18 [info     ]   [choppy] n=14399 WM_NLL=-4.6690 RW_NLL=-4.7037
+2026-08-23 03:24:18 [info     ]   [spike] n=14400 WM_NLL=-4.6663 RW_NLL=-4.6878
+
+======================================================================
+REDUCED MODEL WALK-FORWARD VALIDATION RESULTS
+Features: 53 | Folds: 4
+======================================================================
+
+Model                     NLL        MAE     1sig     2sig
+-------------------------------------------------------
+World Model           -4.6596   0.001910   69.5%   95.5%
+Persistence           -3.0644   0.001847   36.7%   63.6%
+Random Walk           -4.7026   0.001847   68.4%   95.5%
+Mean Reversion        -4.6185   0.001847   57.7%   88.5%
+
+Calibration gap: 0.0083
+
+Fold   Period                        N   WM NLL   RW NLL Beat RW?
+-----------------------------------------------------------------
+0      2026-04-24 -> 2026-05-24 43200  -4.6406  -4.7031       NO
+1      2026-05-24 -> 2026-06-23 43200  -4.6522  -4.6990       NO
+2      2026-06-23 -> 2026-07-23 43200  -4.6708  -4.7021       NO
+3      2026-07-23 -> 2026-08-22 43199  -4.6746  -4.7060       NO
+
+Regime            N   WM NLL     1sig     2sig
+---------------------------------------------
+calm          57600  -4.6729   70.9%   96.0%
+spike         57600  -4.6450   68.1%   95.0%
+choppy        57599  -4.6607   69.4%   95.5%
+
+Verdict: CONDITIONAL
+======================================================================
+=== Variant B (drop=0.15, wd=5e-4, ep=15) === 
+2026-08-23 03:24:24 [info     ] validate_reduced.start device=cpu
+2026-08-23 03:24:25 [info     ] validate_reduced.full_dataset n=259889 features=116
+2026-08-23 03:24:25 [info     ] validate_reduced.filtered n_features=53 (kept 53 of 116)
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+2026-08-23 03:24:25 [info     ] validate.model_loaded epoch=14
+2026-08-23 03:24:25 [info     ] validate_reduced.model_loaded
+2026-08-23 03:24:25 [info     ] validate_reduced.data_range start=2026-02-23 end=2026-08-22 days=180
+2026-08-23 03:24:25 [info     ] temperature.fitted T=1.6264
+2026-08-23 03:24:30 [info     ] validate_reduced.fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.6503 RW_NLL=-4.7031 1sig=69.7% eval=4.8s
+2026-08-23 03:24:30 [info     ]   [calm] n=14400 WM_NLL=-4.6607 RW_NLL=-4.7312
+2026-08-23 03:24:30 [info     ]   [choppy] n=14400 WM_NLL=-4.6483 RW_NLL=-4.7081
+2026-08-23 03:24:30 [info     ]   [spike] n=14400 WM_NLL=-4.6420 RW_NLL=-4.6701
+2026-08-23 03:24:30 [info     ] temperature.fitted T=1.6072
+2026-08-23 03:24:32 [info     ] validate_reduced.fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.6530 RW_NLL=-4.6990 1sig=69.5% eval=2.6s
+2026-08-23 03:24:32 [info     ]   [calm] n=14400 WM_NLL=-4.6736 RW_NLL=-4.7297
+2026-08-23 03:24:32 [info     ]   [choppy] n=14400 WM_NLL=-4.6571 RW_NLL=-4.7118
+2026-08-23 03:24:32 [info     ]   [spike] n=14400 WM_NLL=-4.6284 RW_NLL=-4.6555
+2026-08-23 03:24:33 [info     ] temperature.fitted T=1.8226
+2026-08-23 03:24:35 [info     ] validate_reduced.fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.6320 RW_NLL=-4.7021 1sig=69.8% eval=3.0s
+2026-08-23 03:24:35 [info     ]   [calm] n=14400 WM_NLL=-4.6427 RW_NLL=-4.7431
+2026-08-23 03:24:35 [info     ]   [choppy] n=14400 WM_NLL=-4.6382 RW_NLL=-4.6972
+2026-08-23 03:24:35 [info     ]   [spike] n=14400 WM_NLL=-4.6150 RW_NLL=-4.6660
+2026-08-23 03:24:36 [info     ] temperature.fitted T=1.8827
+2026-08-23 03:24:38 [info     ] validate_reduced.fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.6315 RW_NLL=-4.7060 1sig=69.9% eval=3.1s
+2026-08-23 03:24:38 [info     ]   [calm] n=14400 WM_NLL=-4.6416 RW_NLL=-4.7264
+2026-08-23 03:24:38 [info     ]   [choppy] n=14399 WM_NLL=-4.6359 RW_NLL=-4.7037
+2026-08-23 03:24:38 [info     ]   [spike] n=14400 WM_NLL=-4.6171 RW_NLL=-4.6878
+
+======================================================================
+REDUCED MODEL WALK-FORWARD VALIDATION RESULTS
+Features: 53 | Folds: 4
+======================================================================
+
+Model                     NLL        MAE     1sig     2sig
+-------------------------------------------------------
+World Model           -4.6417   0.001953   69.7%   95.7%
+Persistence           -3.0644   0.001847   36.7%   63.6%
+Random Walk           -4.7026   0.001847   68.4%   95.5%
+Mean Reversion        -4.6185   0.001847   57.7%   88.5%
+
+Calibration gap: 0.0101
+
+Fold   Period                        N   WM NLL   RW NLL Beat RW?
+-----------------------------------------------------------------
+0      2026-04-24 -> 2026-05-24 43200  -4.6503  -4.7031       NO
+1      2026-05-24 -> 2026-06-23 43200  -4.6530  -4.6990       NO
+2      2026-06-23 -> 2026-07-23 43200  -4.6320  -4.7021       NO
+3      2026-07-23 -> 2026-08-22 43199  -4.6315  -4.7060       NO
+
+Regime            N   WM NLL     1sig     2sig
+---------------------------------------------
+calm          57600  -4.6546   71.1%   96.1%
+spike         57600  -4.6256   68.3%   95.2%
+choppy        57599  -4.6448   69.9%   95.7%
+
+Verdict: CONDITIONAL
+======================================================================
+COMPLETE 

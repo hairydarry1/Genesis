@@ -1,0 +1,77 @@
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+world_model_loaded path=checkpoints_tiny/world_model_best.pt features=8
+dataset range=2026-02-23 to 2026-08-22
+walk_forward folds=4
+evaluating baselines...
+baselines: random=40.22+/-145.70  heuristic=-83.71+/-161.82
+fold 0: train=[2026-02-23 -> 2026-04-24] val=[2026-04-24 -> 2026-05-24]
+C:\Users\hp\Desktop\code\Genesis\model\policy.py:274: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  "obs": torch.tensor(obs_list, dtype=torch.float32),
+  policy=0.00+/-0.00  random=40.22  heuristic=-83.71  beats_random=NO  beats_heuristic=YES  dd=0.0%  cal_gap=1.000  time=95.4s
+fold 1: train=[2026-03-25 -> 2026-05-24] val=[2026-05-24 -> 2026-06-23]
+  policy=0.00+/-0.00  random=40.22  heuristic=-83.71  beats_random=NO  beats_heuristic=YES  dd=0.0%  cal_gap=1.000  time=103.5s
+fold 2: train=[2026-04-24 -> 2026-06-23] val=[2026-06-23 -> 2026-07-23]
+  policy=68.28+/-0.00  random=40.22  heuristic=-83.71  beats_random=YES  beats_heuristic=YES  dd=0.3%  cal_gap=0.532  time=133.6s
+fold 3: train=[2026-05-24 -> 2026-07-23] val=[2026-07-23 -> 2026-08-22]
+  policy=0.00+/-0.00  random=40.22  heuristic=-83.71  beats_random=NO  beats_heuristic=YES  dd=0.0%  cal_gap=1.000  time=147.3s
+Policy params: 12421
+Obs dim: 119, Actions: 3
+Training for 30 iterations, 300 steps each
+  iter   0/30 reward=-82.16 equity=9637.65 trades=194 policy_loss=-0.0057 value_loss=615.8191
+  iter  10/30 reward=-249.83 equity=9473.29 trades=161 policy_loss=0.0067 value_loss=633.8508
+  iter  20/30 reward=-44.08 equity=9811.16 trades=145 policy_loss=0.0059 value_loss=326.6263
+  iter  29/30 reward=-7.52 equity=9811.32 trades=156 policy_loss=0.0019 value_loss=424.6666
+Policy params: 12421
+Obs dim: 119, Actions: 3
+Training for 30 iterations, 300 steps each
+  iter   0/30 reward=-34.89 equity=9799.81 trades=196 policy_loss=0.0007 value_loss=619.6629
+  iter  10/30 reward=-36.44 equity=9776.29 trades=193 policy_loss=-0.0021 value_loss=396.5027
+  iter  20/30 reward=+7.24 equity=9724.59 trades=145 policy_loss=0.0145 value_loss=231.9541
+  iter  29/30 reward=+72.17 equity=9803.84 trades=136 policy_loss=0.0107 value_loss=375.4458
+Policy params: 12421
+Obs dim: 119, Actions: 3
+Training for 30 iterations, 300 steps each
+  iter   0/30 reward=-306.31 equity=9445.74 trades=189 policy_loss=0.0061 value_loss=535.3692
+  iter  10/30 reward=-178.00 equity=9497.94 trades=180 policy_loss=0.0052 value_loss=634.1920
+  iter  20/30 reward=-342.66 equity=9281.73 trades=171 policy_loss=0.0083 value_loss=829.2750
+  iter  29/30 reward=-197.91 equity=9626.68 trades=181 policy_loss=-0.0036 value_loss=664.9681
+Policy params: 12421
+Obs dim: 119, Actions: 3
+Training for 30 iterations, 300 steps each
+  iter   0/30 reward=+149.01 equity=9832.25 trades=178 policy_loss=0.0173 value_loss=394.4515
+  iter  10/30 reward=-10.08 equity=9648.27 trades=199 policy_loss=-0.0026 value_loss=419.4428
+  iter  20/30 reward=+145.35 equity=9872.50 trades=174 policy_loss=0.0048 value_loss=525.2658
+  iter  29/30 reward=-185.99 equity=9687.91 trades=176 policy_loss=0.0068 value_loss=406.3127
+
+==========================================================================================
+WALK-FORWARD POLICY VALIDATION
+==========================================================================================
+Dataset: data/dataset_R75_h10.npz
+Folds: 4 (train=60d, val=30d, step=30d)
+Training: 30 iterations, 300 steps/episode
+
+Baselines:
+  Random:   +40.22 +/- 145.70
+  Heuristic: -83.71 +/- 161.82
+
+Fold                    Period       Policy  vs Random    vs Heur    MaxDD   CalGap
+------------------------------------------------------------------------------------------
+   0   2026-04-24 -> 2026-05-24        +0.00       LOSE       BEAT    0.0%    1.000
+   1   2026-05-24 -> 2026-06-23        +0.00       LOSE       BEAT    0.0%    1.000
+   2   2026-06-23 -> 2026-07-23       +68.28       BEAT       BEAT    0.3%    0.532
+   3   2026-07-23 -> 2026-08-22        +0.00       LOSE       BEAT    0.0%    1.000
+------------------------------------------------------------------------------------------
+Aggregate:
+  Avg policy reward: +17.07
+  Beats random: 1/4
+  Beats heuristic: 4/4
+  Avg calibration gap: 0.883
+  Max drawdown: 0.3%
+
+Verdict: FAIL (calibration)
+
+Calibration detail (best fold 2):
+  Conf=0.17  Acc=0.68  N=  186  Gap=0.504
+  Conf=0.22  Acc=0.50  N=  504  Gap=0.283
+
+Report saved to: checkpoints_tiny/policy_validation.json

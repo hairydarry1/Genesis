@@ -1,0 +1,21 @@
+C:\Users\hp\Desktop\code\Genesis\model\policy.py:274: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_new.cpp:256.)
+  "obs": torch.tensor(obs_list, dtype=torch.float32),
+Policy params: 12421
+Obs dim: 119, Actions: 3
+Training for 50 iterations, 500 steps each
+  iter   0/50 reward=-482.46 equity=9200.99 trades=321 policy_loss=0.0131 value_loss=482.1334
+  iter  10/50 reward=-303.35 equity=9248.55 trades=307 policy_loss=0.0109 value_loss=709.6150
+  iter  20/50 reward=+15.48 equity=9715.42 trades=300 policy_loss=0.0151 value_loss=505.9357
+  iter  30/50 reward=+216.77 equity=9847.23 trades=303 policy_loss=0.0058 value_loss=392.4040
+  iter  40/50 reward=-393.15 equity=9176.67 trades=315 policy_loss=0.0064 value_loss=717.8873
+  iter  49/50 reward=-46.84 equity=9511.46 trades=282 policy_loss=0.0033 value_loss=289.0705
+
+TRAINING SUMMARY
+============================================================
+  Iterations: 50
+  First reward: -482.46
+  Last reward:  -46.84
+  Best reward:  +490.27
+  Final equity: 9511.46
+  Final trades: 282
+  Saved to checkpoints_tiny/policy_best.pt

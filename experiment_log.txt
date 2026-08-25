@@ -1,0 +1,67 @@
+experiments.dataset train=110406 val=19483 features=89 horizon=10
+experiments.running name=baseline hidden=32 branch_depth=2 fusion_depth=2
+  [baseline] epoch 1/40  loss=245.9466  val_nll=-4.4931  1s=87.3%  2s=99.6%
+  [baseline] epoch 11/40  loss=-5.6131  val_nll=-4.7142  1s=69.2%  2s=95.8%
+  [baseline] epoch 21/40  loss=-5.6161  val_nll=-4.7127  1s=69.0%  2s=95.7%
+  [baseline] epoch 31/40  loss=-5.6184  val_nll=-4.7154  1s=69.0%  2s=95.7%
+  [baseline] epoch 40/40  loss=-5.6395  val_nll=-4.7517  1s=70.4%  2s=96.2%
+experiments.running name=wide hidden=64 branch_depth=2 fusion_depth=2
+  [wide] epoch 1/40  loss=261.7511  val_nll=-4.3030  1s=91.0%  2s=99.8%
+  [wide] epoch 11/40  loss=-5.6131  val_nll=-4.7116  1s=68.9%  2s=95.8%
+  [wide] epoch 21/40  loss=-5.6162  val_nll=-4.7114  1s=68.8%  2s=95.6%
+  [wide] epoch 31/40  loss=-5.7229  val_nll=-4.8328  1s=70.0%  2s=96.2%
+  [wide] epoch 40/40  loss=-5.7479  val_nll=-4.8488  1s=68.9%  2s=95.8%
+experiments.running name=deep hidden=32 branch_depth=3 fusion_depth=3
+  [deep] epoch 1/40  loss=217.8790  val_nll=-4.5847  1s=83.5%  2s=99.4%
+  [deep] epoch 11/40  loss=-5.6139  val_nll=-4.7129  1s=69.2%  2s=95.8%
+  [deep] epoch 21/40  loss=-5.6166  val_nll=-4.7135  1s=68.9%  2s=95.7%
+  [deep] epoch 31/40  loss=-5.6188  val_nll=-4.7157  1s=69.0%  2s=95.7%
+  [deep] epoch 40/40  loss=-5.6196  val_nll=-4.7164  1s=68.9%  2s=95.7%
+experiments.running name=widedepth hidden=64 branch_depth=3 fusion_depth=2
+  [widedepth] epoch 1/40  loss=234.1127  val_nll=-4.3469  1s=94.0%  2s=99.9%
+  [widedepth] epoch 11/40  loss=-5.6120  val_nll=-4.7113  1s=69.1%  2s=95.9%
+  [widedepth] epoch 21/40  loss=-5.6156  val_nll=-4.7070  1s=68.8%  2s=95.5%
+  [widedepth] epoch 31/40  loss=-5.6188  val_nll=-4.7147  1s=68.8%  2s=95.7%
+  [widedepth] epoch 40/40  loss=-5.6228  val_nll=-4.7238  1s=67.7%  2s=95.4%
+experiments.saved path=checkpoints\experiments\experiment_results.json
+WorldModel built: 23,188 params (23,188 trainable)
+  15min: 25 features -> 32d
+  1h: 25 features -> 32d
+  1min: 25 features -> 32d
+  structure: 14 features -> 32d
+Variance initialized: log_var range [-13.75, -11.44]
+  std range: [0.001034, 0.003273]
+WorldModel built: 83,220 params (83,220 trainable)
+  15min: 25 features -> 64d
+  1h: 25 features -> 64d
+  1min: 25 features -> 64d
+  structure: 14 features -> 64d
+Variance initialized: log_var range [-13.75, -11.44]
+  std range: [0.001034, 0.003273]
+WorldModel built: 31,956 params (31,956 trainable)
+  15min: 25 features -> 32d
+  1h: 25 features -> 32d
+  1min: 25 features -> 32d
+  structure: 14 features -> 32d
+Variance initialized: log_var range [-13.75, -11.44]
+  std range: [0.001034, 0.003273]
+WorldModel built: 100,372 params (100,372 trainable)
+  15min: 25 features -> 64d
+  1h: 25 features -> 64d
+  1min: 25 features -> 64d
+  structure: 14 features -> 64d
+Variance initialized: log_var range [-13.75, -11.44]
+  std range: [0.001034, 0.003273]
+
+====================================================================================================
+ARCHITECTURE EXPERIMENT RESULTS
+====================================================================================================
+Name           Params Hidden BrD FuD      NLL        MAE   1sig   2sig  CalGap   Time
+----------------------------------------------------------------------------------------------------
+wide           83,220     64   2   2  -4.8488   0.001588 68.9% 95.8%  0.0032  1369s
+baseline       23,188     32   2   2  -4.7517   0.001744 70.4% 96.2%  0.0143   577s
+widedepth     100,372     64   3   2  -4.7238   0.001822 67.7% 95.4%  0.0049  1957s
+deep           31,956     32   3   3  -4.7164   0.001822 68.9% 95.7%  0.0040  1230s
+====================================================================================================
+Lower NLL = better | 1sig target ~68% | 2sig target ~95% | CalGap target <0.05
+

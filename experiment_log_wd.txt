@@ -1,0 +1,6 @@
+experiments.dataset train=110406 val=19483 features=89 horizon=10
+experiments.running name=widedepth hidden=64 branch_depth=3 fusion_depth=2
+  [widedepth] epoch 1/40  loss=164.0127  val_nll=-4.3135  1s=94.1%  2s=100.0%
+  [widedepth] epoch 11/40  loss=-5.6125  val_nll=-4.7093  1s=68.9%  2s=95.7%
+  [widedepth] epoch 21/40  loss=-5.6161  val_nll=-4.7133  1s=68.9%  2s=95.7%
+  [widedepth] epoch 31/40  loss=-5.6182  val_nll=-4.7156  1s=68.9%  2s=95.7%

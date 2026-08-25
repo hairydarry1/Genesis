@@ -1,0 +1,66 @@
+=== Variant A: dropout=0.2, wd=1e-3 === 
+train_reduced.device=cpu
+loaded full_dataset n_samples=259889 n_features=116
+reduced_dataset features=116 -> 53 (kept 53, dropped 63)
+reduced_features=53: [np.str_('15min_ATR'), np.str_('15min_autocorrelation'), np.str_('15min_body'), np.str_('15min_body_ATR'), np.str_('15min_close_position_in_range'), np.str_('15min_down_streak'), np.str_('15min_mean_reversion_ratio'), np.str_('15min_momentum_acceleration'), np.str_('15min_momentum_score'), np.str_('15min_price_z_score')]
+split train=220906 val=38983
+training epochs=20 features=53
+epoch 1/20 loss=162.0628 val_nll=-4.6756 val_mae=0.001764 cov1sig=78.83% cov2sig=98.52% lr=9.94e-04 time=22.2s
+epoch 6/20 loss=-5.7745 val_nll=-4.8815 val_mae=0.001526 cov1sig=69.93% cov2sig=96.15% lr=7.96e-04 time=31.4s
+epoch 11/20 loss=-5.7968 val_nll=-4.8962 val_mae=0.001497 cov1sig=70.06% cov2sig=95.97% lr=4.28e-04 time=39.6s
+epoch 16/20 loss=-5.8091 val_nll=-4.9048 val_mae=0.001486 cov1sig=69.14% cov2sig=95.63% lr=1.05e-04 time=21.9s
+epoch 20/20 loss=-5.8130 val_nll=-4.9073 val_mae=0.001483 cov1sig=69.22% cov2sig=95.71% lr=1.00e-05 time=25.1s
+complete best_epoch=19 best_val_nll=-4.9073 saved=checkpoints_reg_A\world_model_best.pt
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+Variance initialized: log_var range [-13.75, -11.45]
+  std range: [0.001032, 0.003259]
+
+============================================================
+REDUCED FEATURE MODEL TRAINING COMPLETE
+============================================================
+Features: 53
+Best epoch: 19
+Best val NLL: -4.9073
+Model saved: checkpoints_reg_A\world_model_best.pt
+
+Baseline comparison:
+  world_model         : NLL=-4.9054  1sig=69.2%  2sig=95.7%
+  persistence         : NLL=-3.1080  1sig=36.9%  2sig=63.9%
+  random_walk         : NLL=-4.7084  1sig=68.7%  2sig=95.6%
+  mean_reversion      : NLL=-4.6292  1sig=57.9%  2sig=88.7%
+=== Variant B: dropout=0.15, wd=5e-4 === 
+train_reduced.device=cpu
+loaded full_dataset n_samples=259889 n_features=116
+reduced_dataset features=116 -> 53 (kept 53, dropped 63)
+reduced_features=53: [np.str_('15min_ATR'), np.str_('15min_autocorrelation'), np.str_('15min_body'), np.str_('15min_body_ATR'), np.str_('15min_close_position_in_range'), np.str_('15min_down_streak'), np.str_('15min_mean_reversion_ratio'), np.str_('15min_momentum_acceleration'), np.str_('15min_momentum_score'), np.str_('15min_price_z_score')]
+split train=220906 val=38983
+training epochs=15 features=53
+epoch 1/15 loss=139.8694 val_nll=-4.6198 val_mae=0.001956 cov1sig=75.50% cov2sig=98.10% lr=9.89e-04 time=25.5s
+epoch 6/15 loss=-5.7706 val_nll=-4.8749 val_mae=0.001537 cov1sig=69.15% cov2sig=95.86% lr=6.58e-04 time=24.8s
+epoch 11/15 loss=-5.7996 val_nll=-4.8985 val_mae=0.001496 cov1sig=69.07% cov2sig=95.65% lr=1.74e-04 time=29.9s
+epoch 15/15 loss=-5.8079 val_nll=-4.9028 val_mae=0.001490 cov1sig=68.91% cov2sig=95.57% lr=1.00e-05 time=26.6s
+complete best_epoch=14 best_val_nll=-4.9028 saved=checkpoints_reg_B\world_model_best.pt
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+Variance initialized: log_var range [-13.75, -11.45]
+  std range: [0.001032, 0.003259]
+
+============================================================
+REDUCED FEATURE MODEL TRAINING COMPLETE
+============================================================
+Features: 53
+Best epoch: 14
+Best val NLL: -4.9028
+Model saved: checkpoints_reg_B\world_model_best.pt
+
+Baseline comparison:
+  world_model         : NLL=-4.9010  1sig=68.9%  2sig=95.6%
+  persistence         : NLL=-3.1080  1sig=36.9%  2sig=63.9%
+  random_walk         : NLL=-4.7084  1sig=68.7%  2sig=95.6%
+  mean_reversion      : NLL=-4.6292  1sig=57.9%  2sig=88.7%
+COMPLETE 

@@ -1,0 +1,35 @@
+2026-08-24 14:57:10 [info     ] world_model_loaded features=8
+2026-08-24 14:57:10 [info     ] policy_loaded
+2026-08-24 14:57:10 [info     ] deriv_connection.connecting    endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 14:57:12 [info     ] deriv_connection.connected     endpoint=wss://api.derivws.com/trading/v1/options/ws/public
+2026-08-24 14:57:12 [info     ] connected_to_deriv symbol=R_10
+2026-08-24 14:57:13 [info     ] history_fetched n=500
+2026-08-24 14:57:13 [info     ] resample_bars.complete         freq=15min input_bars=500 output_bars=34
+2026-08-24 14:57:13 [info     ] resample_bars.complete         freq=1h input_bars=500 output_bars=9
+2026-08-24 14:57:13 [info     ] state_builder.init             bars={'1min': 500, '15min': 34, '1h': 9} n_ticks=500 note='structures detected lazily' timeframes=['1min', '15min', '1h']
+2026-08-24 14:57:13 [debug    ] structures.swing_points        count=44 lookback=5 n_bars=500
+2026-08-24 14:57:16 [info     ] structures.detect_complete     bos=355 choch=29 eqh_eql=0 fvgs=93 ifvgs=49 liquidity_sweeps=0 mitigation=71 n_bars=500 obs=109 total=706
+2026-08-24 14:57:16 [debug    ] structures.swing_points        count=44 lookback=5 n_bars=500
+2026-08-24 14:57:16 [info     ] trade.open side=short price=4766.07 equity=10000.00
+
+=================================================================
+  PAPER TRADING @ 13:57:16  |  R_10  |  Price: 4766.07
+=================================================================
+  World Model: UP (conf=0.40)  mean=+0.000499  std=0.001261
+  Policy: SELL  |  Position: SHORT
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 14:57:19 [info     ] deriv_connection.subscribed    req_id=2 sub_id=c8842d0e-58a8-d22c-2195-e1afaf27e2c3
+2026-08-24 14:57:19 [info     ] live_active sub_id=c8842d0e-58a8-d22c-2195-e1afaf27e2c3
+2026-08-24 14:57:59 [debug    ] structures.swing_points        count=44 lookback=5 n_bars=500
+
+=================================================================
+  PAPER TRADING @ 13:57:59  |  R_10  |  Price: 4765.14
+=================================================================
+  World Model: UP (conf=0.40)  mean=+0.000499  std=0.001261
+  Policy: SELL  |  Position: SHORT
+  Equity: $10000.00  |  PnL: $+0.00  |  DD: 0.0%
+  Trades: 0
+=================================================================
+2026-08-24 14:58:59 [debug    ] structures.swing_points        count=44 lookback=5 n_bars=500
