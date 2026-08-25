@@ -471,6 +471,8 @@ def run_walk_forward(
             "heuristic_reward": heuristic_stats["mean_reward"],
             "beats_random": beats_random,
             "beats_heuristic": beats_heuristic,
+            # Per-episode returns for Deflated Sharpe computation (eval/dsr.py)
+            "episode_returns": val_stats["rewards"],
             "elapsed_s": elapsed,
         }
         fold_results.append(fold_result)
