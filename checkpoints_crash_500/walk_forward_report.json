@@ -1,6 +1,6 @@
 {
   "config": {
-    "checkpoint": "checkpoints_crash_500\\world_model_best.pt",
+    "checkpoint": "checkpoints_crash_500/world_model_best.pt",
     "features": [
       "15min_return_1",
       "15min_autocorrelation",

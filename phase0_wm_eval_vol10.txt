@@ -1,0 +1,29 @@
+
+================================================================================
+TINY MODEL WALK-FORWARD EVALUATION
+================================================================================
+Features: 8  Params: 516
+Saved T: 0.5330  Avg fold T: 0.5226
+
+Aggregate:
+  WM NLL:  -6.9667
+  RW NLL:  -6.7140
+  Beat RW: YES (delta=-0.2527)
+  1sig: 62.4%  2sig: 90.1%
+  Folds beating RW: 4/4
+
+Per-fold:
+  Fold 0: [2026-04-25 -> 2026-05-25]  WM=-6.9671  RW=-6.7134  T=0.5248  BEAT
+  Fold 1: [2026-05-25 -> 2026-06-24]  WM=-6.9717  RW=-6.7189  T=0.5227  BEAT
+  Fold 2: [2026-06-24 -> 2026-07-24]  WM=-6.9690  RW=-6.7147  T=0.5214  BEAT
+  Fold 3: [2026-07-24 -> 2026-08-23]  WM=-6.9589  RW=-6.7089  T=0.5215  BEAT
+
+Per-regime:
+  choppy   (n= 83390):  WM=-6.9770  RW=-6.7261  BEAT
+  calm     (n= 66266):  WM=-7.1057  RW=-6.8482  BEAT
+  spike    (n= 23143):  WM=-6.5316  RW=-6.2858  BEAT
+
+Verdict: PASS
+  Beats RW on average: YES
+  Beats RW in >=2 regimes: YES
+  No catastrophic fold: YES

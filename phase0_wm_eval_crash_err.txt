@@ -1,0 +1,20 @@
+loaded checkpoint params=516 T_saved=0.5204
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+walk_forward folds=4
+fold 0 [2026-04-25 -> 2026-05-25] n=43200 WM_NLL=-5.9085 RW_NLL=-5.5969 T=0.5139 beat=YES 1sig=81.3% time=0.8s
+  [calm] n=39122 WM=-6.0137 RW=-5.7349 beat=YES
+  [choppy] n=1141 WM=-5.7462 RW=-5.5917 beat=YES
+  [spike] n=2937 WM=-4.5696 RW=-3.7608 beat=YES
+fold 1 [2026-05-25 -> 2026-06-24] n=43200 WM_NLL=-5.8483 RW_NLL=-5.5686 T=0.5112 beat=YES 1sig=80.3% time=0.6s
+  [calm] n=39168 WM=-5.9591 RW=-5.7142 beat=YES
+  [choppy] n=1051 WM=-5.7451 RW=-5.5848 beat=YES
+  [spike] n=2981 WM=-4.4295 RW=-3.6497 beat=YES
+fold 2 [2026-06-24 -> 2026-07-24] n=43200 WM_NLL=-5.9137 RW_NLL=-5.6118 T=0.5309 beat=YES 1sig=82.2% time=0.5s
+  [calm] n=39228 WM=-6.0172 RW=-5.7389 beat=YES
+  [choppy] n=1087 WM=-5.8187 RW=-5.5864 beat=YES
+  [spike] n=2885 WM=-4.5419 RW=-3.8937 beat=YES
+fold 3 [2026-07-24 -> 2026-08-23] n=43200 WM_NLL=-5.8856 RW_NLL=-5.5923 T=0.5310 beat=YES 1sig=81.6% time=0.6s
+  [calm] n=39178 WM=-5.9915 RW=-5.7291 beat=YES
+  [choppy] n=1058 WM=-5.7161 RW=-5.5558 beat=YES
+  [spike] n=2964 WM=-4.5464 RW=-3.7972 beat=YES
+report saved to checkpoints_crash_500\walk_forward_report.json

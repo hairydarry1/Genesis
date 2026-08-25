@@ -1,0 +1,14 @@
+tiny_dataset features=8 (kept 8 of 116) found=['15min_return_1', '15min_autocorrelation', '15min_vol_regime', '15min_price_z_score', '15min_range_ATR', '1h_return_1', 'nearest_structure_distance', '15min_up_streak']
+world_model_loaded path=checkpoints_tiny/world_model_best.pt features=8
+dataset range=2026-02-23 to 2026-08-22
+walk_forward folds=4
+evaluating baselines...
+baselines: random=-126.20+/-153.92  heuristic=-100.22+/-226.91
+fold 0: train=[2026-02-23 -> 2026-04-24] val=[2026-04-24 -> 2026-05-24]
+  policy=0.00+/-0.00  random=-126.20  heuristic=-100.22  beats_random=YES  beats_heuristic=YES  dd=0.0%  cal_gap=0.000  time=204.9s
+fold 1: train=[2026-03-25 -> 2026-05-24] val=[2026-05-24 -> 2026-06-23]
+  policy=179.98+/-0.00  random=-126.20  heuristic=-100.22  beats_random=YES  beats_heuristic=YES  dd=0.0%  cal_gap=0.036  time=230.3s
+fold 2: train=[2026-04-24 -> 2026-06-23] val=[2026-06-23 -> 2026-07-23]
+  policy=178.76+/-0.00  random=-126.20  heuristic=-100.22  beats_random=YES  beats_heuristic=YES  dd=0.3%  cal_gap=0.000  time=223.5s
+fold 3: train=[2026-05-24 -> 2026-07-23] val=[2026-07-23 -> 2026-08-22]
+  policy=77.95+/-0.00  random=-126.20  heuristic=-100.22  beats_random=YES  beats_heuristic=YES  dd=2.1%  cal_gap=0.000  time=228.2s
