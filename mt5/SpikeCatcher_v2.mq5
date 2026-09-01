@@ -29,7 +29,6 @@ input double MaxLots        = 5.0;    // Maximum lot size
 input group "=== Spike Detection (Optimized) ==="
 input int    SpikeLookback  = 100;    // Ticks for median range calc
 input double SpikeThreshold = 3.0;    // Range > Nx median = spike
-input double MinSpikeSize   = 0.03;   // Min spike size (price) to trigger
 
 input group "=== Entry (Optimized) ==="
 input int    EntryBar       = 2;      // Enter at bar N after spike (2 = optimal)
@@ -52,6 +51,7 @@ input string ColdHours_BOOM500  = "1,5,12,14,15,19";   // BOOM500 safest hours
 input string ColdHours_CRASH500 = "0,6,7,9,22,23";     // CRASH500 safest hours
 input string ColdHours_BOOM1000 = "6,13,18,20,21,22";  // BOOM1000 safest hours
 input string ColdHours_CRASH1000 = "3,6,7,18,22,23";   // CRASH1000 safest hours
+input string ColdHours_CRASH300 = "0,6,7,18,22,23";    // CRASH300 safest hours (similar to CRASH500)
 
 input group "=== Safety Exit (CRITICAL) ==="
 input bool   UseSafetyExit  = true;   // Close on spike detection
@@ -806,6 +806,8 @@ void InitColdHours()
       coldStr = ColdHours_BOOM1000;
    else if(StringFind(name, "crash1000") >= 0 || StringFind(name, "crash_1000") >= 0)
       coldStr = ColdHours_CRASH1000;
+   else if(StringFind(name, "crash300") >= 0 || StringFind(name, "crash_300") >= 0)
+      coldStr = ColdHours_CRASH300;
    else
    {
       // Default: allow all hours for unknown symbols
@@ -890,7 +892,7 @@ void InitFiles()
 void LogTrade(string action, string direction, double entry, double exit,
               double pnl, string reason)
 {
-   int h = FileOpen(g_logFile, FILE_COMMON|FILE_WRITE|FILE_CSV, ',');
+   int h = FileOpen(g_logFile, FILE_COMMON|FILE_READ|FILE_WRITE|FILE_CSV, ',');
    if(h == INVALID_HANDLE) return;
    FileSeek(h, 0, SEEK_END);
    
@@ -906,7 +908,7 @@ void LogTrade(string action, string direction, double entry, double exit,
 void LogVelocityExit(string direction, double entry, double exit,
                      int buildup, double pnl, double damageSaved, string status)
 {
-   int h = FileOpen(g_velocityLogFile, FILE_COMMON|FILE_WRITE|FILE_CSV, ',');
+   int h = FileOpen(g_velocityLogFile, FILE_COMMON|FILE_READ|FILE_WRITE|FILE_CSV, ',');
    if(h == INVALID_HANDLE) return;
    FileSeek(h, 0, SEEK_END);
    
