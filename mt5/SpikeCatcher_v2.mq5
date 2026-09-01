@@ -637,17 +637,88 @@ void DetectFillingMode()
 {
    long fillMode = SymbolInfoInteger(Symbol(), SYMBOL_FILLING_MODE);
    
+   // Log what the broker reports
+   Print("[FILL] Broker reports: FOK=", ((fillMode & SYMBOL_FILLING_FOK) != 0),
+         " IOC=", ((fillMode & SYMBOL_FILLING_IOC) != 0),
+         " RETURN=", ((fillMode & SYMBOL_FILLING_RETURN) != 0));
+   
+   // Try each mode in order of preference
    if((fillMode & SYMBOL_FILLING_FOK) != 0)
       g_fillingMode = ORDER_FILLING_FOK;
    else if((fillMode & SYMBOL_FILLING_IOC) != 0)
       g_fillingMode = ORDER_FILLING_IOC;
-   else
+   else if((fillMode & SYMBOL_FILLING_RETURN) != 0)
       g_fillingMode = ORDER_FILLING_RETURN;
+   else
+   {
+      // Nothing reported — try FOK first, then IOC, then RETURN
+      g_fillingMode = ORDER_FILLING_FOK;
+      Print("[FILL] No filling mode reported — trying FOK first");
+   }
    
-   Print("[FILL] Auto-detected filling mode: ", EnumToString(g_fillingMode),
-         " (FOK=", ((fillMode & SYMBOL_FILLING_FOK) != 0),
-         " IOC=", ((fillMode & SYMBOL_FILLING_IOC) != 0),
-         " RETURN=", ((fillMode & SYMBOL_FILLING_RETURN) != 0), ")");
+   // Test with a zero-volume order to verify the mode works
+   MqlTradeRequest request = {};
+   MqlTradeResult result = {};
+   request.action = TRADE_ACTION_DEAL;
+   request.symbol = Symbol();
+   request.volume = SymbolInfoDouble(Symbol(), SYMBOL_VOLUME_MIN);
+   request.type = ORDER_TYPE_BUY;
+   request.price = SymbolInfoDouble(Symbol(), SYMBOL_ASK);
+   request.deviation = 500;
+   request.magic = 202603;
+   request.comment = "SC2_FILL_TEST";
+   request.type_time = ORDER_TIME_GTC;
+   request.type_filling = g_fillingMode;
+   
+   // This will fail but tells us if filling mode is accepted
+   bool sent = OrderSend(request, result);
+   
+   if(result.retcode == TRADE_RETCODE_DONE)
+   {
+      // Test order filled — close it immediately
+      Print("[FILL] Test order filled! Closing...");
+      MqlTradeRequest closeReq = {};
+      MqlTradeResult closeRes = {};
+      closeReq.action = TRADE_ACTION_DEAL;
+      closeReq.symbol = Symbol();
+      closeReq.volume = request.volume;
+      closeReq.type = ORDER_TYPE_SELL;
+      closeReq.price = SymbolInfoDouble(Symbol(), SYMBOL_BID);
+      closeReq.deviation = 500;
+      closeReq.magic = 202603;
+      closeReq.comment = "SC2_FILL_TEST_CLOSE";
+      closeReq.type_time = ORDER_TIME_GTC;
+      closeReq.type_filling = g_fillingMode;
+      OrderSend(closeReq, closeRes);
+   }
+   else if(result.retcode == TRADE_RETCODE_INVALID_FILL)
+   {
+      // Current mode rejected — try next one
+      Print("[FILL] ", EnumToString(g_fillingMode), " rejected (", result.retcode, ") — trying next...");
+      
+      if(g_fillingMode == ORDER_FILLING_FOK)
+      {
+         g_fillingMode = ORDER_FILLING_IOC;
+         Print("[FILL] Switched to IOC");
+      }
+      else if(g_fillingMode == ORDER_FILLING_IOC)
+      {
+         g_fillingMode = ORDER_FILLING_RETURN;
+         Print("[FILL] Switched to RETURN");
+      }
+      else
+      {
+         g_fillingMode = ORDER_FILLING_FOK;
+         Print("[FILL] Switched to FOK");
+      }
+   }
+   else
+   {
+      // Other error (not filling related) — keep current mode
+      Print("[FILL] Test order error: ", result.retcode, " (not filling related)");
+   }
+   
+   Print("[FILL] Final filling mode: ", EnumToString(g_fillingMode));
 }
 
 //+------------------------------------------------------------------+
@@ -675,7 +746,32 @@ bool OpenBuy(double lots, double tp, double sl)
    request.tp = NormalizeDouble(ask + tp, digits);
    
    bool sent = OrderSend(request, result);
-   if(!sent || result.retcode != TRADE_RETCODE_DONE)
+   
+   // If filling mode rejected, try other modes
+   if(!sent || result.retcode == TRADE_RETCODE_INVALID_FILL)
+   {
+      Print("[BUY] ", EnumToString(g_fillingMode), " failed (", result.retcode, ") — trying alternatives...");
+      
+      ENUM_ORDER_TYPE_FILLING modes[] = {ORDER_FILLING_FOK, ORDER_FILLING_IOC, ORDER_FILLING_RETURN};
+      for(int i = 0; i < ArraySize(modes); i++)
+      {
+         if(modes[i] == g_fillingMode) continue;  // Skip the one we already tried
+         
+         request.type_filling = modes[i];
+         sent = OrderSend(request, result);
+         if(sent && result.retcode == TRADE_RETCODE_DONE)
+         {
+            Print("[BUY] Success with ", EnumToString(modes[i]));
+            g_fillingMode = modes[i];  // Remember for next time
+            g_positionTicket = result.order;
+            return true;
+         }
+      }
+      Print("[BUY FAIL] All filling modes failed");
+      return false;
+   }
+   
+   if(result.retcode != TRADE_RETCODE_DONE)
    {
       Print("[BUY FAIL] Error: ", result.retcode, " ", result.comment);
       return false;
@@ -710,7 +806,32 @@ bool OpenSell(double lots, double tp, double sl)
    request.tp = NormalizeDouble(bid - tp, digits);
    
    bool sent = OrderSend(request, result);
-   if(!sent || result.retcode != TRADE_RETCODE_DONE)
+   
+   // If filling mode rejected, try other modes
+   if(!sent || result.retcode == TRADE_RETCODE_INVALID_FILL)
+   {
+      Print("[SELL] ", EnumToString(g_fillingMode), " failed (", result.retcode, ") — trying alternatives...");
+      
+      ENUM_ORDER_TYPE_FILLING modes[] = {ORDER_FILLING_FOK, ORDER_FILLING_IOC, ORDER_FILLING_RETURN};
+      for(int i = 0; i < ArraySize(modes); i++)
+      {
+         if(modes[i] == g_fillingMode) continue;  // Skip the one we already tried
+         
+         request.type_filling = modes[i];
+         sent = OrderSend(request, result);
+         if(sent && result.retcode == TRADE_RETCODE_DONE)
+         {
+            Print("[SELL] Success with ", EnumToString(modes[i]));
+            g_fillingMode = modes[i];  // Remember for next time
+            g_positionTicket = result.order;
+            return true;
+         }
+      }
+      Print("[SELL FAIL] All filling modes failed");
+      return false;
+   }
+   
+   if(result.retcode != TRADE_RETCODE_DONE)
    {
       Print("[SELL FAIL] Error: ", result.retcode, " ", result.comment);
       return false;
@@ -761,6 +882,24 @@ bool ClosePosition(string reason, double pnl)
       }
       
       bool sent = OrderSend(request, result);
+      
+      // If filling mode rejected, try other modes
+      if(!sent || result.retcode == TRADE_RETCODE_INVALID_FILL)
+      {
+         ENUM_ORDER_TYPE_FILLING modes[] = {ORDER_FILLING_FOK, ORDER_FILLING_IOC, ORDER_FILLING_RETURN};
+         for(int i = 0; i < ArraySize(modes); i++)
+         {
+            if(modes[i] == g_fillingMode) continue;
+            request.type_filling = modes[i];
+            sent = OrderSend(request, result);
+            if(sent && result.retcode == TRADE_RETCODE_DONE)
+            {
+               g_fillingMode = modes[i];
+               break;
+            }
+         }
+      }
+      
       if(!sent || result.retcode != TRADE_RETCODE_DONE)
       {
          Print("[CLOSE FAIL] ", reason, " Error: ", result.retcode);
