@@ -31,7 +31,8 @@ input int    SpikeLookback  = 100;    // Ticks for median range calc
 input double SpikeThreshold = 3.0;    // Range > Nx median = spike
 
 input group "=== Entry (Optimized) ==="
-input int    EntryBar       = 2;      // Enter at bar N after spike (2 = optimal)
+input int    EntryBar_BOOM  = 8;      // Enter at bar N after BOOM spike (8 = optimal)
+input int    EntryBar_CRASH = 2;      // Enter at bar N after CRASH spike (2 = optimal)
 input int    MaxHoldBars    = 6;      // Max bars to hold (timeout=6 = optimal)
 
 input group "=== TP/SL (Optimized) ==="
@@ -44,6 +45,8 @@ input int    ClusterMin     = 3;      // Min spikes in window = skip
 input bool   UseTrendFilter = true;   // Use M5 EMA trend filter
 input int    EMA_Fast       = 10;     // Fast EMA period
 input int    EMA_Slow       = 30;     // Slow EMA period
+input bool   UseRetraceFilter = true; // Wait for retrace before entry
+input double MinRetracePct  = 0.40;   // Min retrace % before entry (0.40 = 40%)
 
 input group "=== COLD Hours Filter (PROVEN) ==="
 input bool   UseColdHours   = true;   // Only trade during COLD hours
@@ -102,6 +105,12 @@ int    g_spikeCount = 0;
 int    g_spikeMax = 500;  // Store up to 500 spikes for cluster filter
 int    g_lastSpikeBar = -999;
 int    g_barsSinceSpike = 999;
+
+// Retracement tracking
+double g_spikePrice = 0;     // Price at spike (for retrace calc)
+int    g_spikeDirection = 0;  // Direction of spike (1=UP, -1=DOWN)
+bool   g_retraceReady = false; // Retracement reached threshold
+int    g_blockedByRetrace = 0; // Trades skipped due to retrace filter
 
 // Position state
 bool   g_inPosition = false;
@@ -165,12 +174,13 @@ int OnInit()
    g_medianRange = 0.01;
    
    Print("=== SpikeCatcher v2 ===");
-   Print("Entry: Bar ", EntryBar, " | TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
+   Print("Entry: BOOM=" , EntryBar_BOOM, " bars | CRASH=", EntryBar_CRASH, " bars");
+   Print("TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
    Print("Safety: ", UseSafetyExit ? "ON" : "OFF", " | Threshold: ", SafetyMoveMult, "x");
-   Print("Velocity: ", UseVelocityExit ? "ON" : "OFF", " | Threshold: ", VelocityThreshold, " ticks");
    Print("COLD Hours: ", UseColdHours ? "ON" : "OFF", " | Hours: ", GetColdHoursString());
    Print("MaxHold: ", MaxHoldBars, " bars");
    Print("Cluster: skip if ", ClusterMin, "+ in ", ClusterWindow, " bars");
+   Print("Retrace Filter: ", UseRetraceFilter ? "ON" : "OFF", " | Min: ", DoubleToString(MinRetracePct*100,0), "%");
    Print("Filling: ", EnumToString(g_fillingMode));
    
    // Create indicator handles once
@@ -328,12 +338,34 @@ void OnNewBar(MqlRates &rates[])
       g_lastSpikeBar = g_barCount;
       g_barsSinceSpike = 0;
       g_requiresNewSpike = false;  // New spike seen — allowed to enter
+      g_spikePrice = c;  // Track spike close price for retrace calc
+      g_spikeDirection = isBoomSpike ? 1 : -1;  // 1=UP spike, -1=DOWN spike
+      g_retraceReady = false;  // Reset retrace tracker
       g_spikes[g_spikeCount % g_spikeMax] = g_barCount;
       g_spikeCount++;
       Print("[SPIKE #", g_spikeCount, "] Bar ", g_barCount,
             " Range=", DoubleToString(barRange,5),
             " Median=", DoubleToString(g_medianRange,5),
             " Ratio=", DoubleToString(barRange/g_medianRange,1), "x");
+   }
+   else if(!isMySpike && g_barsSinceSpike > 0 && g_barsSinceSpike <= 15)
+   {
+      // Track retracement after spike
+      if(g_spikePrice > 0 && g_spikeDirection != 0)
+      {
+         double retrace = 0;
+         if(g_spikeDirection == 1)  // UP spike - look for DOWN retrace
+         {
+            retrace = (g_spikePrice - c) / g_spikePrice;
+         }
+         else  // DOWN spike - look for UP retrace
+         {
+            retrace = (c - g_spikePrice) / g_spikePrice;
+         }
+         
+         if(retrace >= MinRetracePct)
+            g_retraceReady = true;
+      }
    }
    else
    {
@@ -359,7 +391,7 @@ void OnNewBar(MqlRates &rates[])
    else
    {
    // Check entry (only at exact bar after spike)
-   if(!g_inPosition && g_barsSinceSpike == EntryBar)
+   if(!g_inPosition && g_barsSinceSpike == GetEntryDelay())
    {
       // COLD hours filter — only trade during safe hours
       int currentHour = Hour();
@@ -373,7 +405,16 @@ void OnNewBar(MqlRates &rates[])
       }
       else
       {
-         CheckEntry();
+         // Retrace filter — wait for retrace before entry
+         if(UseRetraceFilter && !g_retraceReady)
+         {
+            g_blockedByRetrace++;
+            // Don't print every block to avoid spam
+         }
+         else
+         {
+            CheckEntry();
+         }
       }
    }
    }
@@ -404,7 +445,7 @@ void UpdateMedianRange(double newRange)
 void CheckEntry()
 {
    if(g_inPosition) return;
-   if(g_barsSinceSpike != EntryBar) return;  // Enter at EXACTLY EntryBar bars
+   if(g_barsSinceSpike != GetEntryDelay()) return;  // Enter at EXACTLY EntryBar bars
    if(g_lastSpikeBar < 0) return;
    if(g_medianRange <= 0) return;
    
@@ -790,6 +831,14 @@ bool IsCrash()
 }
 
 //+------------------------------------------------------------------+
+//| Get symbol-specific entry delay                                     |
+//+------------------------------------------------------------------+
+int GetEntryDelay()
+{
+   return IsCrash() ? EntryBar_CRASH : EntryBar_BOOM;
+}
+
+//+------------------------------------------------------------------+
 //| COLD Hours — Initialize from symbol-specific string               |
 //+------------------------------------------------------------------+
 void InitColdHours()
@@ -951,7 +1000,7 @@ void UpdatePanel()
    }
    CreateLabel(p+"t4", x, y, "Pos: "+posStr, posClr, 9); y+=18;
    CreateLabel(p+"t5", x, y, "Trades: "+IntegerToString(g_totalTrades)+" WR: "+DoubleToString(wr,1)+"% PnL: $"+DoubleToString(g_totalPnL,4), clrWhite, 9); y+=18;
-   CreateLabel(p+"t6", x, y, "Safety: "+IntegerToString(g_safetyExits)+" Velocity: "+IntegerToString(g_velocityExits)+" Spikes: "+IntegerToString(g_spikesDetected), clrYellow, 9); y+=18;
+   CreateLabel(p+"t6", x, y, "Safety: "+IntegerToString(g_safetyExits)+" Blocked: "+IntegerToString(g_blockedByCold+g_blockedByRetrace)+" Spikes: "+IntegerToString(g_spikesDetected), clrYellow, 9); y+=18;
    
    // COLD hours status
    int curHour = Hour();
@@ -959,6 +1008,20 @@ void UpdatePanel()
    string coldStatus = curCold ? "COLD (safe)" : "HOT (blocked)";
    color coldClr = curCold ? clrLime : clrRed;
    CreateLabel(p+"t8b", x, y, "Hour: "+IntegerToString(curHour)+":00 = "+coldStatus+" | Blocked: "+IntegerToString(g_blockedByCold), coldClr, 9); y+=18;
+   
+   // Entry delay and retrace status
+   string delayStr = "Entry: "+IntegerToString(GetEntryDelay())+" bars";
+   if(UseRetraceFilter)
+   {
+      string retraceStr = g_retraceReady ? "READY" : "WAITING";
+      color retraceClr = g_retraceReady ? clrLime : clrOrange;
+      CreateLabel(p+"t9", x, y, delayStr+" | Retrace: "+retraceStr+" | Blocked: "+IntegerToString(g_blockedByRetrace), retraceClr, 9);
+   }
+   else
+   {
+      CreateLabel(p+"t9", x, y, delayStr, clrWhite, 9);
+   }
+   y+=18;
    
    // Buildup bar: visual indicator of buildup progress
    string buildupBar = "";
