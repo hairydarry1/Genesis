@@ -1,0 +1,195 @@
+2026-08-23 20:31:14 [info     ] device=cpu
+2026-08-23 20:31:14 [info     ] evaluating name=reg_A (53 feat, drop=0.2, wd=1e-3) path=checkpoints_reg_A/world_model_best.pt
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+2026-08-23 20:31:15 [info     ] validate.model_loaded epoch=19 temperature=1.0000
+2026-08-23 20:31:15 [info     ] loaded name=reg_A (53 feat, drop=0.2, wd=1e-3) saved_temperature=1.0000
+2026-08-23 20:31:28 [info     ] fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.3957 RW_NLL=-4.7031 T=2.6104 beat_RW=NO 1sig=68.0% eval=13.0s
+2026-08-23 20:31:28 [info     ]   [calm] n=14400 WM_NLL=-4.4327 RW_NLL=-4.7312
+2026-08-23 20:31:28 [info     ]   [choppy] n=14400 WM_NLL=-4.3929 RW_NLL=-4.7081
+2026-08-23 20:31:28 [info     ]   [spike] n=14400 WM_NLL=-4.3614 RW_NLL=-4.6701
+2026-08-23 20:31:33 [info     ] fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.3737 RW_NLL=-4.6990 T=2.7070 beat_RW=NO 1sig=69.6% eval=4.8s
+2026-08-23 20:31:33 [info     ]   [calm] n=14400 WM_NLL=-4.3912 RW_NLL=-4.7297
+2026-08-23 20:31:33 [info     ]   [choppy] n=14400 WM_NLL=-4.3739 RW_NLL=-4.7118
+2026-08-23 20:31:33 [info     ]   [spike] n=14400 WM_NLL=-4.3561 RW_NLL=-4.6555
+2026-08-23 20:31:36 [info     ] fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.2998 RW_NLL=-4.7021 T=2.7169 beat_RW=NO 1sig=65.6% eval=3.5s
+2026-08-23 20:31:36 [info     ]   [calm] n=14400 WM_NLL=-4.3481 RW_NLL=-4.7431
+2026-08-23 20:31:36 [info     ]   [choppy] n=14400 WM_NLL=-4.3037 RW_NLL=-4.6972
+2026-08-23 20:31:36 [info     ]   [spike] n=14400 WM_NLL=-4.2476 RW_NLL=-4.6660
+2026-08-23 20:31:40 [info     ] fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.3113 RW_NLL=-4.7060 T=2.9903 beat_RW=NO 1sig=69.8% eval=4.2s
+2026-08-23 20:31:40 [info     ]   [calm] n=14400 WM_NLL=-4.3066 RW_NLL=-4.7264
+2026-08-23 20:31:40 [info     ]   [choppy] n=14399 WM_NLL=-4.3257 RW_NLL=-4.7037
+2026-08-23 20:31:40 [info     ]   [spike] n=14400 WM_NLL=-4.3017 RW_NLL=-4.6878
+2026-08-23 20:31:40 [info     ] evaluating name=reg_B (53 feat, drop=0.15, wd=5e-4) path=checkpoints_reg_B/world_model_best.pt
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+2026-08-23 20:31:41 [info     ] validate.model_loaded epoch=14 temperature=1.0000
+2026-08-23 20:31:41 [info     ] loaded name=reg_B (53 feat, drop=0.15, wd=5e-4) saved_temperature=1.0000
+2026-08-23 20:31:45 [info     ] fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.3815 RW_NLL=-4.7031 T=2.7310 beat_RW=NO 1sig=69.1% eval=3.6s
+2026-08-23 20:31:45 [info     ]   [calm] n=14400 WM_NLL=-4.4110 RW_NLL=-4.7312
+2026-08-23 20:31:45 [info     ]   [choppy] n=14400 WM_NLL=-4.3800 RW_NLL=-4.7081
+2026-08-23 20:31:45 [info     ]   [spike] n=14400 WM_NLL=-4.3534 RW_NLL=-4.6701
+2026-08-23 20:31:49 [info     ] fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.3549 RW_NLL=-4.6990 T=2.7799 beat_RW=NO 1sig=69.2% eval=4.0s
+2026-08-23 20:31:49 [info     ]   [calm] n=14400 WM_NLL=-4.3676 RW_NLL=-4.7297
+2026-08-23 20:31:49 [info     ]   [choppy] n=14400 WM_NLL=-4.3517 RW_NLL=-4.7118
+2026-08-23 20:31:49 [info     ]   [spike] n=14400 WM_NLL=-4.3456 RW_NLL=-4.6555
+2026-08-23 20:31:52 [info     ] fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.3653 RW_NLL=-4.7021 T=2.8157 beat_RW=NO 1sig=67.2% eval=3.4s
+2026-08-23 20:31:52 [info     ]   [calm] n=14400 WM_NLL=-4.4076 RW_NLL=-4.7431
+2026-08-23 20:31:52 [info     ]   [choppy] n=14400 WM_NLL=-4.3640 RW_NLL=-4.6972
+2026-08-23 20:31:52 [info     ]   [spike] n=14400 WM_NLL=-4.3244 RW_NLL=-4.6660
+2026-08-23 20:31:56 [info     ] fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.3794 RW_NLL=-4.7060 T=3.0136 beat_RW=NO 1sig=70.8% eval=4.3s
+2026-08-23 20:31:56 [info     ]   [calm] n=14400 WM_NLL=-4.3784 RW_NLL=-4.7264
+2026-08-23 20:31:56 [info     ]   [choppy] n=14399 WM_NLL=-4.3901 RW_NLL=-4.7037
+2026-08-23 20:31:56 [info     ]   [spike] n=14400 WM_NLL=-4.3696 RW_NLL=-4.6878
+2026-08-23 20:31:56 [info     ] evaluating name=reduced (53 feat, original reg) path=checkpoints_reduced/world_model_best.pt
+WorldModel built: 18,772 params (18,772 trainable)
+  15min: 26 features -> 32d
+  1h: 24 features -> 32d
+  structure: 3 features -> 32d
+2026-08-23 20:31:57 [info     ] validate.model_loaded epoch=19 temperature=1.0000
+2026-08-23 20:31:57 [info     ] loaded name=reduced (53 feat, original reg) saved_temperature=1.0000
+2026-08-23 20:32:01 [info     ] fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.3977 RW_NLL=-4.7031 T=2.7614 beat_RW=NO 1sig=68.6% eval=3.6s
+2026-08-23 20:32:01 [info     ]   [calm] n=14400 WM_NLL=-4.4321 RW_NLL=-4.7312
+2026-08-23 20:32:01 [info     ]   [choppy] n=14400 WM_NLL=-4.3959 RW_NLL=-4.7081
+2026-08-23 20:32:01 [info     ]   [spike] n=14400 WM_NLL=-4.3652 RW_NLL=-4.6701
+2026-08-23 20:32:04 [info     ] fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.3769 RW_NLL=-4.6990 T=2.8353 beat_RW=NO 1sig=69.9% eval=3.3s
+2026-08-23 20:32:04 [info     ]   [calm] n=14400 WM_NLL=-4.3891 RW_NLL=-4.7297
+2026-08-23 20:32:04 [info     ]   [choppy] n=14400 WM_NLL=-4.3783 RW_NLL=-4.7118
+2026-08-23 20:32:04 [info     ]   [spike] n=14400 WM_NLL=-4.3632 RW_NLL=-4.6555
+2026-08-23 20:32:07 [info     ] fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.3552 RW_NLL=-4.7021 T=2.8104 beat_RW=NO 1sig=67.6% eval=3.6s
+2026-08-23 20:32:07 [info     ]   [calm] n=14400 WM_NLL=-4.3933 RW_NLL=-4.7431
+2026-08-23 20:32:07 [info     ]   [choppy] n=14400 WM_NLL=-4.3607 RW_NLL=-4.6972
+2026-08-23 20:32:07 [info     ]   [spike] n=14400 WM_NLL=-4.3115 RW_NLL=-4.6660
+2026-08-23 20:32:12 [info     ] fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.3526 RW_NLL=-4.7060 T=2.9575 beat_RW=NO 1sig=70.1% eval=4.1s
+2026-08-23 20:32:12 [info     ]   [calm] n=14400 WM_NLL=-4.3513 RW_NLL=-4.7264
+2026-08-23 20:32:12 [info     ]   [choppy] n=14399 WM_NLL=-4.3655 RW_NLL=-4.7037
+2026-08-23 20:32:12 [info     ]   [spike] n=14400 WM_NLL=-4.3408 RW_NLL=-4.6878
+2026-08-23 20:32:12 [info     ] evaluating name=full (89 feat) path=checkpoints/world_model_best.pt
+WorldModel built: 23,188 params (23,188 trainable)
+  15min: 25 features -> 32d
+  1h: 25 features -> 32d
+  1min: 25 features -> 32d
+  structure: 14 features -> 32d
+2026-08-23 20:32:12 [info     ] validate.model_loaded epoch=99 temperature=1.0000
+2026-08-23 20:32:12 [info     ] loaded name=full (89 feat) saved_temperature=1.0000
+2026-08-23 20:32:16 [info     ] fold fold=0 [2026-04-24 -> 2026-05-24] n=43200 WM_NLL=-4.3563 RW_NLL=-4.7031 T=2.3785 beat_RW=NO 1sig=66.0% eval=3.9s
+2026-08-23 20:32:16 [info     ]   [calm] n=14400 WM_NLL=-4.3819 RW_NLL=-4.7312
+2026-08-23 20:32:16 [info     ]   [choppy] n=14400 WM_NLL=-4.3599 RW_NLL=-4.7081
+2026-08-23 20:32:16 [info     ]   [spike] n=14400 WM_NLL=-4.3270 RW_NLL=-4.6701
+2026-08-23 20:32:20 [info     ] fold fold=1 [2026-05-24 -> 2026-06-23] n=43200 WM_NLL=-4.3516 RW_NLL=-4.6990 T=2.4707 beat_RW=NO 1sig=69.0% eval=4.3s
+2026-08-23 20:32:20 [info     ]   [calm] n=14400 WM_NLL=-4.3693 RW_NLL=-4.7297
+2026-08-23 20:32:20 [info     ]   [choppy] n=14400 WM_NLL=-4.3611 RW_NLL=-4.7118
+2026-08-23 20:32:20 [info     ]   [spike] n=14400 WM_NLL=-4.3244 RW_NLL=-4.6555
+2026-08-23 20:32:24 [info     ] fold fold=2 [2026-06-23 -> 2026-07-23] n=43200 WM_NLL=-4.4881 RW_NLL=-4.7021 T=1.9457 beat_RW=NO 1sig=67.3% eval=3.9s
+2026-08-23 20:32:24 [info     ]   [calm] n=14400 WM_NLL=-4.5246 RW_NLL=-4.7431
+2026-08-23 20:32:24 [info     ]   [choppy] n=14400 WM_NLL=-4.4906 RW_NLL=-4.6972
+2026-08-23 20:32:24 [info     ]   [spike] n=14400 WM_NLL=-4.4490 RW_NLL=-4.6660
+2026-08-23 20:32:28 [info     ] fold fold=3 [2026-07-23 -> 2026-08-22] n=43199 WM_NLL=-4.2981 RW_NLL=-4.7060 T=1.8188 beat_RW=NO 1sig=65.0% eval=3.7s
+2026-08-23 20:32:28 [info     ]   [calm] n=14400 WM_NLL=-4.4633 RW_NLL=-4.7264
+2026-08-23 20:32:28 [info     ]   [choppy] n=14399 WM_NLL=-3.9984 RW_NLL=-4.7037
+2026-08-23 20:32:28 [info     ]   [spike] n=14400 WM_NLL=-4.4324 RW_NLL=-4.6878
+
+====================================================================================================
+TEMPERATURE-CALIBRATED WALK-FORWARD EVALUATION COMPARISON
+====================================================================================================
+Checkpoint                                    T   WM NLL   RW NLL Beat RW?   1sig   2sig  CalGap    Verdict
+----------------------------------------------------------------------------------------------------
+reg_A (53 feat, drop=0.2, wd=1e-3)        2.756  -4.3451  -4.7026       NO 68.3% 94.7%  0.0100 CONDITIONAL
+reg_B (53 feat, drop=0.15, wd=5e-4)       2.835  -4.3703  -4.7026       NO 69.1% 95.6%  0.0089 CONDITIONAL
+reduced (53 feat, original reg)           2.841  -4.3706  -4.7026       NO 69.1% 95.1%  0.0087 CONDITIONAL
+full (89 feat)                            2.153  -4.3735  -4.7026       NO 66.8% 93.6%  0.0126 CONDITIONAL
+----------------------------------------------------------------------------------------------------
+Full model (89 feat)                          T   WM NLL   RW NLL Beat RW?   1sig   2sig  CalGap    Verdict
+====================================================================================================
+
+================================================================================
+DETAILED: reg_A (53 feat, drop=0.2, wd=1e-3)
+================================================================================
+Temperature: 1.0000
+
+  Aggregate:
+    WM:  NLL=-4.3451  MAE=0.002644  1sig=68.3%  2sig=94.7%
+    RW:  NLL=-4.7026  MAE=0.001847  1sig=68.4%  2sig=95.5%
+
+  Per-fold (WM NLL vs RW NLL):
+    Fold 0: [2026-04-24 -> 2026-05-24]  WM=-4.3957  RW=-4.7031  NO  T=2.6104
+    Fold 1: [2026-05-24 -> 2026-06-23]  WM=-4.3737  RW=-4.6990  NO  T=2.7070
+    Fold 2: [2026-06-23 -> 2026-07-23]  WM=-4.2998  RW=-4.7021  NO  T=2.7169
+    Fold 3: [2026-07-23 -> 2026-08-22]  WM=-4.3113  RW=-4.7060  NO  T=2.9903
+
+  Per-regime:
+    calm     (n= 57600):  NLL=-4.3697  1sig=69.6%  2sig=95.2%
+    spike    (n= 57600):  NLL=-4.3167  1sig=66.7%  2sig=94.0%
+    choppy   (n= 57599):  NLL=-4.3490  1sig=68.5%  2sig=94.8%
+
+  Verdict: CONDITIONAL
+
+================================================================================
+DETAILED: reg_B (53 feat, drop=0.15, wd=5e-4)
+================================================================================
+Temperature: 1.0000
+
+  Aggregate:
+    WM:  NLL=-4.3703  MAE=0.002609  1sig=69.1%  2sig=95.6%
+    RW:  NLL=-4.7026  MAE=0.001847  1sig=68.4%  2sig=95.5%
+
+  Per-fold (WM NLL vs RW NLL):
+    Fold 0: [2026-04-24 -> 2026-05-24]  WM=-4.3815  RW=-4.7031  NO  T=2.7310
+    Fold 1: [2026-05-24 -> 2026-06-23]  WM=-4.3549  RW=-4.6990  NO  T=2.7799
+    Fold 2: [2026-06-23 -> 2026-07-23]  WM=-4.3653  RW=-4.7021  NO  T=2.8157
+    Fold 3: [2026-07-23 -> 2026-08-22]  WM=-4.3794  RW=-4.7060  NO  T=3.0136
+
+  Per-regime:
+    calm     (n= 57600):  NLL=-4.3911  1sig=70.2%  2sig=96.1%
+    spike    (n= 57600):  NLL=-4.3482  1sig=67.8%  2sig=95.1%
+    choppy   (n= 57599):  NLL=-4.3714  1sig=69.3%  2sig=95.7%
+
+  Verdict: CONDITIONAL
+
+================================================================================
+DETAILED: reduced (53 feat, original reg)
+================================================================================
+Temperature: 1.0000
+
+  Aggregate:
+    WM:  NLL=-4.3706  MAE=0.002575  1sig=69.1%  2sig=95.1%
+    RW:  NLL=-4.7026  MAE=0.001847  1sig=68.4%  2sig=95.5%
+
+  Per-fold (WM NLL vs RW NLL):
+    Fold 0: [2026-04-24 -> 2026-05-24]  WM=-4.3977  RW=-4.7031  NO  T=2.7614
+    Fold 1: [2026-05-24 -> 2026-06-23]  WM=-4.3769  RW=-4.6990  NO  T=2.8353
+    Fold 2: [2026-06-23 -> 2026-07-23]  WM=-4.3552  RW=-4.7021  NO  T=2.8104
+    Fold 3: [2026-07-23 -> 2026-08-22]  WM=-4.3526  RW=-4.7060  NO  T=2.9575
+
+  Per-regime:
+    calm     (n= 57600):  NLL=-4.3915  1sig=70.3%  2sig=95.6%
+    spike    (n= 57600):  NLL=-4.3452  1sig=67.5%  2sig=94.5%
+    choppy   (n= 57599):  NLL=-4.3751  1sig=69.4%  2sig=95.2%
+
+  Verdict: CONDITIONAL
+
+================================================================================
+DETAILED: full (89 feat)
+================================================================================
+Temperature: 1.0000
+
+  Aggregate:
+    WM:  NLL=-4.3735  MAE=0.002403  1sig=66.8%  2sig=93.6%
+    RW:  NLL=-4.7026  MAE=0.001847  1sig=68.4%  2sig=95.5%
+
+  Per-fold (WM NLL vs RW NLL):
+    Fold 0: [2026-04-24 -> 2026-05-24]  WM=-4.3563  RW=-4.7031  NO  T=2.3785
+    Fold 1: [2026-05-24 -> 2026-06-23]  WM=-4.3516  RW=-4.6990  NO  T=2.4707
+    Fold 2: [2026-06-23 -> 2026-07-23]  WM=-4.4881  RW=-4.7021  NO  T=1.9457
+    Fold 3: [2026-07-23 -> 2026-08-22]  WM=-4.2981  RW=-4.7060  NO  T=1.8188
+
+  Per-regime:
+    calm     (n= 57600):  NLL=-4.4348  1sig=67.7%  2sig=94.0%
+    spike    (n= 57600):  NLL=-4.3832  1sig=65.3%  2sig=93.0%
+    choppy   (n= 57599):  NLL=-4.3025  1sig=67.5%  2sig=93.7%
+
+  Verdict: CONDITIONAL
