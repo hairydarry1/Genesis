@@ -83,6 +83,12 @@ int    g_barsHeld = 0;
 ulong  g_positionTicket = 0;
 bool   g_requiresNewSpike = true;
 
+// Runtime overrides from TradingSystem preset (copied from input params)
+int    g_entryBar = 1;
+int    g_maxHoldBars = 5;
+bool   g_skipDoubleSpikes = false;
+bool   g_useColdHours = false;
+
 int    g_totalTrades = 0;
 int    g_wins = 0;
 int    g_losses = 0;
@@ -127,28 +133,26 @@ int OnInit()
 
    g_medianRange = 0.01;
 
-   // Apply system presets
+   // Apply system presets into runtime variables (input params are const)
    if(TradingSystem == 1) {
-      // MAX PROFIT: Delay 1, Exit 5, no extra filters
-      EntryBar = 1;
-      MaxHoldBars = 5;
-      SkipDoubleSpikes = false;
-      UseColdHours = false;
+      g_entryBar = 1;
+      g_maxHoldBars = 5;
+      g_skipDoubleSpikes = false;
+      g_useColdHours = false;
       Print("=== SYSTEM: MAX PROFIT ===");
    } else {
-      // MAX SAFETY: Delay 1, Exit 3, all defenses
-      EntryBar = 1;
-      MaxHoldBars = 3;
-      SkipDoubleSpikes = true;
-      UseColdHours = true;
+      g_entryBar = 1;
+      g_maxHoldBars = 3;
+      g_skipDoubleSpikes = true;
+      g_useColdHours = true;
       Print("=== SYSTEM: MAX SAFETY ===");
    }
 
    Print("=== SpikeCatcher v2.05 ===");
-   Print("Entry: Bar ", EntryBar, " | TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
+   Print("Entry: Bar ", g_entryBar, " | TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
    Print("Safety: ", UseSafetyExit ? "ON" : "OFF", " | Threshold: ", SafetyMoveMult, "x");
    Print("Cluster: skip if ", ClusterMin, "+ in ", ClusterWindow, " bars");
-   Print("Double Spike: ", SkipDoubleSpikes ? "ON" : "OFF", " | Cold Hours: ", UseColdHours ? "ON" : "OFF");
+   Print("Double Spike: ", g_skipDoubleSpikes ? "ON" : "OFF", " | Cold Hours: ", g_useColdHours ? "ON" : "OFF");
 
    int rawFilling = (int)SymbolInfoInteger(Symbol(), SYMBOL_FILLING_MODE);
    ENUM_ORDER_TYPE_FILLING chosen = GetFillingMode();
@@ -327,7 +331,7 @@ void OnNewBar(MqlRates &rates[])
       if(CheckExitLevels(rates))
          return;
 
-      if(g_barsHeld >= MaxHoldBars)
+      if(g_barsHeld >= g_maxHoldBars)
       {
          double pnl = CalculateCurrentPnL(c);
          ClosePosition("timeout", pnl);
@@ -335,7 +339,7 @@ void OnNewBar(MqlRates &rates[])
    }
    else
    {
-      if(!g_inPosition && g_barsSinceSpike == EntryBar)
+      if(!g_inPosition && g_barsSinceSpike == g_entryBar)
          CheckEntry();
    }
 
@@ -365,12 +369,12 @@ void UpdateMedianRange(double newRange)
 void CheckEntry()
 {
    if(g_inPosition) return;
-   if(g_barsSinceSpike != EntryBar) return;
+   if(g_barsSinceSpike != g_entryBar) return;
    if(g_lastSpikeBar < 0) return;
    if(g_medianRange <= 0) return;
 
    // SKIP DOUBLE SPIKES: if previous spike was only 1-3 bars ago, skip
-   if(SkipDoubleSpikes && g_spikeCount >= 2)
+   if(g_skipDoubleSpikes && g_spikeCount >= 2)
    {
       int prevSpikeBar = g_spikes[(g_spikeCount - 2) % g_spikeMax];
       int interval = g_lastSpikeBar - prevSpikeBar;
@@ -382,7 +386,7 @@ void CheckEntry()
    }
 
    // COLD HOURS: only trade during low-spike hours
-   if(UseColdHours)
+   if(g_useColdHours)
    {
       MqlDateTime dt;
       TimeCurrent(dt);
@@ -739,7 +743,8 @@ bool ClosePosition(string reason, double pnl)
    if(!g_inPosition) return false;
 
    // Retry up to 3 times on close failure
-   for(int retry = 0; retry < 3; retry++)
+   bool closed = false;
+   for(int retry = 0; retry < 3 && !closed; retry++)
    {
       for(int i = PositionsTotal() - 1; i >= 0; i--)
       {
@@ -777,46 +782,41 @@ bool ClosePosition(string reason, double pnl)
          bool sent = OrderSend(request, result);
          if(sent && result.retcode == TRADE_RETCODE_DONE)
          {
-            // Success — fall through to stats update below
-            goto close_success;
+            closed = true;
+            break;
          }
 
          Print("[CLOSE FAIL] ", reason, " Error: ", result.retcode, " retry ", retry+1);
-         if(retry < 2) Sleep(100);  // Wait 100ms before retry
       }
-   }
-   // All retries failed
-   return false;
-
-   close_success:
-
-      g_totalTrades++;
-      g_totalPnL += pnl;
-      if(pnl > 0) g_wins++; else g_losses++;
-
-      double wr = g_totalTrades > 0 ? (double)g_wins/g_totalTrades*100 : 0;
-      Print("[", reason, "] PnL=$", DoubleToString(pnl, 4),
-            " | ", g_totalTrades, "T WR=", DoubleToString(wr, 1), "%",
-            " PnL=$", DoubleToString(g_totalPnL, 4),
-            " Safety=", g_safetyExits);
-
-      double exitPrice = (g_positionDir == 1) ?
-         SymbolInfoDouble(Symbol(), SYMBOL_BID) :
-         SymbolInfoDouble(Symbol(), SYMBOL_ASK);
-      LogTrade("CLOSE", (g_positionDir == 1 ? "LONG" : "SHORT"),
-               g_entryPrice, exitPrice, pnl, reason);
-
-      g_inPosition = false;
-      g_requiresNewSpike = true;
-      g_positionDir = 0;
-      g_entryPrice = 0;
-      g_barsHeld = 0;
-      g_positionTicket = 0;
-
-      return true;
+      if(!closed && retry < 2) Sleep(100);
    }
 
-   return false;
+   if(!closed) return false;
+
+   g_totalTrades++;
+   g_totalPnL += pnl;
+   if(pnl > 0) g_wins++; else g_losses++;
+
+   double wr = g_totalTrades > 0 ? (double)g_wins/g_totalTrades*100 : 0;
+   Print("[", reason, "] PnL=$", DoubleToString(pnl, 4),
+         " | ", g_totalTrades, "T WR=", DoubleToString(wr, 1), "%",
+         " PnL=$", DoubleToString(g_totalPnL, 4),
+         " Safety=", g_safetyExits);
+
+   double exitPrice = (g_positionDir == 1) ?
+      SymbolInfoDouble(Symbol(), SYMBOL_BID) :
+      SymbolInfoDouble(Symbol(), SYMBOL_ASK);
+   LogTrade("CLOSE", (g_positionDir == 1 ? "LONG" : "SHORT"),
+            g_entryPrice, exitPrice, pnl, reason);
+
+   g_inPosition = false;
+   g_requiresNewSpike = true;
+   g_positionDir = 0;
+   g_entryPrice = 0;
+   g_barsHeld = 0;
+   g_positionTicket = 0;
+
+   return true;
 }
 
 //+------------------------------------------------------------------+
