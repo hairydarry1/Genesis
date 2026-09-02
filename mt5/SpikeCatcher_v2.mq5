@@ -440,6 +440,17 @@ void CheckEntry()
    double point = SymbolInfoDouble(Symbol(), SYMBOL_POINT);
    int digits = (int)SymbolInfoInteger(Symbol(), SYMBOL_DIGITS);
 
+   // FINAL SAFETY: check for existing positions (prevents duplicate entries)
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket == 0) continue;
+      if(PositionGetString(POSITION_SYMBOL) != Symbol()) continue;
+      if(PositionGetInteger(POSITION_MAGIC) != 202603) continue;
+      Print("[SKIP] Existing position found — preventing duplicate entry");
+      return;
+   }
+
    bool success = false;
    if(dir == 1)
       success = OpenBuy(lotSize, tp, sl);
@@ -721,51 +732,63 @@ bool AttachStops(int dir, double tpDist, double slDist)
 }
 
 //+------------------------------------------------------------------+
-//| Close position                                                     |
+//| Close position — with retry for reliability                        |
 //+------------------------------------------------------------------+
 bool ClosePosition(string reason, double pnl)
 {
    if(!g_inPosition) return false;
 
-   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   // Retry up to 3 times on close failure
+   for(int retry = 0; retry < 3; retry++)
    {
-      ulong ticket = PositionGetTicket(i);
-      if(ticket == 0) continue;
-      if(PositionGetString(POSITION_SYMBOL) != Symbol()) continue;
-      if(PositionGetInteger(POSITION_MAGIC) != 202603) continue;
-
-      MqlTradeRequest request = {};
-      MqlTradeResult result = {};
-
-      int digits = (int)SymbolInfoInteger(Symbol(), SYMBOL_DIGITS);
-
-      request.action = TRADE_ACTION_DEAL;
-      request.symbol = Symbol();
-      request.volume = PositionGetDouble(POSITION_VOLUME);
-      request.position = ticket;
-      request.deviation = 500;
-      request.magic = 202603;
-      request.comment = "SC2_" + reason;
-      request.type_time = ORDER_TIME_GTC;
-      request.type_filling = GetFillingMode();
-
-      if(PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY)
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
       {
-         request.type = ORDER_TYPE_SELL;
-         request.price = NormalizeDouble(SymbolInfoDouble(Symbol(), SYMBOL_BID), digits);
-      }
-      else
-      {
-         request.type = ORDER_TYPE_BUY;
-         request.price = NormalizeDouble(SymbolInfoDouble(Symbol(), SYMBOL_ASK), digits);
-      }
+         ulong ticket = PositionGetTicket(i);
+         if(ticket == 0) continue;
+         if(PositionGetString(POSITION_SYMBOL) != Symbol()) continue;
+         if(PositionGetInteger(POSITION_MAGIC) != 202603) continue;
 
-      bool sent = OrderSend(request, result);
-      if(!sent || result.retcode != TRADE_RETCODE_DONE)
-      {
-         Print("[CLOSE FAIL] ", reason, " Error: ", result.retcode);
-         return false;
+         MqlTradeRequest request = {};
+         MqlTradeResult result = {};
+
+         int digits = (int)SymbolInfoInteger(Symbol(), SYMBOL_DIGITS);
+
+         request.action = TRADE_ACTION_DEAL;
+         request.symbol = Symbol();
+         request.volume = PositionGetDouble(POSITION_VOLUME);
+         request.position = ticket;
+         request.deviation = 500;
+         request.magic = 202603;
+         request.comment = "SC2_" + reason;
+         request.type_time = ORDER_TIME_GTC;
+         request.type_filling = GetFillingMode();
+
+         if(PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY)
+         {
+            request.type = ORDER_TYPE_SELL;
+            request.price = NormalizeDouble(SymbolInfoDouble(Symbol(), SYMBOL_BID), digits);
+         }
+         else
+         {
+            request.type = ORDER_TYPE_BUY;
+            request.price = NormalizeDouble(SymbolInfoDouble(Symbol(), SYMBOL_ASK), digits);
+         }
+
+         bool sent = OrderSend(request, result);
+         if(sent && result.retcode == TRADE_RETCODE_DONE)
+         {
+            // Success — fall through to stats update below
+            goto close_success;
+         }
+
+         Print("[CLOSE FAIL] ", reason, " Error: ", result.retcode, " retry ", retry+1);
+         if(retry < 2) Sleep(100);  // Wait 100ms before retry
       }
+   }
+   // All retries failed
+   return false;
+
+   close_success:
 
       g_totalTrades++;
       g_totalPnL += pnl;
