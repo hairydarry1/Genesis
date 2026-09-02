@@ -30,23 +30,34 @@ input group "=== Spike Detection (Optimized) ==="
 input int    SpikeLookback  = 100;    // Ticks for median range calc
 input double SpikeThreshold = 3.0;    // Range > Nx median = spike
 
-input group "=== Entry (Optimized) ==="
+input group "=== Entry (OPTIMIZED - NEW) ==="
 input int    EntryBar_BOOM  = 8;      // Enter at bar N after BOOM spike (8 = optimal)
-input int    EntryBar_CRASH = 2;      // Enter at bar N after CRASH spike (2 = optimal)
+input int    EntryBar_CRASH = 6;      // Enter at bar N after CRASH spike (6 = optimal from analysis)
 input int    MaxHoldBars    = 6;      // Max bars to hold (timeout=6 = optimal)
+input int    MinEntryDelay  = 6;      // Min bars after spike before entry (NEW: 6 = optimal)
+input int    MaxEntryDelay  = 10;     // Max bars after spike before entry (NEW: 10 = optimal)
 
 input group "=== TP/SL (Optimized) ==="
 input double TPMultiplier   = 2.0;    // TP = Nx median range (2 = optimal)
 input double SLMultiplier   = 1.0;    // SL = Nx median range (1 = optimal)
 
-input group "=== Filters (Optimized) ==="
-input int    ClusterWindow  = 10;     // Bars to check for clusters
-input int    ClusterMin     = 3;      // Min spikes in window = skip
+input group "=== Filters (OPTIMIZED - NEW) ==="
+input int    ClusterWindow  = 20;     // Bars to check for clusters (NEW: 20 = optimal)
+input int    ClusterMin     = 2;      // Min spikes in window = skip (NEW: 2 = catch clusters)
 input bool   UseTrendFilter = true;   // Use M5 EMA trend filter
 input int    EMA_Fast       = 10;     // Fast EMA period
 input int    EMA_Slow       = 30;     // Slow EMA period
 input bool   UseRetraceFilter = true; // Wait for retrace before entry
 input double MinRetracePct  = 0.40;   // Min retrace % before entry (0.40 = 40%)
+
+input group "=== Buildup Detection (NEW - BREAKTHROUGH) ==="
+input bool   UseBuildupFilter = true; // Detect tick size buildup before spike
+input double BuildupThreshold = 1.8;  // Tick size > Nx median = buildup warning
+input int    BuildupLookback = 100;   // Ticks to calculate median
+
+input group "=== Spike Size Filter (NEW - BREAKTHROUGH) ==="
+input bool   UseSpikeSizeFilter = true; // Only fade LARGE spikes
+input double SpikeSizePercentile = 0.67; // Only fade spikes > P67 (large spikes)
 
 input group "=== Regime Detection (BREAKTHROUGH) ==="
 input bool   UseRegimeFilter = true;  // Skip cluster mode
@@ -100,11 +111,30 @@ double g_velocityPnL = 0;            // PnL saved by velocity exits
 double g_velocityDamageSaved = 0;    // Damage avoided (entry vs exit price)
 string g_velocityLogFile;            // Velocity exit log file
 
+// Tick size buildup tracking (NEW)
+double g_tickSizes[];                // Rolling window of tick sizes
+int    g_tickSizeCount = 0;         // Count of tick sizes
+double g_currentTickSize = 0;       // Current tick size
+double g_medianTickSize = 0;        // Median tick size
+bool   g_buildupDetected = false;   // Buildup detected
+int    g_buildupBlocked = 0;        // Trades blocked by buildup
+
+// Spike size tracking (NEW)
+double g_spikeSizeHistory[];        // History of spike sizes
+double g_spikeSizeP67 = 0;          // 67th percentile of spike sizes
+bool   g_isLargeSpike = false;      // Current spike is large
+int    g_smallSpikeBlocked = 0;     // Trades blocked by small spike filter
+
 // COLD hours tracking
 int    g_coldHours[];                 // Array of allowed trading hours
 int    g_coldCount = 0;              // Number of COLD hours
 bool   g_isColdHour = false;         // Current hour is COLD (safe to trade)
 int    g_blockedByCold = 0;           // Trades skipped due to COLD filter
+
+// Cluster tracking (NEW)
+int    g_clusterActive = 0;          // Number of spikes in current cluster
+bool   g_clusterEnded = false;       // Cluster has ended
+int    g_clusterBlocked = 0;         // Trades blocked by cluster filter
 
 // Bar-level tracking
 double g_medianRange = 0;
@@ -147,6 +177,7 @@ int    g_entryBar = 0;
 int    g_barsHeld = 0;
 ulong  g_positionTicket = 0;
 bool   g_requiresNewSpike = true;  // Must see new spike before entering
+bool   g_isLargeSpikeEntry = false; // Entry was on large spike (for exit logic)
 
 // Performance
 int    g_totalTrades = 0;
@@ -155,6 +186,7 @@ int    g_losses = 0;
 double g_totalPnL = 0;
 int    g_safetyExits = 0;
 int    g_spikesDetected = 0;
+int    g_buildupExits = 0;      // Exits triggered by buildup detection
 
 // File I/O
 string g_logFile;
@@ -168,6 +200,14 @@ int OnInit()
    ArrayResize(g_ranges, SpikeLookback);
    ArrayInitialize(g_ranges, 0);
    ArrayResize(g_spikes, g_spikeMax);
+   
+   // Initialize tick size tracking (NEW)
+   ArrayResize(g_tickSizes, BuildupLookback);
+   ArrayInitialize(g_tickSizes, 0);
+   
+   // Initialize spike size history (NEW)
+   ArrayResize(g_spikeSizeHistory, 1000);
+   ArrayInitialize(g_spikeSizeHistory, 0);
    
    InitFiles();
    
@@ -234,7 +274,10 @@ void OnDeinit(const int reason)
    double wr = g_totalTrades > 0 ? (double)g_wins/g_totalTrades*100 : 0;
    Print("=== Final: ", g_totalTrades, " trades, WR=", DoubleToString(wr,1), "%, ",
          "PnL=$", DoubleToString(g_totalPnL, 2),
-         " SafetyExits=", g_safetyExits, " VelocityExits=", g_velocityExits,
+         " SafetyExits=", g_safetyExits, 
+         " BuildupExits=", g_buildupExits,
+         " ClusterBlocked=", g_clusterBlocked,
+         " SmallSpikeBlocked=", g_smallSpikeBlocked,
          " ColdBlocked=", g_blockedByCold, " ===");
 }
 
@@ -247,6 +290,44 @@ void OnTick()
 {
    double price = SymbolInfoDouble(Symbol(), SYMBOL_BID);
    if(price <= 0) return;
+   
+   // ═══════════════════════════════════════════════════════════════
+   // TICK SIZE TRACKING — Update rolling window (NEW)
+   // ═══════════════════════════════════════════════════════════════
+   if(g_lastTickPrice > 0)
+   {
+      g_currentTickSize = MathAbs(price - g_lastTickPrice);
+      
+      // Update rolling window
+      g_tickSizes[g_tickSizeCount % BuildupLookback] = g_currentTickSize;
+      g_tickSizeCount++;
+      
+      // Calculate median tick size
+      int count = MathMin(g_tickSizeCount, BuildupLookback);
+      double temp[];
+      ArrayResize(temp, count);
+      for(int i = 0; i < count; i++)
+         temp[i] = g_tickSizes[i];
+      ArraySort(temp);
+      g_medianTickSize = temp[count / 2];
+      
+      // ═══════════════════════════════════════════════════════════
+      // BUILDUP DETECTION — Tick size getting larger (NEW)
+      // ═══════════════════════════════════════════════════════════
+      if(UseBuildupFilter && g_medianTickSize > 0)
+      {
+         g_buildupDetected = (g_currentTickSize > g_medianTickSize * BuildupThreshold);
+         
+         // BUILDUP EXIT — Close before spike hits (NEW EDGE)
+         if(g_buildupDetected && g_inPosition)
+         {
+            double pnl = CalculateCurrentPnL(price);
+            ClosePosition("buildup_exit", pnl);
+            g_buildupExits++;
+            g_buildupDetected = false;
+         }
+      }
+   }
    
    // ═══════════════════════════════════════════════════════════════
    // SPIKE DETECTION — Check every tick (FASTEST)
@@ -373,10 +454,36 @@ void OnNewBar(MqlRates &rates[])
       g_retraceReady = false;  // Reset retrace tracker
       g_spikes[g_spikeCount % g_spikeMax] = g_barCount;
       g_spikeCount++;
+      
+      // Track spike size (NEW)
+      g_spikeSizeHistory[g_spikeCount % 1000] = barRange;
+      
+      // Update spike size P67 (NEW)
+      double tempSizes[];
+      ArrayResize(tempSizes, MathMin(g_spikeCount, 1000));
+      for(int i = 0; i < MathMin(g_spikeCount, 1000); i++)
+         tempSizes[i] = g_spikeSizeHistory[i];
+      ArraySort(tempSizes);
+      int p67Idx = (int)(ArraySize(tempSizes) * 0.67);
+      g_spikeSizeP67 = tempSizes[p67Idx];
+      
+      // Check if this is a large spike (NEW)
+      g_isLargeSpike = (barRange >= g_spikeSizeP67);
+      
+      // Update cluster tracking (NEW)
+      if(g_barsSinceSpike <= ClusterWindow)
+         g_clusterActive++;
+      else
+      {
+         g_clusterActive = 1;  // New cluster starts
+         g_clusterEnded = true;  // Previous cluster ended
+      }
+      
       Print("[SPIKE #", g_spikeCount, "] Bar ", g_barCount,
             " Range=", DoubleToString(barRange,5),
             " Median=", DoubleToString(g_medianRange,5),
-            " Ratio=", DoubleToString(barRange/g_medianRange,1), "x");
+            " Ratio=", DoubleToString(barRange/g_medianRange,1), "x",
+            g_isLargeSpike ? " [LARGE]" : " [small]");
    }
    else if(!isMySpike && g_barsSinceSpike > 0 && g_barsSinceSpike <= 15)
    {
@@ -420,8 +527,8 @@ void OnNewBar(MqlRates &rates[])
    }
    else
    {
-   // Check entry (only at exact bar after spike)
-   if(!g_inPosition && g_barsSinceSpike == GetEntryDelay())
+   // Check entry (NEW: use optimal timing window 6-10 bars)
+   if(!g_inPosition && g_barsSinceSpike >= MinEntryDelay && g_barsSinceSpike <= MaxEntryDelay)
    {
       // COLD hours filter — only trade during safe hours
       int currentHour = Hour();
@@ -435,8 +542,20 @@ void OnNewBar(MqlRates &rates[])
       }
       else
       {
+         // Cluster filter — wait for cluster to end (NEW)
+         if(UseBuildupFilter && g_clusterActive >= ClusterMin)
+         {
+            g_clusterBlocked++;
+            // Don't print every block to avoid spam
+         }
+         // Spike size filter — only fade large spikes (NEW)
+         else if(UseSpikeSizeFilter && !g_isLargeSpike)
+         {
+            g_smallSpikeBlocked++;
+            // Don't print every block to avoid spam
+         }
          // Retrace filter — wait for retrace before entry
-         if(UseRetraceFilter && !g_retraceReady)
+         else if(UseRetraceFilter && !g_retraceReady)
          {
             g_blockedByRetrace++;
             // Don't print every block to avoid spam
@@ -1217,7 +1336,8 @@ void UpdatePanel()
    }
    CreateLabel(p+"t4", x, y, "Pos: "+posStr, posClr, 9); y+=18;
    CreateLabel(p+"t5", x, y, "Trades: "+IntegerToString(g_totalTrades)+" WR: "+DoubleToString(wr,1)+"% PnL: $"+DoubleToString(g_totalPnL,4), clrWhite, 9); y+=18;
-   CreateLabel(p+"t6", x, y, "Safety: "+IntegerToString(g_safetyExits)+" Blocked: "+IntegerToString(g_blockedByCold+g_blockedByRetrace+g_regimeBlocked+g_volBlocked)+" Spikes: "+IntegerToString(g_spikesDetected), clrYellow, 9); y+=18;
+   CreateLabel(p+"t6", x, y, "Safety: "+IntegerToString(g_safetyExits)+" Buildup: "+IntegerToString(g_buildupExits)+" Spikes: "+IntegerToString(g_spikesDetected), clrYellow, 9); y+=18;
+   CreateLabel(p+"t6b", x, y, "Blocked: Cluster="+IntegerToString(g_clusterBlocked)+" SmallSpike="+IntegerToString(g_smallSpikeBlocked)+" Cold="+IntegerToString(g_blockedByCold)+" Retrace="+IntegerToString(g_blockedByRetrace), clrYellow, 9); y+=18;
    
    // COLD hours status
    int curHour = Hour();
@@ -1246,6 +1366,13 @@ void UpdatePanel()
    string volStr = "Vol: "+DoubleToString(g_recentVolatility,5);
    color volClr = (g_medianVolatility > 0 && g_recentVolatility > g_medianVolatility * VolMaxMultiple) ? clrRed : clrLime;
    CreateLabel(p+"t10", x, y, regimeStr+" | "+volStr+" | RegimeBlocked: "+IntegerToString(g_regimeBlocked)+" VolBlocked: "+IntegerToString(g_volBlocked), clrWhite, 9); y+=18;
+   
+   // Buildup detection status (NEW)
+   string buildupStatus = g_buildupDetected ? "BUILDUP DETECTED" : "Normal";
+   color buildupClr2 = g_buildupDetected ? clrRed : clrLime;
+   string spikeSizeStatus = g_isLargeSpike ? "LARGE" : "small";
+   color spikeSizeClr = g_isLargeSpike ? clrLime : clrGray;
+   CreateLabel(p+"t11", x, y, "Buildup: "+buildupStatus+" | SpikeSize: "+spikeSizeStatus+" (P67="+DoubleToString(g_spikeSizeP67,3)+")", buildupClr2, 9); y+=18;
    
    // Buildup bar: visual indicator of buildup progress
    string buildupBar = "";
