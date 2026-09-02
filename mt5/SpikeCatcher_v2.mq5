@@ -227,7 +227,7 @@ double GetMinStopDistance()
 
    double floorDist = MathMax(minDist, spreadDist);
 
-   return floorDist * 1.5;
+   return floorDist * 2.0;  // 2.0x buffer to guarantee first-attempt success
 }
 
 //+------------------------------------------------------------------+
@@ -698,7 +698,7 @@ bool AttachStops(int dir, double tpDist, double slDist)
 
    for(int attempt = 0; attempt < 2; attempt++)
    {
-      double mult = (attempt == 0) ? 1.0 : 1.5;
+      double mult = (attempt == 0) ? 1.5 : 2.5;  // Start at 1.5x to ensure first-attempt success
 
       if(!PositionSelectByTicket(ticket)) return false;
       double openPrice = PositionGetDouble(POSITION_PRICE_OPEN);
