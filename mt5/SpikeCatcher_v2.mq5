@@ -84,10 +84,10 @@ ulong  g_positionTicket = 0;
 bool   g_requiresNewSpike = true;
 
 // Runtime overrides from TradingSystem preset (copied from input params)
-int    g_entryBar = 1;
-int    g_maxHoldBars = 5;
-bool   g_skipDoubleSpikes = false;
-bool   g_useColdHours = false;
+int    g_cfgEntryBar = 1;
+int    g_cfgMaxHoldBars = 5;
+bool   g_cfgSkipDoubleSpikes = false;
+bool   g_cfgUseColdHours = false;
 
 int    g_totalTrades = 0;
 int    g_wins = 0;
@@ -135,24 +135,24 @@ int OnInit()
 
    // Apply system presets into runtime variables (input params are const)
    if(TradingSystem == 1) {
-      g_entryBar = 1;
-      g_maxHoldBars = 5;
-      g_skipDoubleSpikes = false;
-      g_useColdHours = false;
+      g_cfgEntryBar = 1;
+      g_cfgMaxHoldBars = 5;
+      g_cfgSkipDoubleSpikes = false;
+      g_cfgUseColdHours = false;
       Print("=== SYSTEM: MAX PROFIT ===");
    } else {
-      g_entryBar = 1;
-      g_maxHoldBars = 3;
-      g_skipDoubleSpikes = true;
-      g_useColdHours = true;
+      g_cfgEntryBar = 1;
+      g_cfgMaxHoldBars = 3;
+      g_cfgSkipDoubleSpikes = true;
+      g_cfgUseColdHours = true;
       Print("=== SYSTEM: MAX SAFETY ===");
    }
 
    Print("=== SpikeCatcher v2.05 ===");
-   Print("Entry: Bar ", g_entryBar, " | TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
+   Print("Entry: Bar ", g_cfgEntryBar, " | TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
    Print("Safety: ", UseSafetyExit ? "ON" : "OFF", " | Threshold: ", SafetyMoveMult, "x");
    Print("Cluster: skip if ", ClusterMin, "+ in ", ClusterWindow, " bars");
-   Print("Double Spike: ", g_skipDoubleSpikes ? "ON" : "OFF", " | Cold Hours: ", g_useColdHours ? "ON" : "OFF");
+   Print("Double Spike: ", g_cfgSkipDoubleSpikes ? "ON" : "OFF", " | Cold Hours: ", g_cfgUseColdHours ? "ON" : "OFF");
 
    int rawFilling = (int)SymbolInfoInteger(Symbol(), SYMBOL_FILLING_MODE);
    ENUM_ORDER_TYPE_FILLING chosen = GetFillingMode();
@@ -331,7 +331,7 @@ void OnNewBar(MqlRates &rates[])
       if(CheckExitLevels(rates))
          return;
 
-      if(g_barsHeld >= g_maxHoldBars)
+      if(g_barsHeld >= g_cfgMaxHoldBars)
       {
          double pnl = CalculateCurrentPnL(c);
          ClosePosition("timeout", pnl);
@@ -339,7 +339,7 @@ void OnNewBar(MqlRates &rates[])
    }
    else
    {
-      if(!g_inPosition && g_barsSinceSpike == g_entryBar)
+      if(!g_inPosition && g_barsSinceSpike == g_cfgEntryBar)
          CheckEntry();
    }
 
@@ -369,12 +369,12 @@ void UpdateMedianRange(double newRange)
 void CheckEntry()
 {
    if(g_inPosition) return;
-   if(g_barsSinceSpike != g_entryBar) return;
+   if(g_barsSinceSpike != g_cfgEntryBar) return;
    if(g_lastSpikeBar < 0) return;
    if(g_medianRange <= 0) return;
 
    // SKIP DOUBLE SPIKES: if previous spike was only 1-3 bars ago, skip
-   if(g_skipDoubleSpikes && g_spikeCount >= 2)
+   if(g_cfgSkipDoubleSpikes && g_spikeCount >= 2)
    {
       int prevSpikeBar = g_spikes[(g_spikeCount - 2) % g_spikeMax];
       int interval = g_lastSpikeBar - prevSpikeBar;
@@ -386,7 +386,7 @@ void CheckEntry()
    }
 
    // COLD HOURS: only trade during low-spike hours
-   if(g_useColdHours)
+   if(g_cfgUseColdHours)
    {
       MqlDateTime dt;
       TimeCurrent(dt);
