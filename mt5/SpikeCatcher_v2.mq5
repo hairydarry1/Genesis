@@ -48,6 +48,20 @@ input int    EMA_Slow       = 30;     // Slow EMA period
 input bool   UseRetraceFilter = true; // Wait for retrace before entry
 input double MinRetracePct  = 0.40;   // Min retrace % before entry (0.40 = 40%)
 
+input group "=== Regime Detection (BREAKTHROUGH) ==="
+input bool   UseRegimeFilter = true;  // Skip cluster mode
+input int    RegimeLookback  = 100;   // Bars to check spike frequency
+input double RegimeThreshold = 0.06;  // Skip if spike_freq > 6%
+
+input group "=== Volatility Regime (BREAKTHROUGH) ==="
+input bool   UseVolRegime    = true;  // Skip high volatility periods
+input int    VolLookback     = 50;    // Bars to check volatility
+input double VolMaxMultiple  = 1.5;   // Skip if vol > 1.5x median
+
+input group "=== Cross-Symbol Correlation ==="
+input bool   UseCorrelation  = false; // Monitor correlated symbols
+input int    CorrelationWindow = 5;   // Check last N bars for correlation
+
 input group "=== COLD Hours Filter (PROVEN) ==="
 input bool   UseColdHours   = true;   // Only trade during COLD hours
 input string ColdHours_BOOM500  = "1,5,12,14,15,19";   // BOOM500 safest hours
@@ -111,6 +125,19 @@ double g_spikePrice = 0;     // Price at spike (for retrace calc)
 int    g_spikeDirection = 0;  // Direction of spike (1=UP, -1=DOWN)
 bool   g_retraceReady = false; // Retracement reached threshold
 int    g_blockedByRetrace = 0; // Trades skipped due to retrace filter
+
+// Regime Detection
+double g_recentSpikeFreq = 0;  // Recent spike frequency
+int    g_regimeBlocked = 0;     // Trades blocked by regime filter
+
+// Volatility Regime
+double g_recentVolatility = 0; // Recent volatility
+double g_medianVolatility = 0; // Median volatility
+int    g_volBlocked = 0;        // Trades blocked by volatility filter
+
+// Cross-Symbol Correlation
+int    g_lastCorrelatedSpike = -999; // Bar of last correlated spike
+int    g_correlatedEntries = 0;      // Entries from correlation
 
 // Position state
 bool   g_inPosition = false;
@@ -327,6 +354,9 @@ void OnNewBar(MqlRates &rates[])
    // Update median range
    UpdateMedianRange(barRange);
    
+   // Update regime metrics (spike frequency + volatility)
+   UpdateRegimeMetrics();
+   
    // Check if bar was a spike
    bool isSpike = (barRange > SpikeThreshold * g_medianRange);
    bool isCrashSpike = isSpike && (c < o);
@@ -411,6 +441,20 @@ void OnNewBar(MqlRates &rates[])
             g_blockedByRetrace++;
             // Don't print every block to avoid spam
          }
+         else if(UseRegimeFilter && g_recentSpikeFreq > RegimeThreshold)
+         {
+            // Regime filter — skip cluster mode
+            g_regimeBlocked++;
+            if(g_regimeBlocked % 10 == 1)  // Print every 10th to avoid spam
+               Print("[REGIME BLOCK] Spike freq=", DoubleToString(g_recentSpikeFreq*100,1), "% (threshold=", DoubleToString(RegimeThreshold*100,1), "%)");
+         }
+         else if(UseVolRegime && g_medianVolatility > 0 && g_recentVolatility > g_medianVolatility * VolMaxMultiple)
+         {
+            // Volatility filter — skip high vol periods
+            g_volBlocked++;
+            if(g_volBlocked % 10 == 1)  // Print every 10th to avoid spam
+               Print("[VOL BLOCK] Vol=", DoubleToString(g_recentVolatility,5), " > ", DoubleToString(g_medianVolatility * VolMaxMultiple,5));
+         }
          else
          {
             CheckEntry();
@@ -437,6 +481,40 @@ void UpdateMedianRange(double newRange)
       temp[i] = g_ranges[i];
    ArraySort(temp);
    g_medianRange = temp[count / 2];
+}
+
+//+------------------------------------------------------------------+
+//| Calculate regime metrics (spike frequency + volatility)            |
+//+------------------------------------------------------------------+
+void UpdateRegimeMetrics()
+{
+   // Calculate spike frequency in last RegimeLookback bars
+   int spikeCount = 0;
+   int lookback = MathMin(RegimeLookback, g_spikeCount);
+   for(int i = 0; i < lookback; i++)
+   {
+      int spikeBar = g_spikes[(g_spikeCount - 1 - i) % g_spikeMax];
+      if(g_barCount - spikeBar <= RegimeLookback)
+         spikeCount++;
+   }
+   g_recentSpikeFreq = (double)spikeCount / RegimeLookback;
+   
+   // Calculate volatility in last VolLookback bars
+   MqlRates rates[];
+   int copied = CopyRates(Symbol(), PERIOD_M1, 0, VolLookback + 1, rates);
+   if(copied >= VolLookback)
+   {
+      double sum = 0;
+      for(int i = 0; i < VolLookback; i++)
+         sum += rates[i].high - rates[i].low;
+      g_recentVolatility = sum / VolLookback;
+      
+      // Update median volatility (approximate)
+      if(g_medianVolatility <= 0)
+         g_medianVolatility = g_recentVolatility;
+      else
+         g_medianVolatility = (g_medianVolatility * 0.95) + (g_recentVolatility * 0.05);  // EMA
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -1139,7 +1217,7 @@ void UpdatePanel()
    }
    CreateLabel(p+"t4", x, y, "Pos: "+posStr, posClr, 9); y+=18;
    CreateLabel(p+"t5", x, y, "Trades: "+IntegerToString(g_totalTrades)+" WR: "+DoubleToString(wr,1)+"% PnL: $"+DoubleToString(g_totalPnL,4), clrWhite, 9); y+=18;
-   CreateLabel(p+"t6", x, y, "Safety: "+IntegerToString(g_safetyExits)+" Blocked: "+IntegerToString(g_blockedByCold+g_blockedByRetrace)+" Spikes: "+IntegerToString(g_spikesDetected), clrYellow, 9); y+=18;
+   CreateLabel(p+"t6", x, y, "Safety: "+IntegerToString(g_safetyExits)+" Blocked: "+IntegerToString(g_blockedByCold+g_blockedByRetrace+g_regimeBlocked+g_volBlocked)+" Spikes: "+IntegerToString(g_spikesDetected), clrYellow, 9); y+=18;
    
    // COLD hours status
    int curHour = Hour();
@@ -1161,6 +1239,13 @@ void UpdatePanel()
       CreateLabel(p+"t9", x, y, delayStr, clrWhite, 9);
    }
    y+=18;
+   
+   // Regime and Volatility status
+   string regimeStr = "Regime: "+DoubleToString(g_recentSpikeFreq*100,1)+"%";
+   color regimeClr = (g_recentSpikeFreq > RegimeThreshold) ? clrRed : clrLime;
+   string volStr = "Vol: "+DoubleToString(g_recentVolatility,5);
+   color volClr = (g_medianVolatility > 0 && g_recentVolatility > g_medianVolatility * VolMaxMultiple) ? clrRed : clrLime;
+   CreateLabel(p+"t10", x, y, regimeStr+" | "+volStr+" | RegimeBlocked: "+IntegerToString(g_regimeBlocked)+" VolBlocked: "+IntegerToString(g_volBlocked), clrWhite, 9); y+=18;
    
    // Buildup bar: visual indicator of buildup progress
    string buildupBar = "";
