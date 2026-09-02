@@ -12,7 +12,7 @@
 //| INPUT PARAMETERS                                                   |
 //+------------------------------------------------------------------+
 input group "=== Trading System ==="
-input int    TradingSystem  = 2;      // 1=Max Profit, 2=Max Safety
+input int    TradingSystem  = 1;      // 1=Max Profit, 2=Max Safety
 
 input group "=== Risk Management ==="
 input double RiskPercent    = 2.0;    // Risk per trade (% of equity)
