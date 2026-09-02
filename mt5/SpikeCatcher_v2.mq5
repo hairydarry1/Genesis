@@ -768,7 +768,9 @@ bool ClosePosition(string reason, double pnl)
          request.symbol = Symbol();
          request.volume = PositionGetDouble(POSITION_VOLUME);
          request.position = ticket;
-         request.deviation = 500;
+         // During spikes, price moves fast — use MUCH wider deviation
+         // to ensure the close order fills instead of being rejected (10029)
+         request.deviation = (reason == "safety_spike") ? 3000 : 500;
          request.magic = 202603;
          request.comment = "SC2_" + reason;
          request.type_time = ORDER_TIME_GTC;
@@ -794,7 +796,9 @@ bool ClosePosition(string reason, double pnl)
 
          Print("[CLOSE FAIL] ", reason, " Error: ", result.retcode, " retry ", retry+1);
       }
-      if(!closed && retry < 2) Sleep(100);
+      // Wait longer between retries — during spikes, price is moving fast
+      int delay = (reason == "safety_spike") ? 50 : 100;
+      if(!closed && retry < 2) Sleep(delay);
    }
 
    if(!closed) return false;
