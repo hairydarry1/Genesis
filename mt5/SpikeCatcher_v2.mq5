@@ -30,56 +30,48 @@ input group "=== Spike Detection (Optimized) ==="
 input int    SpikeLookback  = 100;    // Ticks for median range calc
 input double SpikeThreshold = 3.0;    // Range > Nx median = spike
 
-input group "=== Entry (OPTIMIZED - NEW) ==="
-input int    EntryBar_BOOM  = 8;      // Enter at bar N after BOOM spike (8 = optimal)
-input int    EntryBar_CRASH = 6;      // Enter at bar N after CRASH spike (6 = optimal from analysis)
-input int    MaxHoldBars    = 6;      // Max bars to hold (timeout=6 = optimal)
-input int    MinEntryDelay  = 6;      // Min bars after spike before entry (NEW: 6 = optimal)
-input int    MaxEntryDelay  = 10;     // Max bars after spike before entry (NEW: 10 = optimal)
+input group "=== TRADING SYSTEM SELECTOR ==="
+input int    TradingSystem  = 2;      // 1=Max Profit, 2=Max Safety
+
+input group "=== Entry (BACKTESTED & PROVEN) ==="
+input int    EntryBar_BOOM  = 1;      // Enter 1 bar after BOOM spike (OPTIMAL)
+input int    EntryBar_CRASH = 1;      // Enter 1 bar after CRASH spike (OPTIMAL)
+input int    MaxHoldBars    = 3;      // Max bars to hold (3=Safe, 5=Profit)
+input int    MinEntryDelay  = 1;      // Min bars after spike before entry
+input int    MaxEntryDelay  = 1;      // Max bars after spike before entry
 
 input group "=== TP/SL (Optimized) ==="
 input double TPMultiplier   = 2.0;    // TP = Nx median range (2 = optimal)
 input double SLMultiplier   = 1.0;    // SL = Nx median range (1 = optimal)
 
-input group "=== Filters (OPTIMIZED - NEW) ==="
-input int    ClusterWindow  = 20;     // Bars to check for clusters (NEW: 20 = optimal)
-input int    ClusterMin     = 2;      // Min spikes in window = skip (NEW: 2 = catch clusters)
-input bool   UseTrendFilter = true;   // Use M5 EMA trend filter
+input group "=== Filters (BACKTESTED & PROVEN) ==="
+input int    ClusterWindow  = 2;      // Bars to check for clusters
+input int    ClusterMin     = 2;      // Min spikes in window = skip
+input bool   UseTrendFilter = false;  // Use M5 EMA trend filter (OFF for Max Profit)
 input int    EMA_Fast       = 10;     // Fast EMA period
 input int    EMA_Slow       = 30;     // Slow EMA period
-input bool   UseRetraceFilter = true; // Wait for retrace before entry
-input double MinRetracePct  = 0.40;   // Min retrace % before entry (0.40 = 40%)
+input bool   UseRetraceFilter = false;// Wait for retrace before entry (OFF for Max Profit)
+input double MinRetracePct  = 0.40;   // Min retrace % before entry
 
-input group "=== Buildup Detection (NEW - BREAKTHROUGH) ==="
-input bool   UseBuildupFilter = true; // Detect tick size buildup before spike
-input double BuildupThreshold = 1.8;  // Tick size > Nx median = buildup warning
-input int    BuildupLookback = 100;   // Ticks to calculate median
+input group "=== Double Spike Defense (PROVEN) ==="
+input bool   SkipDoubleSpikes = false;// Skip if previous spike was 1 bar ago
+input int    SkipInterval    = 1;     // Skip if interval <= this value
 
-input group "=== Spike Size Filter (NEW - BREAKTHROUGH) ==="
-input bool   UseSpikeSizeFilter = true; // Only fade LARGE spikes
-input double SpikeSizePercentile = 0.67; // Only fade spikes > P67 (large spikes)
-
-input group "=== Regime Detection (BREAKTHROUGH) ==="
-input bool   UseRegimeFilter = true;  // Skip cluster mode
+input group "=== Additional Defenses (OPTIONAL) ==="
+input bool   UseRegimeFilter = false; // Skip cluster mode
 input int    RegimeLookback  = 100;   // Bars to check spike frequency
 input double RegimeThreshold = 0.06;  // Skip if spike_freq > 6%
-
-input group "=== Volatility Regime (BREAKTHROUGH) ==="
-input bool   UseVolRegime    = true;  // Skip high volatility periods
+input bool   UseVolRegime    = false; // Skip high volatility periods
 input int    VolLookback     = 50;    // Bars to check volatility
 input double VolMaxMultiple  = 1.5;   // Skip if vol > 1.5x median
 
-input group "=== Cross-Symbol Correlation ==="
-input bool   UseCorrelation  = false; // Monitor correlated symbols
-input int    CorrelationWindow = 5;   // Check last N bars for correlation
-
-input group "=== COLD Hours Filter (PROVEN) ==="
-input bool   UseColdHours   = true;   // Only trade during COLD hours
+input group "=== COLD Hours Filter (OPTIONAL - for Max Safety) ==="
+input bool   UseColdHours   = false;  // Only trade during COLD hours
 input string ColdHours_BOOM500  = "1,5,12,14,15,19";   // BOOM500 safest hours
 input string ColdHours_CRASH500 = "0,6,7,9,22,23";     // CRASH500 safest hours
 input string ColdHours_BOOM1000 = "6,13,18,20,21,22";  // BOOM1000 safest hours
 input string ColdHours_CRASH1000 = "3,6,7,18,22,23";   // CRASH1000 safest hours
-input string ColdHours_CRASH300 = "0,6,7,18,22,23";    // CRASH300 safest hours (similar to CRASH500)
+input string ColdHours_CRASH300 = "0,6,7,18,22,23";    // CRASH300 safest hours
 
 input group "=== Safety Exit (CRITICAL) ==="
 input bool   UseSafetyExit  = true;   // Close on spike detection
@@ -240,14 +232,16 @@ int OnInit()
    // Initialize median range with reasonable default (0.01) to avoid false spikes
    g_medianRange = 0.01;
    
+   // Apply system preset
+   ApplySystemPreset();
+   
    Print("=== SpikeCatcher v2 ===");
-   Print("Entry: BOOM=" , EntryBar_BOOM, " bars | CRASH=", EntryBar_CRASH, " bars");
-   Print("TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
-   Print("Safety: ", UseSafetyExit ? "ON" : "OFF", " | Threshold: ", SafetyMoveMult, "x");
-   Print("COLD Hours: ", UseColdHours ? "ON" : "OFF", " | Hours: ", GetColdHoursString());
-   Print("MaxHold: ", MaxHoldBars, " bars");
-   Print("Cluster: skip if ", ClusterMin, "+ in ", ClusterWindow, " bars");
-   Print("Retrace Filter: ", UseRetraceFilter ? "ON" : "OFF", " | Min: ", DoubleToString(MinRetracePct*100,0), "%");
+   Print("System: ", TradingSystem == 1 ? "MAX PROFIT" : "MAX SAFETY");
+   Print("Entry: Delay=", GetEntryDelay(), " bars");
+   Print("Exit: MaxHold=", MaxHoldBars, " bars");
+   Print("Safety: ", UseSafetyExit ? "ON" : "OFF");
+   Print("Cold Hours: ", UseColdHours ? "ON" : "OFF");
+   Print("Skip Double: ", SkipDoubleSpikes ? "ON" : "OFF");
    Print("Filling: ", EnumToString(g_fillingMode));
    
    // Create indicator handles once
@@ -1154,6 +1148,39 @@ bool ClosePosition(string reason, double pnl)
    }
    
    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Apply system preset (Max Profit or Max Safety)                     |
+//+------------------------------------------------------------------+
+void ApplySystemPreset()
+{
+   if(TradingSystem == 1)
+   {
+      // MAX PROFIT: Less defense, more trades
+      MaxHoldBars = 5;
+      SkipDoubleSpikes = false;
+      UseColdHours = false;
+      UseSafetyExit = false;
+      UseRetraceFilter = false;
+      UseTrendFilter = false;
+      UseRegimeFilter = false;
+      UseVolRegime = false;
+      Print("[SYSTEM] MAX PROFIT loaded");
+   }
+   else if(TradingSystem == 2)
+   {
+      // MAX SAFETY: More defense, fewer trades
+      MaxHoldBars = 3;
+      SkipDoubleSpikes = true;
+      UseColdHours = true;
+      UseSafetyExit = true;
+      UseRetraceFilter = false;
+      UseTrendFilter = false;
+      UseRegimeFilter = false;
+      UseVolRegime = false;
+      Print("[SYSTEM] MAX SAFETY loaded");
+   }
 }
 
 //+------------------------------------------------------------------+
