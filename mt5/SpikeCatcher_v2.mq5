@@ -83,6 +83,10 @@ int    g_barsHeld = 0;
 ulong  g_positionTicket = 0;
 bool   g_requiresNewSpike = true;
 
+// Actual SL/TP distances attached to position (may differ from median-based)
+double g_actualSL = 0;  // Actual SL distance in price units
+double g_actualTP = 0;  // Actual TP distance in price units
+
 // Runtime overrides from TradingSystem preset (copied from input params)
 int    g_cfgEntryBar = 1;
 int    g_cfgMaxHoldBars = 5;
@@ -471,6 +475,8 @@ void CheckEntry()
          SymbolInfoDouble(Symbol(), SYMBOL_BID);
       g_entryBar = g_barCount;
       g_barsHeld = 0;
+      g_actualSL = sl;  // Store the ACTUAL SL (floored to broker minimum)
+      g_actualTP = tp;  // Store the ACTUAL TP (scaled from floored SL)
 
       Print("[ENTRY] ", (dir == 1 ? "LONG" : "SHORT"),
             " @ ", DoubleToString(g_entryPrice, digits),
@@ -501,8 +507,8 @@ bool CheckExitLevels(MqlRates &rates[])
 
    double h = rates[0].high;
    double l = rates[0].low;
-   double tp = TPMultiplier * g_medianRange;
-   double sl = SLMultiplier * g_medianRange;
+   double tp = g_actualTP;  // Use ACTUAL TP attached to position
+   double sl = g_actualSL;  // Use ACTUAL SL attached to position
 
    bool hitTP = false;
    bool hitSL = false;
@@ -815,6 +821,8 @@ bool ClosePosition(string reason, double pnl)
    g_entryPrice = 0;
    g_barsHeld = 0;
    g_positionTicket = 0;
+   g_actualSL = 0;
+   g_actualTP = 0;
 
    return true;
 }
