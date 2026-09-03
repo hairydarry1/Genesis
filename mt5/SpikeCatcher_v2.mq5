@@ -5,7 +5,7 @@
 //| v2.04 - Fixed filling mode, invalid stops, and SL/TP ratio       |
 //+------------------------------------------------------------------+
 #property copyright "Genesis Trading System v2"
-#property version   "2.05"
+#property version   "2.06"
 #property strict
 
 //+------------------------------------------------------------------+
@@ -49,6 +49,9 @@ input group "=== Safety Exit (CRITICAL) ==="
 input bool   UseSafetyExit  = true;   // Close on spike detection
 input double SafetyMoveMult = 2.5;    // Tick move > Nx median = spike (lower = faster)
 
+input group "=== Partial Entry (CRASH Only) ==="
+input bool   UsePartialEntry = true;  // Enter 50% now, add 50% after 1 bar if winning
+
 input group "=== Order Execution ==="
 input int    OrderDeviation = 500;    // Max price deviation (points) for entries
 
@@ -86,6 +89,14 @@ bool   g_requiresNewSpike = true;
 // Actual SL/TP distances attached to position (may differ from median-based)
 double g_actualSL = 0;  // Actual SL distance in price units
 double g_actualTP = 0;  // Actual TP distance in price units
+
+// Partial entry state
+bool   g_partialActive = false;    // Is partial entry mode active?
+double g_partialEntryPrice = 0;   // Entry price of first half
+double g_partialLotSize = 0;      // Lot size of first half
+double g_partialSL = 0;           // SL distance
+double g_partialTP = 0;           // TP distance
+double g_initialPnL = 0;          // PnL after first bar
 
 // Runtime overrides from TradingSystem preset (copied from input params)
 int    g_cfgEntryBar = 1;
@@ -152,11 +163,12 @@ int OnInit()
       Print("=== SYSTEM: MAX SAFETY ===");
    }
 
-   Print("=== SpikeCatcher v2.05 ===");
+   Print("=== SpikeCatcher v2.06 ===");
    Print("Entry: Bar ", g_cfgEntryBar, " | TP: ", TPMultiplier, "x | SL: ", SLMultiplier, "x");
    Print("Safety: ", UseSafetyExit ? "ON" : "OFF", " | Threshold: ", SafetyMoveMult, "x");
    Print("Cluster: skip if ", ClusterMin, "+ in ", ClusterWindow, " bars");
    Print("Double Spike: ", g_cfgSkipDoubleSpikes ? "ON" : "OFF", " | Cold Hours: ", g_cfgUseColdHours ? "ON" : "OFF");
+   Print("Partial Entry: ", UsePartialEntry ? "ON (CRASH only)" : "OFF");
 
    int rawFilling = (int)SymbolInfoInteger(Symbol(), SYMBOL_FILLING_MODE);
    ENUM_ORDER_TYPE_FILLING chosen = GetFillingMode();
@@ -332,6 +344,47 @@ void OnNewBar(MqlRates &rates[])
    {
       g_barsHeld++;
 
+      // PARTIAL ENTRY: after 1 bar, check if profitable and add second half
+      if(g_partialActive && g_barsHeld == 1)
+      {
+         double currentPnL = CalculateCurrentPnL(c);
+         g_initialPnL = currentPnL;
+
+         if(currentPnL > 0)
+         {
+            // WINNING! Add second 50%
+            Print("[PARTIAL] Bar 1 profitable ($", DoubleToString(currentPnL, 4), ") — adding second half");
+
+            double secondLot = g_partialLotSize;  // Same size as first half
+            bool addSuccess = false;
+            if(g_positionDir == 1)
+               addSuccess = OpenBuy(secondLot, g_partialTP, g_partialSL);
+            else
+               addSuccess = OpenSell(secondLot, g_partialTP, g_partialSL);
+
+            if(addSuccess)
+            {
+               // Attach stops to the new position
+               AttachStops(g_positionDir, g_partialTP, g_partialSL);
+               Print("[PARTIAL] Second half added. Total position: ", DoubleToString(g_partialLotSize * 2, 2), " lots");
+               LogTrade("PARTIAL_ADD", (g_positionDir == 1 ? "LONG" : "SHORT"), 
+                        g_entryPrice, 0, 0, "partial_add");
+            }
+            else
+            {
+               Print("[PARTIAL] Failed to add second half — continuing with first half only");
+            }
+
+            g_partialActive = false;  // Done with partial logic
+         }
+         else
+         {
+            // LOSING! Don't add (cluster protection)
+            Print("[PARTIAL] Bar 1 losing ($", DoubleToString(currentPnL, 4), ") — NOT adding second half (cluster protection)");
+            g_partialActive = false;  // Done with partial logic
+         }
+      }
+
       if(CheckExitLevels(rates))
          return;
 
@@ -445,6 +498,19 @@ void CheckEntry()
       return;
    }
 
+   // PARTIAL ENTRY: for CRASH symbols, enter 50% now, add 50% after 1 bar
+   bool usePartial = UsePartialEntry && IsCrash();
+   double entryLot = lotSize;
+   if(usePartial) {
+      entryLot = lotSize / 2.0;
+      // Round to lot step
+      double lotStep = SymbolInfoDouble(Symbol(), SYMBOL_VOLUME_STEP);
+      entryLot = MathFloor(entryLot / lotStep) * lotStep;
+      double minLot = SymbolInfoDouble(Symbol(), SYMBOL_VOLUME_MIN);
+      entryLot = MathMax(entryLot, minLot);
+      Print("[PARTIAL] Entering 50%: ", DoubleToString(entryLot, 2), " lots (full would be ", DoubleToString(lotSize, 2), ")");
+   }
+
    double point = SymbolInfoDouble(Symbol(), SYMBOL_POINT);
    int digits = (int)SymbolInfoInteger(Symbol(), SYMBOL_DIGITS);
 
@@ -461,9 +527,9 @@ void CheckEntry()
 
    bool success = false;
    if(dir == 1)
-      success = OpenBuy(lotSize, tp, sl);
+      success = OpenBuy(entryLot, tp, sl);
    else
-      success = OpenSell(lotSize, tp, sl);
+      success = OpenSell(entryLot, tp, sl);
 
    if(success)
    {
@@ -478,13 +544,26 @@ void CheckEntry()
       g_actualSL = sl;  // Store the ACTUAL SL (floored to broker minimum)
       g_actualTP = tp;  // Store the ACTUAL TP (scaled from floored SL)
 
+      // Set up partial entry state
+      if(usePartial) {
+         g_partialActive = true;
+         g_partialEntryPrice = g_entryPrice;
+         g_partialLotSize = entryLot;
+         g_partialSL = sl;
+         g_partialTP = tp;
+         g_initialPnL = 0;
+         Print("[PARTIAL] First half entered. Waiting 1 bar to check if adding second half.");
+      }
+
       Print("[ENTRY] ", (dir == 1 ? "LONG" : "SHORT"),
             " @ ", DoubleToString(g_entryPrice, digits),
             " TP=", DoubleToString(tp, digits),
             " SL=", DoubleToString(sl, digits),
-            " Lots=", DoubleToString(lotSize, 2));
+            " Lots=", DoubleToString(entryLot, 2),
+            (usePartial ? " (PARTIAL 50%)" : ""));
 
-      LogTrade("OPEN", (dir == 1 ? "LONG" : "SHORT"), g_entryPrice, 0, 0, "entry");
+      LogTrade("OPEN", (dir == 1 ? "LONG" : "SHORT"), g_entryPrice, 0, 0, 
+               usePartial ? "partial_entry" : "entry");
 
       if(!AttachStops(dir, tp, sl))
       {
@@ -827,6 +906,12 @@ bool ClosePosition(string reason, double pnl)
    g_positionTicket = 0;
    g_actualSL = 0;
    g_actualTP = 0;
+   g_partialActive = false;
+   g_partialEntryPrice = 0;
+   g_partialLotSize = 0;
+   g_partialSL = 0;
+   g_partialTP = 0;
+   g_initialPnL = 0;
 
    return true;
 }
@@ -905,11 +990,13 @@ void UpdatePanel()
    color posClr = clrWhite;
    if(g_inPosition)
    {
-      posStr = (g_positionDir==1?"LONG":"SHORT")+" @ "+DoubleToString(g_entryPrice,3)+" ("+IntegerToString(g_barsHeld)+" bars)";
+      string partialTag = g_partialActive ? " [WAITING 2ND HALF]" : "";
+      posStr = (g_positionDir==1?"LONG":"SHORT")+" @ "+DoubleToString(g_entryPrice,3)+" ("+IntegerToString(g_barsHeld)+" bars)"+partialTag;
       posClr = g_positionDir==1 ? clrLime : clrRed;
    }
    CreateLabel(p+"t4", x, y, "Pos: "+posStr, posClr, 9); y+=18;
-   CreateLabel(p+"t5", x, y, "Trades: "+IntegerToString(g_totalTrades)+" WR: "+DoubleToString(wr,1)+"% PnL: $"+DoubleToString(g_totalPnL,4), clrWhite, 9); y+=18;
+   string partialInfo = UsePartialEntry && IsCrash() ? "Partial: ON" : "Partial: OFF";
+   CreateLabel(p+"t5", x, y, "Trades: "+IntegerToString(g_totalTrades)+" WR: "+DoubleToString(wr,1)+"% PnL: $"+DoubleToString(g_totalPnL,4)+" | "+partialInfo, clrWhite, 9); y+=18;
    CreateLabel(p+"t6", x, y, "Safety Exits: "+IntegerToString(g_safetyExits)+" Spikes Detected: "+IntegerToString(g_spikesDetected), clrYellow, 9);
 }
 
