@@ -1,0 +1,126 @@
+specs: spread(pts)/point/tick_value/tick_size/vol_min
+  flip150   500  0.0001     0.0001   0.0001     0.1
+  flip300   500  0.0001     0.0001   0.0001     0.1
+  flip500   500  0.0001     0.0001   0.0001     0.1
+  flip1000  500  0.0001     0.0001   0.0001     0.1
+============================================================================
+  FLIP150  ticks=602,303  1.00wk  median_delta=0.00610  spread=0.05 (500 pts)  vpu@0.1lot=$0.10000/unit
+============================================================================
+  mult=2.5: phases=5963 (5963/wk)  WR=30.6%  avgW=+1.1u  avgL=-0.5u
+    gross -12u  friction 298u  NET -310u = $-30.98/wk @ 0.1 lot
+    worst phase -3.4u ($-0.34)  maxDD $+6.84
+  mult=3.0: phases=4905 (4905/wk)  WR=35.1%  avgW=+1.1u  avgL=-0.6u
+    gross +65u  friction 245u  NET -180u = $-18.04/wk @ 0.1 lot
+    worst phase -3.5u ($-0.35)  maxDD $+5.34
+  mult=3.5: phases=3174 (3174/wk)  WR=41.7%  avgW=+1.3u  avgL=-0.9u
+    gross +70u  friction 159u  NET -88u = $-8.83/wk @ 0.1 lot
+    worst phase -5.2u ($-0.52)  maxDD $+7.96
+  mult=4.0: phases=1860 (1860/wk)  WR=46.2%  avgW=+1.4u  avgL=-1.2u
+    gross +38u  friction 93u  NET -55u = $-5.54/wk @ 0.1 lot
+    worst phase -8.1u ($-0.81)  maxDD $+10.30
+  mult=5.0: phases=1436 (1436/wk)  WR=49.0%  avgW=+1.6u  avgL=-1.4u
+    gross +57u  friction 72u  NET -15u = $-1.47/wk @ 0.1 lot
+    worst phase -13.7u ($-1.37)  maxDD $+8.08
+
+============================================================================
+  FLIP300  ticks=604,524  1.00wk  median_delta=0.04820  spread=0.05 (500 pts)  vpu@0.1lot=$0.10000/unit
+============================================================================
+  mult=2.5: phases=3124 (3124/wk)  WR=29.3%  avgW=+16.5u  avgL=-6.9u
+    gross -118u  friction 156u  NET -274u = $-27.44/wk @ 0.1 lot
+    worst phase -53.0u ($-5.30)  maxDD $+124.75
+  mult=3.0: phases=2850 (2850/wk)  WR=33.3%  avgW=+16.8u  avgL=-7.8u
+    gross +1027u  friction 142u  NET +885u = $+88.47/wk @ 0.1 lot
+    worst phase -53.0u ($-5.30)  maxDD $+77.46
+    stability: H1 $+12.38 / H2 $+76.09   longs $+41.58 (n=1425) / shorts $+46.89 (n=1425)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  20 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  50 start: ruin 100%   flip->$100 0.1%   median final $25.22
+  mult=3.5: phases=2238 (2238/wk)  WR=36.9%  avgW=+18.3u  avgL=-10.3u
+    gross +601u  friction 112u  NET +489u = $+48.92/wk @ 0.1 lot
+    worst phase -66.1u ($-6.61)  maxDD $+88.01
+    stability: H1 $-47.31 / H2 $+96.23   longs $+21.80 (n=1119) / shorts $+27.11 (n=1119)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  20 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  50 start: ruin 100%   flip->$100 0.0%   median final $0.00
+  mult=4.0: phases=1367 (1367/wk)  WR=43.7%  avgW=+21.1u  avgL=-15.0u
+    gross +1042u  friction 68u  NET +973u = $+97.32/wk @ 0.1 lot
+    worst phase -130.4u ($-13.04)  maxDD $+52.70
+    stability: H1 $-5.78 / H2 $+103.10   longs $+46.00 (n=684) / shorts $+51.32 (n=683)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  20 start: ruin 100%   flip->$100 0.0%   median final $30.26
+    bootstrap $  50 start: ruin 100%   flip->$100 0.0%   median final $72.70
+  mult=5.0: phases=761 (761/wk)  WR=51.4%  avgW=+24.0u  avgL=-23.9u
+    gross +542u  friction 38u  NET +504u = $+50.39/wk @ 0.1 lot
+    worst phase -154.0u ($-15.40)  maxDD $+63.00
+    stability: H1 $-56.90 / H2 $+107.29   longs $+22.54 (n=381) / shorts $+27.85 (n=380)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  20 start: ruin 100%   flip->$100 0.0%   median final $0.00
+    bootstrap $  50 start: ruin 100%   flip->$100 0.0%   median final $0.00
+
+============================================================================
+  FLIP500  ticks=603,878  1.00wk  median_delta=0.01780  spread=0.05 (500 pts)  vpu@0.1lot=$0.10000/unit
+============================================================================
+  mult=2.5: phases=1932 (1932/wk)  WR=28.2%  avgW=+10.3u  avgL=-4.0u
+    gross +68u  friction 97u  NET -29u = $-2.89/wk @ 0.1 lot
+    worst phase -30.9u ($-3.09)  maxDD $+51.57
+  mult=3.0: phases=1776 (1776/wk)  WR=31.3%  avgW=+10.4u  avgL=-4.5u
+    gross +224u  friction 89u  NET +135u = $+13.52/wk @ 0.1 lot
+    worst phase -28.8u ($-2.88)  maxDD $+39.69
+    stability: H1 $+4.18 / H2 $+9.34   longs $-18.64 (n=888) / shorts $+32.16 (n=888)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 93%   flip->$100 1.0%   median final $21.17
+    bootstrap $  20 start: ruin 89%   flip->$100 1.9%   median final $21.25
+    bootstrap $  50 start: ruin 84%   flip->$100 2.7%   median final $20.15
+  mult=3.5: phases=1358 (1358/wk)  WR=37.1%  avgW=+11.3u  avgL=-6.0u
+    gross +582u  friction 68u  NET +514u = $+51.40/wk @ 0.1 lot
+    worst phase -29.0u ($-2.90)  maxDD $+46.82
+    stability: H1 $+16.66 / H2 $+34.75   longs $+0.30 (n=679) / shorts $+51.10 (n=679)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 75%   flip->$100 8.2%   median final $35.85
+    bootstrap $  20 start: ruin 64%   flip->$100 13.9%   median final $59.13
+    bootstrap $  50 start: ruin 54%   flip->$100 17.5%   median final $52.61
+  mult=4.0: phases=719 (719/wk)  WR=44.9%  avgW=+13.3u  avgL=-9.7u
+    gross +464u  friction 36u  NET +428u = $+42.76/wk @ 0.1 lot
+    worst phase -56.3u ($-5.63)  maxDD $+35.90
+    stability: H1 $+19.84 / H2 $+22.92   longs $-4.02 (n=359) / shorts $+46.78 (n=360)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 83%   flip->$100 6.0%   median final $41.62
+    bootstrap $  20 start: ruin 70%   flip->$100 9.5%   median final $35.43
+    bootstrap $  50 start: ruin 60%   flip->$100 12.2%   median final $37.70
+  mult=5.0: phases=415 (415/wk)  WR=49.2%  avgW=+16.4u  avgL=-14.2u
+    gross +348u  friction 21u  NET +327u = $+32.68/wk @ 0.1 lot
+    worst phase -96.7u ($-9.67)  maxDD $+54.44
+    stability: H1 $+2.27 / H2 $+30.41   longs $-9.06 (n=207) / shorts $+41.74 (n=208)
+    $10 path sim (0.1-lot step per $10): final $0.00  min equity $0.00  ruined=True
+    bootstrap $  10 start: ruin 90%   flip->$100 2.7%   median final $33.67
+    bootstrap $  20 start: ruin 85%   flip->$100 3.9%   median final $23.91
+    bootstrap $  50 start: ruin 84%   flip->$100 3.8%   median final $31.13
+
+============================================================================
+  FLIP1000  ticks=602,976  1.00wk  median_delta=0.00840  spread=0.05 (500 pts)  vpu@0.1lot=$0.10000/unit
+============================================================================
+  mult=2.5: phases=1041 (1041/wk)  WR=26.9%  avgW=+8.4u  avgL=-3.8u
+    gross -579u  friction 52u  NET -631u = $-63.14/wk @ 0.1 lot
+    worst phase -32.2u ($-3.22)  maxDD $+70.52
+  mult=3.0: phases=1009 (1009/wk)  WR=27.8%  avgW=+8.5u  avgL=-4.1u
+    gross -583u  friction 50u  NET -633u = $-63.35/wk @ 0.1 lot
+    worst phase -23.2u ($-2.32)  maxDD $+68.27
+  mult=3.5: phases=867 (867/wk)  WR=31.9%  avgW=+9.2u  avgL=-4.8u
+    gross -317u  friction 43u  NET -360u = $-36.00/wk @ 0.1 lot
+    worst phase -23.2u ($-2.32)  maxDD $+39.45
+  mult=4.0: phases=533 (533/wk)  WR=39.0%  avgW=+10.4u  avgL=-7.3u
+    gross -215u  friction 27u  NET -241u = $-24.15/wk @ 0.1 lot
+    worst phase -43.8u ($-4.38)  maxDD $+33.91
+  mult=5.0: phases=246 (246/wk)  WR=47.2%  avgW=+13.5u  avgL=-10.0u
+    gross +270u  friction 12u  NET +257u = $+25.73/wk @ 0.1 lot
+    worst phase -45.9u ($-4.59)  maxDD $+18.23
+    stability: H1 $+15.66 / H2 $+10.07   longs $+18.68 (n=123) / shorts $+7.05 (n=123)
+    $10 path sim (0.1-lot step per $10): final $23.12  min equity $1.50  ruined=False
+    bootstrap $  10 start: ruin 46%   flip->$100 12.1%   median final $28.16
+    bootstrap $  20 start: ruin 31%   flip->$100 18.2%   median final $32.98
+    bootstrap $  50 start: ruin 15%   flip->$100 32.0%   median final $48.48
+

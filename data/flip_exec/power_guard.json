@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-10-03T18:37:24.312733+00:00",
+  "power_state": "UNKNOWN",
+  "executor_alive": true,
+  "executor_pid": 8800,
+  "day_state": {
+    "date": "2026-10-03",
+    "day_pnl": -1.7255600000000415,
+    "day_halted": false,
+    "floored": false
+  },
+  "engine_state": {
+    "saved_at": 1791052567.7610278,
+    "last_ms": 1791052568052,
+    "med": 0.008799999999610009,
+    "cur_dir": 1,
+    "cnt": 3,
+    "ep_dir": 0
+  },
+  "uptime": {
+    "updated": "2026-10-03T18:36:07.752710+00:00",
+    "session_started": 1790000825.696447,
+    "ticks": 1040860,
+    "spikes": 1065,
+    "hb_current": [
+      1235,
+      1313
+    ],
+    "pending": {
+      "armed": 0,
+      "age": 0,
+      "cancels": 9,
+      "fills": 85,
+      "expires": 0
+    }
+  },
+  "power_cycle_occurred": false,
+  "ruling": "HOLD",
+  "ruling_at": "2026-10-03T18:37:24.319564+00:00",
+  "notes": [
+    "NOT ON AC (battery/unknown): STOP the executor; do not leave it running into power loss.",
+    "day HALTED=false: entries are still open this UTC day - do not power off with the executor armed unless the flat-exit checklist is done first.",
+    "executor ALIVE (pid 8800): STOP and re-check before any power event."
+  ]
+}

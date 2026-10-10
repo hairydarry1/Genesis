@@ -1,0 +1,27 @@
+flip1000@5.0 k=1, corrected spread, FIXED 1 step
+148 trades over 8 UTC days; historical day PnL:
+  2026-09-03:  19 trades    +7.03
+  2026-09-04:  18 trades   +10.44
+  2026-09-05:  19 trades    +5.81
+  2026-09-06:  21 trades    +0.11
+  2026-09-07:  27 trades   -10.94
+  2026-09-08:  18 trades   +17.93
+  2026-09-09:  25 trades    -2.54
+  2026-09-10:   1 trades    -0.88
+
+4-week horizon (4x8 day-blocks), fixed 1 step:
+  stop   flip%   ruin%  alive% trades/4wk skipped/4wk
+  none   52.9%   33.4%   13.7%        302           0
+   -$9   57.3%   30.1%   12.6%        280          30
+   -$8   55.9%   30.9%   13.2%        282          31
+   -$7   43.1%   39.7%   17.2%        256          45
+   -$5    0.0%   94.5%    5.5%         98          40
+   -$3    0.1%   87.1%   12.8%        126          72
+
+historical path (clustering intact), fixed 1 step:
+  stop  none: final $36.96  min $4.63
+  stop   -$9: final $38.17  min $4.63
+  stop   -$8: final $38.17  min $4.63
+  stop   -$7: final $33.34  min $4.63
+  stop   -$5: final $0.11  min $0.11
+  stop   -$3: final $4.99  min $4.95

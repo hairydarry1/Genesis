@@ -74,8 +74,6 @@ def test_swing_points():
         assert sh.index < len(bars), "Swing index out of bounds"
 
     print(f"PASSED ({len(swings)} swings: {len(highs)}H, {len(lows)}L)")
-    return True
-
 
 def test_atr():
     """Test ATR computation."""
@@ -92,8 +90,6 @@ def test_atr():
     assert not atr.isna().any(), "ATR should have no NaNs"
 
     print(f"PASSED (ATR range: {atr.min():.2f} to {atr.max():.2f})")
-    return True
-
 
 def test_quality_filter():
     """Test quality filter thresholds."""
@@ -111,8 +107,6 @@ def test_quality_filter():
     assert not passes_quality_filter(100.0, 95.0, 0.0, cfg), "Zero ATR should fail"
 
     print("PASSED")
-    return True
-
 
 def test_structures_detection():
     """Test structure detection pipeline."""
@@ -131,8 +125,6 @@ def test_structures_detection():
         assert s.age_bars >= 0, f"Negative age: {s}"
 
     print(f"PASSED ({len(structures)} structures detected)")
-    return True
-
 
 def test_build_state_consistency():
     """Test that build_state produces consistent, non-NaN outputs."""
@@ -168,8 +160,6 @@ def test_build_state_consistency():
     assert len(set(shapes)) == 1, f"Inconsistent feature counts: {shapes}"
 
     print(f"PASSED ({shapes[0]} features, consistent across {len(test_timestamps)} timestamps)")
-    return True
-
 
 def test_build_state_vector():
     """Test that build_state_vector produces valid numpy arrays."""
@@ -188,8 +178,6 @@ def test_build_state_vector():
     assert len(vec) == builder.n_features, f"Length mismatch: {len(vec)} vs {builder.n_features}"
 
     print(f"PASSED (shape={vec.shape}, dtype={vec.dtype})")
-    return True
-
 
 def test_feature_names():
     """Test that feature names are consistent and sorted."""
@@ -210,8 +198,6 @@ def test_feature_names():
         assert any(f.startswith(f"{tf}_") for f in names), f"Missing features for timeframe {tf}"
 
     print(f"PASSED ({n} features, all sorted)")
-    return True
-
 
 def test_structure_features():
     """Test that structural features are populated."""
@@ -233,8 +219,6 @@ def test_structure_features():
             assert state[k] >= 0, f"{k} should be >= 0, got {state[k]}"
 
     print(f"PASSED ({len(struct_keys)} structure features)")
-    return True
-
 
 def test_state_determinism():
     """Test that the same timestamp always produces the same state."""
@@ -255,8 +239,6 @@ def test_state_determinism():
         assert abs(state1[k] - state2[k]) < 1e-10, f"Feature '{k}' differs: {state1[k]} vs {state2[k]}"
 
     print("PASSED (identical outputs for same input)")
-    return True
-
 
 def test_premium_discount():
     """Test premium/discount zone computation."""
@@ -282,8 +264,6 @@ def test_premium_discount():
     assert pd_zone["position"] < 0.1, f"Price at low should have position < 0.1, got {pd_zone['position']}"
 
     print("PASSED")
-    return True
-
 
 # ---------------------------------------------------------------------------
 # Main
@@ -308,10 +288,8 @@ if __name__ == "__main__":
 
     for test in tests:
         try:
-            if test():
-                passed += 1
-            else:
-                failed += 1
+            test()
+            passed += 1
         except Exception as e:
             print(f"FAILED: {e}")
             import traceback

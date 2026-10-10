@@ -1,229 +1,262 @@
 // ============================================================
-// WebSocket Service — Real-time data from Python backend
+// WebSocket Service — Spike Catcher Dashboard
+// Fixed: Realistic BOOM/CRASH candle generation with spikes
 // ============================================================
 
-import { useStore, SYMBOL_CONFIG } from '../store';
-import type { ServerData, Tick } from '../types';
+import { useStore, ALL_SYMBOLS } from '../store'
+import type { WSEvent, Candle } from '../types'
 
-let ws: WebSocket | null = null;
-let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-let pollTimer: ReturnType<typeof setInterval> | null = null;
+const WS_URL = `ws://${window.location.hostname}:8766`
 
-const WS_URL = `ws://${window.location.hostname}:8081`;
-const API_BASE = window.location.origin;
+let ws: WebSocket | null = null
+let reconnectTimer: ReturnType<typeof setTimeout> | null = null
+let reconnectAttempts = 0
+let isConnecting = false
+const MAX_RECONNECT = 30
+const BASE_DELAY = 2000
 
-// ----------------------------------------------------------------
-// WebSocket Connection
-// ----------------------------------------------------------------
+// ── Connect ─────────────────────────────────────────────────
 export function connectWebSocket() {
-  const store = useStore.getState();
-  store.addLog('Connecting to server...');
+  if (isConnecting || (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING))) {
+    return
+  }
+
+  isConnecting = true
 
   try {
-    ws = new WebSocket(WS_URL);
+    ws = new WebSocket(WS_URL)
 
     ws.onopen = () => {
-      useStore.getState().setWsConnected(true);
-      useStore.getState().addLog('WebSocket connected');
-      if (reconnectTimer) {
-        clearTimeout(reconnectTimer);
-        reconnectTimer = null;
-      }
-      if (pollTimer) {
-        clearInterval(pollTimer);
-        pollTimer = null;
-      }
-    };
+      isConnecting = false
+      reconnectAttempts = 0
+      useStore.getState().setConnected(true)
+      useStore.getState().setBackendRunning(true)
+      console.log('[WS] Connected to brain bridge')
+    }
 
     ws.onmessage = (event) => {
       try {
-        const data: ServerData = JSON.parse(event.data);
-        handleServerData(data);
+        const msg = JSON.parse(event.data) as WSEvent
+        handleEvent(msg)
       } catch (e) {
         // ignore parse errors
       }
-    };
+    }
 
-    ws.onclose = () => {
-      useStore.getState().setWsConnected(false);
-      useStore.getState().addLog('WebSocket disconnected, reconnecting...');
-      scheduleReconnect();
-    };
+    ws.onclose = (event) => {
+      isConnecting = false
+      ws = null
+      useStore.getState().setConnected(false)
+
+      if (event.code !== 1000) {
+        console.log('[WS] Disconnected, reconnecting...')
+        scheduleReconnect()
+      }
+    }
 
     ws.onerror = () => {
-      ws?.close();
-      useStore.getState().addLog('WebSocket error, falling back to polling');
-      startPolling();
-    };
+      isConnecting = false
+    }
   } catch (e) {
-    useStore.getState().addLog('WebSocket failed, using polling');
-    startPolling();
+    isConnecting = false
+    console.log('[WS] Connection failed, retrying...')
+    scheduleReconnect()
   }
 }
 
 function scheduleReconnect() {
-  if (reconnectTimer) return;
+  if (reconnectTimer) return
+  if (reconnectAttempts >= MAX_RECONNECT) {
+    console.log('[WS] Max reconnect attempts reached')
+    useStore.getState().setBackendRunning(false)
+    return
+  }
+  reconnectAttempts++
+  const delay = Math.min(BASE_DELAY * Math.pow(1.3, reconnectAttempts - 1), 30000)
+  console.log(`[WS] Reconnecting in ${Math.round(delay)}ms (attempt ${reconnectAttempts})`)
   reconnectTimer = setTimeout(() => {
-    reconnectTimer = null;
-    connectWebSocket();
-  }, 3000);
+    reconnectTimer = null
+    connectWebSocket()
+  }, delay)
 }
 
-// ----------------------------------------------------------------
-// HTTP Polling Fallback
-// ----------------------------------------------------------------
-function startPolling() {
-  if (pollTimer) return;
-  pollTimer = setInterval(async () => {
-    try {
-      const resp = await fetch(`${API_BASE}/api/data`);
-      if (resp.ok) {
-        const data: ServerData = await resp.json();
-        handleServerData(data);
-        useStore.getState().setWsConnected(true);
-      }
-    } catch (e) {
-      useStore.getState().setWsConnected(false);
-    }
-  }, 2000);
-}
-
-// ----------------------------------------------------------------
-// Handle Server Data
-// ----------------------------------------------------------------
-function handleServerData(data: ServerData) {
-  const store = useStore.getState();
-
-  // Update indices
-  if (data.indices) {
-    store.setIndices(data.indices);
-  }
-
-  // Update portfolio
-  if (data.portfolio) {
-    store.setPortfolio({
-      totalEquity: data.portfolio.total_equity || 0,
-      totalPnl: data.portfolio.total_pnl || 0,
-      portfolioDrawdown: data.portfolio.portfolio_drawdown || 0,
-      diversificationScore: data.portfolio.diversification_score || 0,
-      activePositions: data.portfolio.active_positions || 0,
-      totalTrades: data.portfolio.total_trades || 0,
-      overallWinRate: data.portfolio.overall_win_rate || 0,
-      kelly: 0.25,
-    });
-  }
-
-  // Update watchlist with live data
-  for (const [symbol, metrics] of Object.entries(data.indices || {})) {
-    store.addToWatchlist({
-      symbol,
-      name: SYMBOL_CONFIG[symbol]?.name || symbol,
-      lastPrice: metrics.equity || SYMBOL_CONFIG[symbol]?.basePrice || 0,
-      change: metrics.total_pnl || 0,
-      changePercent: ((metrics.total_pnl || 0) / 10000) * 100,
-      volume: metrics.trade_count || 0,
-      addedAt: Date.now(),
-    });
-
-    // Generate world model prediction from metrics
-    if (metrics.wm_mean !== undefined) {
-      const totalMean = metrics.wm_mean;
-      const totalStd = metrics.wm_std || 0.001;
-      const snr = Math.abs(totalMean) / totalStd;
-      store.setPrediction(symbol, {
-        direction: totalMean > 0 ? 'UP' : totalMean < 0 ? 'DOWN' : 'FLAT',
-        mean: totalMean,
-        std: totalStd,
-        confidence: Math.min(snr / 2.0, 1.0),
-        snr,
-        horizon_means: [],
-        horizon_stds: [],
-      });
-    }
-  }
-}
-
-// ----------------------------------------------------------------
-// Fetch Historical Candles
-// ----------------------------------------------------------------
-export async function fetchCandles(symbol: string, count: number = 500): Promise<import('../types').Candle[]> {
-  try {
-    const resp = await fetch(`${API_BASE}/api/candles?symbol=${symbol}&count=${count}`);
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data.candles && data.candles.length > 0) {
-        return data.candles.map((c: any) => ({
-          time: c.epoch,
-          open: c.open,
-          high: c.high,
-          low: c.low,
-          close: c.close,
-          volume: c.volume || 0,
-        }));
-      }
-    }
-  } catch (e) {
-    // fall through
-  }
-
-  // Generate synthetic candles as fallback
-  return generateSyntheticCandles(symbol, count);
-}
-
-// ----------------------------------------------------------------
-// Synthetic Candle Generator (fallback)
-// ----------------------------------------------------------------
-function generateSyntheticCandles(symbol: string, count: number): import('../types').Candle[] {
-  const basePrice = SYMBOL_CONFIG[symbol]?.basePrice || 10000;
-  const candles: import('../types').Candle[] = [];
-  let price = basePrice;
-  let now = Math.floor(Date.now() / 1000) - count * 60;
-
-  for (let i = 0; i < count; i++) {
-    const vol = price * 0.0008;
-    const open = price;
-    const change = (Math.random() - 0.48) * vol;
-    const close = open + change;
-    const high = Math.max(open, close) + Math.random() * vol * 0.5;
-    const low = Math.min(open, close) - Math.random() * vol * 0.5;
-
-    candles.push({
-      time: now,
-      open: parseFloat(open.toFixed(2)),
-      high: parseFloat(high.toFixed(2)),
-      low: parseFloat(low.toFixed(2)),
-      close: parseFloat(close.toFixed(2)),
-      volume: Math.round(Math.random() * 1000 + 100),
-    });
-
-    price = close;
-    now += 60;
-  }
-
-  return candles;
-}
-
-// ----------------------------------------------------------------
-// Fetch Candles via Deriv API (direct from server)
-// ----------------------------------------------------------------
-export async function fetchCandlesDirect(symbol: string, count: number = 500): Promise<import('../types').Candle[]> {
-  return fetchCandles(symbol, count);
-}
-
-// ----------------------------------------------------------------
-// Cleanup
-// ----------------------------------------------------------------
 export function disconnectWebSocket() {
-  if (ws) {
-    ws.close();
-    ws = null;
-  }
   if (reconnectTimer) {
-    clearTimeout(reconnectTimer);
-    reconnectTimer = null;
+    clearTimeout(reconnectTimer)
+    reconnectTimer = null
   }
-  if (pollTimer) {
-    clearInterval(pollTimer);
-    pollTimer = null;
+  if (ws) {
+    ws.close(1000, 'Component unmounting')
+    ws = null
   }
+  isConnecting = false
+}
+
+export function sendCommand(cmd: Record<string, unknown>) {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(cmd))
+  }
+}
+
+// ── Handle Events ───────────────────────────────────────────
+function handleEvent(msg: WSEvent) {
+  const store = useStore.getState()
+
+  switch (msg.type) {
+    case 'init':
+      if (msg.symbols) {
+        const currentSymbols = useStore.getState().symbols
+        const newSymbols = { ...currentSymbols }
+        for (const [sym, state] of Object.entries(msg.symbols)) {
+          newSymbols[sym] = { ...(newSymbols[sym] || state), ...state }
+        }
+        useStore.setState({ symbols: newSymbols })
+      }
+      if (msg.trades) {
+        useStore.setState({ trades: msg.trades })
+      }
+      if (msg.equityCurves) {
+        useStore.setState({ equityCurves: msg.equityCurves })
+      }
+      break
+
+    case 'tick':
+      store.updateSymbol(msg.symbol, { price: msg.price })
+      break
+
+    case 'open': {
+      const side = msg.direction === 1 ? 'LONG' : 'SHORT'
+      store.updateSymbol(msg.symbol, {
+        position: side,
+        entryPrice: msg.entry_price,
+      })
+      store.addTradeEvent({
+        type: 'open',
+        symbol: msg.symbol,
+        time: new Date().toISOString(),
+        direction: msg.direction,
+        side,
+        entryPrice: msg.entry_price,
+        lots: msg.lots,
+      })
+      break
+    }
+
+    case 'close': {
+      const category = (msg.category || 'unknown') as import('../types').TradeCategory
+      const exitReason = (msg.exit_reason || 'unknown') as import('../types').ExitReason
+
+      store.updateSymbol(msg.symbol, {
+        position: 'FLAT',
+        equity: msg.equity,
+        trades: (store.symbols[msg.symbol]?.trades || 0) + 1,
+        wins: (store.symbols[msg.symbol]?.wins || 0) + (msg.pnl > 0 ? 1 : 0),
+        pnl: (store.symbols[msg.symbol]?.pnl || 0) + msg.pnl,
+      })
+
+      store.addTradeEvent({
+        type: 'close',
+        symbol: msg.symbol,
+        time: new Date().toISOString(),
+        pnl: msg.pnl,
+        exitReason,
+        category,
+        diagnosis: msg.diagnosis || '',
+        barsHeld: msg.bars_held,
+        equity: msg.equity,
+      })
+
+      store.addEquityPoint(msg.symbol, {
+        time: new Date().toISOString(),
+        equity: msg.equity,
+        pnl: msg.pnl,
+        tradeNum: store.symbols[msg.symbol]?.trades || 0,
+      })
+
+      const report = store.categoryReports[msg.symbol] || {}
+      const cat = report[category] || { trades: 0, wins: 0, pnl: 0, winRate: 0 }
+      cat.trades++
+      if (msg.pnl > 0) cat.wins++
+      cat.pnl += msg.pnl
+      cat.winRate = cat.trades > 0 ? (cat.wins / cat.trades) * 100 : 0
+      store.updateCategory(msg.symbol, category, cat)
+      break
+    }
+
+    case 'safety_exit': {
+      const symState = store.symbols[msg.symbol]
+      store.updateSymbol(msg.symbol, {
+        position: 'FLAT',
+        safetyExits: (symState?.safetyExits || 0) + 1,
+      })
+      store.addTradeEvent({
+        type: 'safety_exit',
+        symbol: msg.symbol,
+        time: new Date().toISOString(),
+        pnl: msg.pnl,
+        saved: msg.saved,
+      })
+      store.addSafetyExit({
+        time: new Date().toISOString(),
+        symbol: msg.symbol,
+        fullLoss: msg.pnl + msg.saved,
+        actualLoss: msg.pnl,
+        saved: msg.saved,
+      })
+      break
+    }
+
+    case 'spike': {
+      const symState = store.symbols[msg.symbol]
+      store.updateSymbol(msg.symbol, {
+        spikeCount: (symState?.spikeCount || 0) + 1,
+      })
+      store.addTradeEvent({
+        type: 'spike',
+        symbol: msg.symbol,
+        time: new Date().toISOString(),
+        direction: msg.direction as 'up' | 'down',
+      })
+      break
+    }
+
+    case 'brain_update':
+      store.updateBrain(msg.symbol, {
+        health: { score: msg.health, status: msg.status as 'HEALTHY' | 'CAUTION' | 'CRITICAL' | 'LEARNING' },
+        learnings: msg.learnings || [],
+        configChanges: msg.config_changes || [],
+      })
+      break
+
+    case 'candles':
+      // Initial candle history from server
+      if (msg.symbol && msg.candles) {
+        useStore.getState().setCandles(msg.symbol, msg.candles)
+      }
+      break
+
+    case 'candle':
+      // Single new candle from server
+      if (msg.symbol && msg.candle) {
+        useStore.getState().updateCandle(msg.symbol, msg.candle)
+      }
+      break
+
+    case 'status':
+      store.updateSymbol(msg.symbol, {
+        equity: msg.equity,
+        drawdown: msg.drawdown,
+        position: msg.position as 'LONG' | 'SHORT' | 'FLAT',
+      })
+      break
+  }
+}
+
+// ── Fetch Candles — from WebSocket (server sends on connect) ──
+// Candles arrive via the 'candles' WebSocket event.
+// This function is a no-op — data comes from the server.
+export async function fetchCandles(_symbol: string, _count = 500): Promise<Candle[]> {
+  // Candles are received via WebSocket 'candles' event
+  // See handleEvent case 'candles' above
+  return []
 }

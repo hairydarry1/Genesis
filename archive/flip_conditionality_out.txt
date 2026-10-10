@@ -1,0 +1,103 @@
+==============================================================================
+ CONDITIONAL FLIP HAZARD — observable state vs P(next move flips)
+==============================================================================
+
+==============================================================================
+ FLIP300 @ 3.0x  moves=14718  base flip rate 19.2%  (last move excluded: 1)
+==============================================================================
+  age (moves)               : [0-1   41.4% (n=2825)   [1-2   19.7% (n=1655)   [2-3   13.8% (n=1329)   [3-4   14.0% (n=1146)   [4-6   15.4% (n=1821)   [6-8   12.3% (n=1327)   [8-12   12.4% (n=1810)   [12-20   11.1% (n=1731)   [20+     11.6% (n=1073)
+  cum amplitude (x median)  : [0-5   41.1% (n=2864)   [5-10   16.0% (n=106)   [10-15   19.8% (n=101)   [15-20   15.8% (n=95)   [20-30   17.5% (n=183)   [30-45   17.3% (n=254)   [45-70   13.1% (n=426)   [70+     13.7% (n=10688)
+  time in phase (min)       : [0-2   26.8% (n=6671)   [2-5   13.4% (n=3479)   [5-10   12.9% (n=2822)   [10-20   12.1% (n=1407)   [20-40   11.7% (n=324)
+  memoryless null: mean phase len 5.2 moves -> flat hazard 19.2%  (observed phase len p90 13, max 76)
+  age<=1: flip 33.4%   age>=5: flip 12.3%   base 19.2%   -> age CARRIES INFO (late-base -6.9pp, n_late=6776)
+
+==============================================================================
+ FLIP300 @ 4.0x  moves=2740  base flip rate 49.6%  (last move excluded: 1)
+==============================================================================
+  age (moves)               : [0-1   48.3% (n=1360)   [1-2   50.9% (n=703)   [2-3   47.0% (n=345)   [3-4   54.1% (n=183)   [4-6   59.5% (n=116)
+  cum amplitude (x median)  : [0-5   48.4% (n=1374)   [30-45   41.7% (n=36)   [45-70   60.7% (n=56)   [70+     50.6% (n=1205)
+  time in phase (min)       : [0-2   48.2% (n=1733)   [2-5   49.5% (n=366)   [5-10   53.8% (n=344)   [10-20   54.6% (n=207)   [20-40   53.3% (n=75)
+  memoryless null: mean phase len 2.0 moves -> flat hazard 49.7%  (observed phase len p90 4, max 13)
+  age<=1: flip 49.2%   age>=5: flip 50.0%   base 49.7%   -> age weak (late-base +0.3pp, n_late=64)
+
+==============================================================================
+ FLIP500 @ 3.5x  moves=3061  base flip rate 44.2%  (last move excluded: 1)
+==============================================================================
+  age (moves)               : [0-1   47.9% (n=1352)   [1-2   45.2% (n=705)   [2-3   40.4% (n=386)   [3-4   37.4% (n=230)   [4-6   40.7% (n=226)   [6-8   30.3% (n=89)   [8-12   32.2% (n=59)
+  cum amplitude (x median)  : [0-5   47.9% (n=1356)   [45-70   43.5% (n=46)   [70+     40.6% (n=1588)
+  time in phase (min)       : [0-2   47.2% (n=1723)   [2-5   42.9% (n=392)   [5-10   40.4% (n=428)   [10-20   39.1% (n=353)   [20-40   36.0% (n=150)
+  memoryless null: mean phase len 2.3 moves -> flat hazard 44.2%  (observed phase len p90 5, max 16)
+  age<=1: flip 47.0%   age>=5: flip 33.7%   base 44.2%   -> age CARRIES INFO (late-base -10.4pp, n_late=243)
+
+==============================================================================
+ FLIP500 @ 4.0x  moves=1504  base flip rate 47.5%  (last move excluded: 1)
+==============================================================================
+  age (moves)               : [0-1   46.9% (n=715)   [1-2   46.2% (n=379)   [2-3   49.5% (n=204)   [3-4   53.4% (n=103)   [4-6   43.4% (n=76)
+  cum amplitude (x median)  : [0-5   46.8% (n=720)   [70+     48.6% (n=727)
+  time in phase (min)       : [0-2   46.8% (n=822)   [2-5   51.8% (n=137)   [5-10   47.6% (n=164)   [10-20   46.7% (n=182)   [20-40   44.8% (n=165)   [40+     63.6% (n=33)
+  memoryless null: mean phase len 2.1 moves -> flat hazard 47.5%  (observed phase len p90 4, max 11)
+  age<=1: flip 46.6%   age>=5: flip 51.9%   base 47.5%   -> age CARRIES INFO (late-base +4.3pp, n_late=54)
+
+==============================================================================
+ FLIP1000 @ 5.0x  moves=655  base flip rate 36.9%  (last move excluded: 1)
+==============================================================================
+  age (moves)               : [0-1   39.3% (n=242)   [1-2   33.3% (n=147)   [2-3   33.7% (n=98)   [3-4   35.4% (n=65)   [4-6   49.2% (n=63)
+  cum amplitude (x median)  : [0-5   38.9% (n=244)   [70+     36.3% (n=394)
+  time in phase (min)       : [0-2   38.1% (n=265)   [5-10   39.5% (n=43)   [10-20   28.4% (n=74)   [20-40   31.7% (n=104)   [40+     42.7% (n=143)
+  memoryless null: mean phase len 2.7 moves -> flat hazard 37.1%  (observed phase len p90 5, max 14)
+  age<=1: flip 37.0%   age>=5: flip 35.0%   base 37.0%   -> age CARRIES INFO (late-base -2.0pp, n_late=60)
+
+==============================================================================
+ PREVIOUS-PHASE LENGTH -> P(current phase is LONG) and P(flip next)
+==============================================================================
+  flip300   prev-phase len -> flip: [0-2  39.2% (n=2576)   [2-4  41.8% (n=1832)   [4-8  43.6% (n=819)   [8-15  44.6% (n=166)
+  flip300   prev-phase len -> this phase reaches age>=5:   9.6% (n=2576)    11.6% (n=1832)    10.7% (n=819)    18.1% (n=166)
+  flip500   prev-phase len -> flip: [0-2  43.1% (n=1500)   [2-4  45.6% (n=1041)   [4-8  46.0% (n=420)   [8-15  36.1% (n=97)
+  flip500   prev-phase len -> this phase reaches age>=5:   7.0% (n=1500)     8.4% (n=1041)     8.8% (n=420)    14.4% (n=97)
+  flip1000  prev-phase len -> flip: [0-2  34.8% (n=276)   [2-4  38.2% (n=212)   [4-8  39.5% (n=147)
+  flip1000  prev-phase len -> this phase reaches age>=5:  10.9% (n=276)     9.0% (n=212)     6.8% (n=147)
+
+==============================================================================
+ RULE VARIANT: enter only after phase survives min_age moves
+==============================================================================
+
+  FLIP300 @ 3.0x  (1.00wk, spread 0.05u = $0.005)
+    min_age=0: trades=2850 (2850/wk)  WR=33.3%  NET $+88.47/wk  worst $-5.30  maxDD $+78.96   <- baseline
+    min_age=1: trades=1670 (1670/wk)  WR=42.5%  NET $+32.65/wk  worst $-5.23  maxDD $+75.09
+        halves H1 $-0.39 / H2 $+33.05   $10: ruin 100% / flip 0.0%   $50: ruin 100% / flip 0.0%   hist-path: final $0 ruined=True
+    min_age=2: trades=1339 (1339/wk)  WR=45.0%  NET $+0.76/wk  worst $-5.31  maxDD $+72.10
+        halves H1 $+1.67 / H2 $-0.91   $10: ruin 100% / flip 0.0%   $50: ruin 100% / flip 0.0%   hist-path: final $0 ruined=True
+    min_age=3: trades=1155 (1155/wk)  WR=42.9%  NET $-7.54/wk  worst $-5.41  maxDD $+68.47
+
+  FLIP300 @ 4.0x  (1.00wk, spread 0.05u = $0.005)
+    min_age=0: trades=1367 (1367/wk)  WR=43.7%  NET $+97.32/wk  worst $-13.04  maxDD $+53.53   <- baseline
+    min_age=1: trades=705 (705/wk)  WR=43.7%  NET $-12.04/wk  worst $-14.45  maxDD $+54.31
+    min_age=2: trades=347 (347/wk)  WR=40.3%  NET $-30.81/wk  worst $-14.95  maxDD $+61.86
+    min_age=3: trades=184 (184/wk)  WR=47.3%  NET $-33.02/wk  worst $-15.27  maxDD $+40.40
+
+  FLIP500 @ 3.5x  (1.00wk, spread 0.05u = $0.005)
+    min_age=0: trades=1358 (1358/wk)  WR=37.1%  NET $+51.40/wk  worst $-2.90  maxDD $+48.72   <- baseline
+    min_age=1: trades=709 (709/wk)  WR=41.2%  NET $+31.74/wk  worst $-3.12  maxDD $+38.14
+        halves H1 $+4.72 / H2 $+27.02   $10: ruin 62% / flip 11.0%   $50: ruin 27% / flip 24.2%   hist-path: final $0 ruined=True
+    min_age=2: trades=389 (389/wk)  WR=45.2%  NET $+28.57/wk  worst $-3.23  maxDD $+24.41
+        halves H1 $+16.04 / H2 $+12.54   $10: ruin 36% / flip 17.3%   $50: ruin 10% / flip 37.8%   hist-path: final $0 ruined=True
+    min_age=3: trades=233 (233/wk)  WR=49.8%  NET $+24.89/wk  worst $-3.44  maxDD $+22.90
+        halves H1 $+16.27 / H2 $+8.63   $10: ruin 22% / flip 15.7%   $50: ruin 2% / flip 50.0%   hist-path: final $0 ruined=True
+
+  FLIP500 @ 4.0x  (1.00wk, spread 0.05u = $0.005)
+    min_age=0: trades=719 (719/wk)  WR=44.9%  NET $+42.76/wk  worst $-5.63  maxDD $+36.77   <- baseline
+    min_age=1: trades=384 (384/wk)  WR=43.2%  NET $+34.75/wk  worst $-4.56  maxDD $+24.53
+        halves H1 $+24.91 / H2 $+9.85   $10: ruin 57% / flip 11.2%   $50: ruin 28% / flip 30.5%   hist-path: final $18 ruined=False
+    min_age=2: trades=205 (205/wk)  WR=44.9%  NET $+26.97/wk  worst $-3.99  maxDD $+13.31
+        halves H1 $+8.49 / H2 $+18.49   $10: ruin 33% / flip 16.6%   $50: ruin 7% / flip 36.6%   hist-path: final $24 ruined=False
+    min_age=3: trades=103 (103/wk)  WR=46.6%  NET $+10.43/wk  worst $-3.86  maxDD $+11.69
+        halves H1 $+7.06 / H2 $+3.37   $10: ruin 34% / flip 4.2%   $50: ruin 4% / flip 27.0%   hist-path: final $15 ruined=False
+
+  FLIP1000 @ 5.0x  (1.00wk, spread 0.05u = $0.005)
+    min_age=0: trades=246 (246/wk)  WR=47.2%  NET $+25.73/wk  worst $-4.59  maxDD $+18.50   <- baseline
+    min_age=1: trades=148 (148/wk)  WR=50.0%  NET $+34.75/wk  worst $-4.12  maxDD $+15.19
+        halves H1 $+25.99 / H2 $+8.75   $10: ruin 19% / flip 28.5%   $50: ruin 1% / flip 62.1%   hist-path: final $41 ruined=False
+    min_age=2: trades=99 (99/wk)  WR=50.5%  NET $+20.87/wk  worst $-2.95  maxDD $+10.71
+        halves H1 $+15.02 / H2 $+5.85   $10: ruin 16% / flip 12.3%   $50: ruin 0% / flip 51.2%   hist-path: final $19 ruined=False
+    min_age=3: trades=65 (65/wk)  WR=52.3%  NET $+16.84/wk  worst $-2.03  maxDD $+7.09
+        halves H1 $+14.21 / H2 $+2.63   $10: ruin 7% / flip 7.3%   $50: ruin 0% / flip 59.0%   hist-path: final $19 ruined=False

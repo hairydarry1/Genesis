@@ -1,0 +1,69 @@
+=== drift gate | flip1000 | 34.0 gap-masked days | 3,482,113 ticks | median 60.0 ticks/min ===
+live convention: rolling 5000-tick median, mult=5.0, min_age=1, delay=300, spread=0.0626 USD/trip  (1u = $0.10 at 0.1 lot)
+
+--- A. hour-scale drift predictability (t-stat of fwd drift on trailing drift, no constant) ---
+         h=5m    h=10m    h=15m    h=30m    h=60m   h=120m   h=240m   (fwd$ = whole-window $ implied by the slope)
+    w=  5m     +0.03     -0.50     +1.37     -0.02     +0.33     +0.92     +0.09       +0.0   -3.3  +19.9   -1.0  +75.8 +795.7 +324.2
+    w= 10m     -0.61     -0.88     +0.77     -0.79     -0.44     -0.36     -0.36       -1.0   -5.7  +11.1  -45.1  -98.8 -307.6-1060.6
+    w= 15m     -0.38     +0.69     +0.46     -1.62     -0.82     -1.53     -0.79       -0.6   +4.5   +6.7  -94.1 -189.8-1334.7-2414.7
+    w= 30m     -0.32     -0.74     -0.83     -0.91     +1.19     -0.82     +0.32       -0.5   -4.8  -12.0  -53.0 +280.3 -774.6+1132.4
+    w= 60m     -0.30     -0.29     +0.17     -0.08     -0.72     -1.01     +0.94       -0.5   -1.9   +2.5   -4.8 -166.6 -900.9+3117.2
+    w=120m     -1.57     -1.42     -1.34     -1.53     -1.24     -1.00     +0.81       -2.6   -9.3  -19.4  -89.0 -287.9 -916.5+2790.6
+    w=240m     -0.68     -0.62     -0.54     -0.48     +0.03     -0.06     +1.45       -1.1   -4.1   -7.9  -28.0   +6.8  -56.2+5272.4
+    w=360m     +0.00     +0.04     +0.12     +0.16     +0.30     +0.71     +0.22       +0.0   +0.3   +1.7   +9.1  +71.4 +667.8 +860.0
+    landscape max|t| = 1.62 over 56 (w,h) cells (5% two-sided ~1.96; Bonferroni x56 ~2.84)
+    $-landscape: largest |fwd$| over the window = 5272.4
+    read: NEGATIVE t = mean reversion (trail retraces), positive
+    = continuation; the Bonferroni bar is ~2.84, so cells past it
+    are real - and the SIGN decides which side a gate may block.
+
+--- B. Oct-7 counterfactual: trailing drift at the entry fill ---
+    trade1 telemetry trend_2h was -1; trade2 read 0
+  trade1 short 9591.2523 (SL backstop):
+        5m   +2.9u   10m   -0.2u   15m   +2.6u   30m  +11.2u   60m  +28.8u  120m  +27.0u  240m  +13.2u  360m   -6.8u
+  trade2 short 9621.8854 (margin stop):
+      fill is 522 min past the archive end - trail n/a (Deriv tick depth)
+    archive w=60m quantiles (10/50/90p): -25.3/+0.2/+26.4u
+
+--- C. short-block gate sim (deployed convention) ---
+  rolling medians from cache (data/flip_exec/_rolling_med_flip1000.npz, n=3,482,113)
+  shared run_conv: 634 trips, net $+5.22, 18.7 trips/day
+  parity vs run_conv (theta=1e9): BIT-EXACT (0 blocks)
+    baseline split: 324 longs $+39.51, 310 shorts $-34.29
+
+  block shorts when trail <= -theta (down-drift abstention)
+   theta     w    n      net$   net/wk blocks   short-trips-removed
+      10   20m  589    +32.75    +6.75    129   ~45 short trips removed
+      10   60m  595    +38.71    +7.97     95   ~39 short trips removed
+      10  120m  568    +25.38    +5.23    184   ~66 short trips removed
+      10  240m  549     +8.02    +1.65    219   ~85 short trips removed
+
+      20   20m  625     +8.44    +1.74     30   ~9 short trips removed
+      20   60m  619    +12.47    +2.57     44   ~15 short trips removed
+      20  120m  601    +10.40    +2.14     93   ~33 short trips removed
+      20  240m  568    +11.75    +2.42    176   ~66 short trips removed
+
+      40   20m  634     +5.46    +1.12      1   ~0 short trips removed
+      40   60m  634     +6.16    +1.27      3   ~0 short trips removed
+      40  120m  621     +9.95    +2.05     27   ~13 short trips removed
+      40  240m  607    +10.12    +2.08     74   ~27 short trips removed
+
+  block shorts when trail >= +theta (up-drift abstention - trade-1 style)
+   theta     w    n      net$   net/wk blocks   short-trips-removed
+      10   20m  629     +9.97    +2.05     21   ~5 short trips removed
+      10   60m  567    -12.47    -2.57    216   ~67 short trips removed
+      10  120m  539    -10.98    -2.26    297   ~95 short trips removed
+      10  240m  525     +5.25    +1.08    373   ~109 short trips removed
+
+      20   20m  632     +5.78    +1.19      2   ~2 short trips removed
+      20   60m  609     -4.69    -0.97     88   ~25 short trips removed
+      20  120m  575    -11.08    -2.28    188   ~59 short trips removed
+      20  240m  556     +5.63    +1.16    278   ~78 short trips removed
+
+      40   20m  634     +5.22    +1.08      0   ~0 short trips removed
+      40   60m  630     -0.94    -0.19     10   ~4 short trips removed
+      40  120m  615     +1.28    +0.26     61   ~19 short trips removed
+      40  240m  592     -0.18    -0.04    123   ~42 short trips removed
+
+verdict advisory: A says raw hour-drift itself is NOT predictable
+(max|t|=1.62); C says the gate still paid as an abstention tool.

@@ -1,0 +1,581 @@
+{
+  "generated": "2026-09-03T21:37:32",
+  "learner": {
+    "crash300": {
+      "key": "crash300",
+      "window_bars": 10080,
+      "spike_rate_h": 7.196428571428571,
+      "rate_x_baseline": 0.9672264089121887,
+      "mean_gap_min": 8.336920529801324,
+      "p_gap_gt_hold": 0.7789735099337748,
+      "drift_pct": 0.8396825396825397,
+      "vol_percentile": 0.2764040769891574,
+      "cluster_ratio": 0.3333333333333333,
+      "cold_hours": [
+        4,
+        8,
+        14,
+        16,
+        17,
+        18
+      ],
+      "hot_hours": [
+        10
+      ],
+      "hourly_rate": {
+        "0": 138.0952380952381,
+        "1": 128.57142857142856,
+        "2": 104.76190476190476,
+        "3": 128.57142857142856,
+        "4": 95.23809523809523,
+        "5": 135.7142857142857,
+        "6": 138.0952380952381,
+        "7": 130.95238095238096,
+        "8": 100.0,
+        "9": 126.19047619047619,
+        "10": 145.23809523809524,
+        "11": 119.04761904761904,
+        "12": 130.95238095238096,
+        "13": 121.42857142857143,
+        "14": 100.0,
+        "15": 119.04761904761904,
+        "16": 100.0,
+        "17": 92.85714285714286,
+        "18": 90.47619047619047,
+        "19": 133.33333333333334,
+        "20": 121.42857142857143,
+        "21": 123.80952380952381,
+        "22": 138.0952380952381,
+        "23": 116.66666666666667
+      },
+      "hour_stability": {
+        "key": "crash300",
+        "verdict": "NOISE",
+        "guidance": "no hour pattern stable enough to trust in the available history \u2014 do NOT gate live trading on fixed hours; treat cold-hour lists as display only until more data confirms",
+        "n_weekly_windows": 4,
+        "adj_week_rank_corr": -0.05064209681675119,
+        "adj_week_cold_overlap": 0.08333333333333333,
+        "hour_explained_var": 0.1848716740197643,
+        "run_to_run_churn": 0.09126984126984125,
+        "caveat": "29 days = only 4 independent weekly windows; Poisson noise per hour-slot is large, so a weak-but-real hour effect could sit below the detection threshold at this sample size.",
+        "note": "cold sets = hours below median x 0.85 (matching the learner); rank corr is between adjacent non-overlapping windows; churn is between consecutive DAILY runs of a rolling 7-day window"
+      },
+      "lottery": {
+        "8": {
+          "n_spikes": 1553,
+          "resolved": 1552,
+          "tp": 151,
+          "sl": 1401,
+          "p_win": 0.09729381443298969,
+          "c": 0.7783505154639175,
+          "breakeven_c": 0.8888888888888888,
+          "ev": -0.12435567010309279,
+          "alive": false
+        },
+        "12": {
+          "n_spikes": 1553,
+          "resolved": 1545,
+          "tp": 105,
+          "sl": 1440,
+          "p_win": 0.06796116504854369,
+          "c": 0.8155339805825242,
+          "breakeven_c": 0.9230769230769231,
+          "ev": -0.1165048543689321,
+          "alive": false
+        }
+      },
+      "lottery_verdict": "DEAD"
+    },
+    "crash500": {
+      "key": "crash500",
+      "window_bars": 10080,
+      "spike_rate_h": 5.488095238095238,
+      "rate_x_baseline": 1.0123377316594075,
+      "mean_gap_min": 10.925081433224756,
+      "p_gap_gt_hold": 0.8241042345276873,
+      "drift_pct": 0.8963293650793651,
+      "vol_percentile": 0.42671944810982243,
+      "cluster_ratio": 0.0,
+      "cold_hours": [
+        0,
+        6,
+        7,
+        16,
+        22,
+        23
+      ],
+      "hot_hours": [
+        1,
+        2,
+        8,
+        14,
+        21
+      ],
+      "hourly_rate": {
+        "0": 61.904761904761905,
+        "1": 142.85714285714286,
+        "2": 107.14285714285714,
+        "3": 92.85714285714286,
+        "4": 100.0,
+        "5": 95.23809523809523,
+        "6": 66.66666666666667,
+        "7": 66.66666666666667,
+        "8": 109.52380952380952,
+        "9": 90.47619047619047,
+        "10": 83.33333333333333,
+        "11": 92.85714285714286,
+        "12": 80.95238095238096,
+        "13": 88.0952380952381,
+        "14": 116.66666666666667,
+        "15": 95.23809523809523,
+        "16": 71.42857142857143,
+        "17": 90.47619047619047,
+        "18": 92.85714285714286,
+        "19": 100.0,
+        "20": 83.33333333333333,
+        "21": 119.04761904761904,
+        "22": 76.1904761904762,
+        "23": 71.42857142857143
+      },
+      "hour_stability": {
+        "key": "crash500",
+        "verdict": "NOISE",
+        "guidance": "no hour pattern stable enough to trust in the available history \u2014 do NOT gate live trading on fixed hours; treat cold-hour lists as display only until more data confirms",
+        "n_weekly_windows": 4,
+        "adj_week_rank_corr": -0.11507063194781864,
+        "adj_week_cold_overlap": 0.14484126984126985,
+        "hour_explained_var": 0.2440191555465823,
+        "run_to_run_churn": 0.11507936507936509,
+        "caveat": "29 days = only 4 independent weekly windows; Poisson noise per hour-slot is large, so a weak-but-real hour effect could sit below the detection threshold at this sample size.",
+        "note": "cold sets = hours below median x 0.85 (matching the learner); rank corr is between adjacent non-overlapping windows; churn is between consecutive DAILY runs of a rolling 7-day window"
+      },
+      "lottery": {
+        "8": {
+          "n_spikes": 1168,
+          "resolved": 1168,
+          "tp": 108,
+          "sl": 1060,
+          "p_win": 0.09246575342465753,
+          "c": 0.7397260273972602,
+          "breakeven_c": 0.8888888888888888,
+          "ev": -0.1678082191780822,
+          "alive": false
+        },
+        "12": {
+          "n_spikes": 1168,
+          "resolved": 1168,
+          "tp": 75,
+          "sl": 1093,
+          "p_win": 0.0642123287671233,
+          "c": 0.7705479452054795,
+          "breakeven_c": 0.9230769230769231,
+          "ev": -0.16523972602739723,
+          "alive": false
+        }
+      },
+      "lottery_verdict": "DEAD"
+    },
+    "crash1000": {
+      "key": "crash1000",
+      "window_bars": 10080,
+      "spike_rate_h": 3.1011904761904763,
+      "rate_x_baseline": 1.011187537741546,
+      "mean_gap_min": 19.14423076923077,
+      "p_gap_gt_hold": 0.7461538461538462,
+      "drift_pct": 0.9433531746031746,
+      "vol_percentile": 0.6371738778155891,
+      "cluster_ratio": 0.1791044776119403,
+      "cold_hours": [
+        1,
+        10,
+        15,
+        22,
+        23
+      ],
+      "hot_hours": [
+        0,
+        2,
+        4,
+        16,
+        17,
+        20
+      ],
+      "hourly_rate": {
+        "0": 66.66666666666667,
+        "1": 38.0952380952381,
+        "2": 69.04761904761905,
+        "3": 50.0,
+        "4": 69.04761904761905,
+        "5": 52.38095238095238,
+        "6": 47.61904761904761,
+        "7": 50.0,
+        "8": 50.0,
+        "9": 52.38095238095238,
+        "10": 38.0952380952381,
+        "11": 57.14285714285714,
+        "12": 54.76190476190476,
+        "13": 52.38095238095238,
+        "14": 50.0,
+        "15": 38.0952380952381,
+        "16": 61.904761904761905,
+        "17": 64.28571428571428,
+        "18": 50.0,
+        "19": 54.76190476190476,
+        "20": 61.904761904761905,
+        "21": 47.61904761904761,
+        "22": 23.809523809523807,
+        "23": 40.47619047619048
+      },
+      "hour_stability": {
+        "key": "crash1000",
+        "verdict": "NOISE",
+        "guidance": "no hour pattern stable enough to trust in the available history \u2014 do NOT gate live trading on fixed hours; treat cold-hour lists as display only until more data confirms",
+        "n_weekly_windows": 4,
+        "adj_week_rank_corr": -0.018818214976056378,
+        "adj_week_cold_overlap": 0.0,
+        "hour_explained_var": 0.2910929691835492,
+        "run_to_run_churn": 0.15476190476190477,
+        "caveat": "29 days = only 4 independent weekly windows; Poisson noise per hour-slot is large, so a weak-but-real hour effect could sit below the detection threshold at this sample size.",
+        "note": "cold sets = hours below median x 0.85 (matching the learner); rank corr is between adjacent non-overlapping windows; churn is between consecutive DAILY runs of a rolling 7-day window"
+      },
+      "lottery": {
+        "8": {
+          "n_spikes": 658,
+          "resolved": 658,
+          "tp": 41,
+          "sl": 617,
+          "p_win": 0.06231003039513678,
+          "c": 0.49848024316109424,
+          "breakeven_c": 0.8888888888888888,
+          "ev": -0.43920972644376893,
+          "alive": false
+        },
+        "12": {
+          "n_spikes": 658,
+          "resolved": 658,
+          "tp": 26,
+          "sl": 632,
+          "p_win": 0.03951367781155015,
+          "c": 0.4741641337386018,
+          "breakeven_c": 0.9230769230769231,
+          "ev": -0.4863221884498481,
+          "alive": false
+        }
+      },
+      "lottery_verdict": "DEAD"
+    },
+    "boom500": {
+      "key": "boom500",
+      "window_bars": 9262,
+      "spike_rate_h": 5.260202979917944,
+      "rate_x_baseline": 0.9751624763164591,
+      "mean_gap_min": 11.411837237977805,
+      "p_gap_gt_hold": 0.8199753390875463,
+      "drift_pct": 0.8958108399913626,
+      "vol_percentile": 0.535878619127398,
+      "cluster_ratio": 0.25,
+      "cold_hours": [
+        1,
+        2,
+        5
+      ],
+      "hot_hours": [
+        0,
+        4,
+        6,
+        13,
+        16
+      ],
+      "hourly_rate": {
+        "0": 106.95187165775401,
+        "1": 69.44444444444444,
+        "2": 69.44444444444444,
+        "3": 83.33333333333333,
+        "4": 113.88888888888889,
+        "5": 52.77777777777778,
+        "6": 105.55555555555556,
+        "7": 88.88888888888889,
+        "8": 77.77777777777779,
+        "9": 83.33333333333333,
+        "10": 97.22222222222223,
+        "11": 86.11111111111111,
+        "12": 97.22222222222223,
+        "13": 105.97826086956522,
+        "14": 95.23809523809523,
+        "15": 95.23809523809523,
+        "16": 102.38095238095238,
+        "17": 80.95238095238096,
+        "18": 73.80952380952381,
+        "19": 76.1904761904762,
+        "20": 85.71428571428571,
+        "21": 92.85714285714286,
+        "22": 80.95238095238096,
+        "23": 83.33333333333333
+      },
+      "hour_stability": {
+        "key": "boom500",
+        "verdict": "NOISE",
+        "guidance": "no hour pattern stable enough to trust in the available history \u2014 do NOT gate live trading on fixed hours; treat cold-hour lists as display only until more data confirms",
+        "n_weekly_windows": 4,
+        "adj_week_rank_corr": 0.1339896630115179,
+        "adj_week_cold_overlap": 0.06666666666666667,
+        "hour_explained_var": 0.28425464381626886,
+        "run_to_run_churn": 0.09722222222222221,
+        "caveat": "29 days = only 4 independent weekly windows; Poisson noise per hour-slot is large, so a weak-but-real hour effect could sit below the detection threshold at this sample size.",
+        "note": "cold sets = hours below median x 0.85 (matching the learner); rank corr is between adjacent non-overlapping windows; churn is between consecutive DAILY runs of a rolling 7-day window"
+      },
+      "lottery": {
+        "8": {
+          "n_spikes": 1132,
+          "resolved": 1131,
+          "tp": 71,
+          "sl": 1060,
+          "p_win": 0.0627763041556145,
+          "c": 0.502210433244916,
+          "breakeven_c": 0.8888888888888888,
+          "ev": -0.4350132625994695,
+          "alive": false
+        },
+        "12": {
+          "n_spikes": 1132,
+          "resolved": 1131,
+          "tp": 50,
+          "sl": 1081,
+          "p_win": 0.04420866489832007,
+          "c": 0.5305039787798409,
+          "breakeven_c": 0.9230769230769231,
+          "ev": -0.425287356321839,
+          "alive": false
+        }
+      },
+      "lottery_verdict": "DEAD"
+    },
+    "boom1000": {
+      "key": "boom1000",
+      "window_bars": 10080,
+      "spike_rate_h": 3.0892857142857144,
+      "rate_x_baseline": 1.0141072258750083,
+      "mean_gap_min": 19.266409266409266,
+      "p_gap_gt_hold": 0.9034749034749034,
+      "drift_pct": 0.9442460317460317,
+      "vol_percentile": 0.531440305905679,
+      "cluster_ratio": 0.13513513513513514,
+      "cold_hours": [
+        0,
+        6,
+        9,
+        12,
+        13
+      ],
+      "hot_hours": [
+        8
+      ],
+      "hourly_rate": {
+        "0": 42.857142857142854,
+        "1": 57.14285714285714,
+        "2": 54.76190476190476,
+        "3": 54.76190476190476,
+        "4": 52.38095238095238,
+        "5": 52.38095238095238,
+        "6": 42.857142857142854,
+        "7": 57.14285714285714,
+        "8": 66.66666666666667,
+        "9": 42.857142857142854,
+        "10": 50.0,
+        "11": 57.14285714285714,
+        "12": 38.0952380952381,
+        "13": 38.0952380952381,
+        "14": 50.0,
+        "15": 57.14285714285714,
+        "16": 50.0,
+        "17": 52.38095238095238,
+        "18": 59.52380952380952,
+        "19": 59.52380952380952,
+        "20": 45.238095238095234,
+        "21": 59.52380952380952,
+        "22": 45.238095238095234,
+        "23": 50.0
+      },
+      "hour_stability": {
+        "key": "boom1000",
+        "verdict": "NOISE",
+        "guidance": "no hour pattern stable enough to trust in the available history \u2014 do NOT gate live trading on fixed hours; treat cold-hour lists as display only until more data confirms",
+        "n_weekly_windows": 4,
+        "adj_week_rank_corr": 0.02299790148728841,
+        "adj_week_cold_overlap": 0.18055555555555555,
+        "hour_explained_var": 0.30606995893910094,
+        "run_to_run_churn": 0.13293650793650796,
+        "caveat": "29 days = only 4 independent weekly windows; Poisson noise per hour-slot is large, so a weak-but-real hour effect could sit below the detection threshold at this sample size.",
+        "note": "cold sets = hours below median x 0.85 (matching the learner); rank corr is between adjacent non-overlapping windows; churn is between consecutive DAILY runs of a rolling 7-day window"
+      },
+      "lottery": {
+        "8": {
+          "n_spikes": 655,
+          "resolved": 655,
+          "tp": 31,
+          "sl": 624,
+          "p_win": 0.04732824427480916,
+          "c": 0.3786259541984733,
+          "breakeven_c": 0.8888888888888888,
+          "ev": -0.5740458015267176,
+          "alive": false
+        },
+        "12": {
+          "n_spikes": 655,
+          "resolved": 655,
+          "tp": 24,
+          "sl": 631,
+          "p_win": 0.0366412213740458,
+          "c": 0.43969465648854966,
+          "breakeven_c": 0.9230769230769231,
+          "ev": -0.5236641221374045,
+          "alive": false
+        }
+      },
+      "lottery_verdict": "DEAD"
+    }
+  },
+  "recommendations": {
+    "crash300": {
+      "key": "crash300",
+      "baseline": {
+        "entry_bar": 1,
+        "hold": 2,
+        "cooldown": 1,
+        "gate": true,
+        "gate_mult": 8.0,
+        "gate_window": 3
+      },
+      "baseline_val": {
+        "n": 68,
+        "wr": 82.35294117647058,
+        "pf": 3.3701431492842557,
+        "pnl": 62.58599999999967,
+        "avg": 0.9203823529411717,
+        "maxdd": 9.469999999999914,
+        "avg_halves": 1.9264705882352942,
+        "p_loss": 0.17647058823529413,
+        "p_loss_given_loss": 0.25,
+        "reasons": {
+          "timeout": 68
+        }
+      },
+      "candidate": null,
+      "candidate_val": null,
+      "verdict": "HOLD",
+      "reason": "no candidate beat the baseline on validation"
+    },
+    "crash500": {
+      "key": "crash500",
+      "baseline": {
+        "entry_bar": 1,
+        "hold": 2,
+        "cooldown": 1,
+        "gate": true,
+        "gate_mult": 8.0,
+        "gate_window": 3
+      },
+      "baseline_val": {
+        "n": 130,
+        "wr": 86.15384615384616,
+        "pf": 1.9737072520779124,
+        "pnl": 38.36650000000009,
+        "avg": 0.29512692307692373,
+        "maxdd": 8.894000000000005,
+        "avg_halves": 1.9615384615384615,
+        "p_loss": 0.13846153846153847,
+        "p_loss_given_loss": 0.16666666666666666,
+        "reasons": {
+          "timeout": 130
+        }
+      },
+      "candidate": null,
+      "candidate_val": null,
+      "verdict": "HOLD",
+      "reason": "no candidate beat the baseline on validation"
+    },
+    "crash1000": {
+      "key": "crash1000",
+      "baseline": {
+        "entry_bar": 3,
+        "hold": 5,
+        "cooldown": 3,
+        "gate": false
+      },
+      "baseline_val": {
+        "n": 549,
+        "wr": 80.51001821493625,
+        "pf": 1.3884644615656274,
+        "pnl": 215.6980000000067,
+        "avg": 0.3928925318761506,
+        "maxdd": 56.14100000000053,
+        "avg_halves": 1.9435336976320583,
+        "p_loss": 0.19489981785063754,
+        "p_loss_given_loss": 0.17757009345794392,
+        "reasons": {
+          "timeout": 549
+        }
+      },
+      "candidate": null,
+      "candidate_val": null,
+      "verdict": "HOLD",
+      "reason": "no candidate beat the baseline on validation"
+    },
+    "boom500": {
+      "key": "boom500",
+      "baseline": {
+        "entry_bar": 1,
+        "hold": 2,
+        "cooldown": 1,
+        "gate": true,
+        "gate_mult": 8.0,
+        "gate_window": 3
+      },
+      "baseline_val": {
+        "n": 123,
+        "wr": 82.92682926829268,
+        "pf": 2.059969163353055,
+        "pnl": 58.77899999999727,
+        "avg": 0.4778780487804656,
+        "maxdd": 13.150499999999738,
+        "avg_halves": 1.934959349593496,
+        "p_loss": 0.17073170731707318,
+        "p_loss_given_loss": 0.23809523809523808,
+        "reasons": {
+          "timeout": 123
+        }
+      },
+      "candidate": null,
+      "candidate_val": null,
+      "verdict": "HOLD",
+      "reason": "no candidate beat the baseline on validation"
+    },
+    "boom1000": {
+      "key": "boom1000",
+      "baseline": {
+        "entry_bar": 2,
+        "hold": 2,
+        "cooldown": 3,
+        "gate": false
+      },
+      "baseline_val": {
+        "n": 648,
+        "wr": 90.74074074074075,
+        "pf": 1.8554640312292394,
+        "pnl": 492.5270000000037,
+        "avg": 0.7600725308642032,
+        "maxdd": 70.96000000000095,
+        "avg_halves": 1.9459876543209877,
+        "p_loss": 0.09259259259259259,
+        "p_loss_given_loss": 0.0847457627118644,
+        "reasons": {
+          "timeout": 648
+        }
+      },
+      "candidate": null,
+      "candidate_val": null,
+      "verdict": "HOLD",
+      "reason": "no candidate beat the baseline on validation"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+archive: 11.4 days (gap-masked), med=0.00840
+
+=== LS ===
+  incumbent (reference)              trips= 238  WR=50.0%  net=$ +27.24/wk  avgW=$+1.57  avgL=$-1.20  worst=$ -5.43  maxDD=$18.00
+  STAGED half-now half-next          trips= 476  WR=49.6%  net=$ +22.69/wk  avgW=$+0.78  avgL=$-0.61  worst=$ -2.74  maxDD=$19.69
+  THICK ignore attacks < 0.5x entry  trips= 220  WR=47.7%  net=$ +23.63/wk  avgW=$+1.73  avgL=$-1.25  worst=$ -6.06  maxDD=$21.70
+  THICK ignore attacks < 0.75x entry trips= 145  WR=43.4%  net=$  -2.90/wk  avgW=$+2.11  avgL=$-1.68  worst=$-14.39  maxDD=$32.77
+  TIMEBND patience 500 ticks         trips= 230  WR=58.7%  net=$ +21.69/wk  avgW=$+1.34  avgL=$-1.53  worst=$ -5.37  maxDD=$23.05
+  TIMEBND patience 1000 ticks        trips= 224  WR=61.6%  net=$ +28.77/wk  avgW=$+1.36  avgL=$-1.64  worst=$ -6.45  maxDD=$20.47
+  TIMEBND patience 2000 ticks        trips= 218  WR=61.9%  net=$ +36.49/wk  avgW=$+1.43  avgL=$-1.61  worst=$ -6.45  maxDD=$19.39
+  TIMEBND patience 3000 ticks        trips= 207  WR=62.8%  net=$ +25.37/wk  avgW=$+1.43  avgL=$-1.87  worst=$ -7.27  maxDD=$17.56
+  TIMEBND patience 5000 ticks        trips= 205  WR=64.9%  net=$ +29.65/wk  avgW=$+1.38  avgL=$-1.88  worst=$ -7.99  maxDD=$12.49
+  RATCHET trail = 0.5x entry energy  trips= 515  WR=24.1%  net=$ -17.16/wk  avgW=$+1.44  avgL=$-0.53  worst=$ -2.50  maxDD=$42.41
+  RATCHET trail = 1.0x entry energy  trips= 340  WR=27.6%  net=$ -43.02/wk  avgW=$+1.46  avgL=$-0.84  worst=$ -2.98  maxDD=$79.67
+  RATCHET trail = 2.0x entry energy  trips= 141  WR=34.8%  net=$  -1.89/wk  avgW=$+2.45  avgL=$-1.34  worst=$ -4.66  maxDD=$35.69
+  ABSORB re-enter on exit bounce     trips= 318  WR=50.9%  net=$ +25.66/wk  avgW=$+1.38  avgL=$-1.16  worst=$ -5.37  maxDD=$19.73
+
+=== L ===
+  incumbent (reference)              trips= 123  WR=53.7%  net=$ +23.99/wk  avgW=$+1.65  avgL=$-1.22  worst=$ -5.37  maxDD=$12.26
+  STAGED half-now half-next          trips= 246  WR=53.3%  net=$ +21.64/wk  avgW=$+0.81  avgL=$-0.62  worst=$ -2.72  maxDD=$12.90
+  THICK ignore attacks < 0.5x entry  trips= 116  WR=48.3%  net=$ +24.70/wk  avgW=$+1.89  avgL=$-1.09  worst=$ -5.37  maxDD=$12.26
+  THICK ignore attacks < 0.75x entry trips=  99  WR=45.5%  net=$ +26.67/wk  avgW=$+2.54  avgL=$-1.31  worst=$ -5.37  maxDD=$14.87
+  TIMEBND patience 500 ticks         trips= 123  WR=59.3%  net=$ +22.66/wk  avgW=$+1.51  avgL=$-1.46  worst=$ -5.37  maxDD=$11.19
+  TIMEBND patience 1000 ticks        trips= 123  WR=60.2%  net=$ +24.26/wk  avgW=$+1.52  avgL=$-1.49  worst=$ -5.37  maxDD=$11.56
+  TIMEBND patience 2000 ticks        trips= 123  WR=61.8%  net=$ +27.53/wk  avgW=$+1.46  avgL=$-1.41  worst=$ -5.37  maxDD=$11.22
+  TIMEBND patience 3000 ticks        trips= 123  WR=62.6%  net=$ +25.20/wk  avgW=$+1.47  avgL=$-1.56  worst=$ -5.37  maxDD=$16.16
+  TIMEBND patience 5000 ticks        trips= 123  WR=64.2%  net=$ +28.93/wk  avgW=$+1.44  avgL=$-1.52  worst=$ -5.37  maxDD=$14.16
+  RATCHET trail = 0.5x entry energy  trips= 288  WR=24.3%  net=$  +4.56/wk  avgW=$+1.55  avgL=$-0.46  worst=$ -2.06  maxDD=$17.23
+  RATCHET trail = 1.0x entry energy  trips= 204  WR=30.9%  net=$  +6.63/wk  avgW=$+1.88  avgL=$-0.76  worst=$ -2.98  maxDD=$24.68
+  RATCHET trail = 2.0x entry energy  trips= 119  WR=35.3%  net=$  +8.95/wk  avgW=$+2.65  avgL=$-1.26  worst=$ -4.66  maxDD=$21.28
+  ABSORB re-enter on exit bounce     trips= 318  WR=50.9%  net=$ +25.66/wk  avgW=$+1.38  avgL=$-1.16  worst=$ -5.37  maxDD=$19.73
+
+=== time-split (trades partitioned by close time) ===
+  LS  incumbent      H1($+23.26/wk)  H2($+31.34/wk)
+  LS  TIMEBND 1000   H1($+31.94/wk)  H2($+25.59/wk)
+  LS  TIMEBND 2000   H1($+36.72/wk)  H2($+36.26/wk)
+  LS  TIMEBND 5000   H1($+40.11/wk)  H2($+18.45/wk)
+  L   incumbent      H1($+25.51/wk)  H2($+22.30/wk)
+  L   TIMEBND 1000   H1($+23.89/wk)  H2($+24.68/wk)
+  L   TIMEBND 2000   H1($+24.10/wk)  H2($+31.40/wk)
+  L   TIMEBND 5000   H1($+29.68/wk)  H2($+28.08/wk)

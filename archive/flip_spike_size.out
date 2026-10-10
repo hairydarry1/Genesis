@@ -1,0 +1,36 @@
+archive: 36.5 days (gap-masked), med=0.00840
+
+=== A. entry-spike size vs outcome (terciles of entry x) ===
+  LS: corr(x, net) = +0.020
+    x<140.87: n=299 wr=37% mean=$-0.29
+    140.87-1134.94: n=299 wr=54% mean=$+0.18
+    x>1134.94: n=300 wr=47% mean=$-0.02
+  L: corr(x, net) = +0.060
+    x<5.98: n=202 wr=35% mean=$-0.18
+    5.98-920.52: n=201 wr=50% mean=$+0.08
+    x>920.52: n=202 wr=52% mean=$+0.06
+
+=== A2. entry-size filter ladder (net/wk) ===
+  LS x_min=none                  trips= 898  WR=45.9%  net=$  -7.51/wk  avgW=$+1.31  avgL=$-1.19  worst=$-10.04  maxDD=$105.90
+  LS x_min=5.25                  trips= 893  WR=45.9%  net=$  -7.40/wk  avgW=$+1.31  avgL=$-1.19  worst=$-10.04  maxDD=$105.20
+  LS x_min=5.5                   trips= 890  WR=46.0%  net=$  -7.16/wk  avgW=$+1.31  avgL=$-1.19  worst=$-10.04  maxDD=$104.56
+  LS x_min=6.0                   trips= 886  WR=46.2%  net=$  -7.95/wk  avgW=$+1.30  avgL=$-1.21  worst=$-10.04  maxDD=$105.94
+
+  L x_min=none                   trips= 605  WR=45.8%  net=$  -1.52/wk  avgW=$+1.31  avgL=$-1.13  worst=$-10.04  maxDD=$64.39
+  L x_min=5.25                   trips= 601  WR=45.8%  net=$  -1.46/wk  avgW=$+1.31  avgL=$-1.13  worst=$-10.04  maxDD=$63.85
+  L x_min=5.5                    trips= 600  WR=45.8%  net=$  -1.47/wk  avgW=$+1.31  avgL=$-1.13  worst=$-10.04  maxDD=$63.53
+  L x_min=6.0                    trips= 596  WR=46.1%  net=$  -2.22/wk  avgW=$+1.30  avgL=$-1.15  worst=$-10.04  maxDD=$65.40
+
+=== B. exit variants (same entries as incumbent) ===
+  LS incumbent (counter-spike)   trips= 898  WR=45.9%  net=$  -7.51/wk  avgW=$+1.31  avgL=$-1.19  worst=$-10.04  maxDD=$105.90
+  LS retrace-hold (pure)         trips= 792  WR=56.6%  net=$  -7.66/wk  avgW=$+1.18  avgL=$-1.66  worst=$-10.45  maxDD=$108.77
+  LS retrace-hold (bounded)      trips= 845  WR=54.0%  net=$  +0.37/wk  avgW=$+1.22  avgL=$-1.43  worst=$-10.45  maxDD=$72.25
+  LS incumbent + 25u stop        trips= 993  WR=45.6%  net=$  -6.76/wk  avgW=$+1.32  avgL=$-1.17  worst=$ -3.25  maxDD=$90.09
+  LS retrace-bounded + 25u stop  trips= 941  WR=52.8%  net=$  -2.44/wk  avgW=$+1.26  avgL=$-1.44  worst=$ -3.88  maxDD=$81.49
+
+  L incumbent (counter-spike)    trips= 605  WR=45.8%  net=$  -1.52/wk  avgW=$+1.31  avgL=$-1.13  worst=$-10.04  maxDD=$64.39
+  L retrace-hold (pure)          trips= 604  WR=55.8%  net=$  +6.88/wk  avgW=$+1.21  avgL=$-1.40  worst=$-10.42  maxDD=$38.19
+  L retrace-hold (bounded)       trips= 604  WR=53.6%  net=$  +2.63/wk  avgW=$+1.22  avgL=$-1.36  worst=$ -9.95  maxDD=$47.61
+  L incumbent + 25u stop         trips= 660  WR=45.6%  net=$  -1.86/wk  avgW=$+1.31  avgL=$-1.13  worst=$ -3.25  maxDD=$59.14
+  L retrace-bounded + 25u stop   trips= 659  WR=53.0%  net=$  +2.84/wk  avgW=$+1.23  avgL=$-1.34  worst=$ -3.44  maxDD=$36.20
+

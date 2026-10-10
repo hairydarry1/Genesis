@@ -1,0 +1,20 @@
+=== exit family | flip1000 | 36.4 gap-masked days | 3,782,992 ticks ===
+deployed convention: rolling 5000-tick median, mult=5.0, min_age=1, delay=300, spread=0.0626 USD/trip  (1u = $0.10 at 0.1 lot)
+
+  computing rolling medians over 3,782,992 ticks (bisect window)...
+  done in 444.0s
+  cached -> data/flip_exec/_rolling_med_flip1000.npz
+--- 0. parity gate (run_variant must equal run_conv) ---
+  LS: run_conv n=681 net=$-8.8322 | run_variant n=681 net=$-8.8322 -> BIT-EXACT
+  L: run_conv n=348 net=$+31.9901 | run_variant n=348 net=$+31.9901 -> BIT-EXACT
+
+--- 1. exits with no stop  ---
+  LS counter                 n= 681 net/wk=$  -1.70 net=$  -8.83 WR= 48.2% avg=$-0.013 avgL=$-1.304 worst=$-10.36 maxDD=$ 83.66 worstDay=$-19.15
+  LS retrace                 n= 548 net/wk=$ -11.79 net=$ -61.36 WR= 61.9% avg=$-0.112 avgL=$-2.285 worst=$-10.17 maxDD=$ 93.62 worstDay=$-25.73
+  LS bounded                 n= 611 net/wk=$  +4.14 net=$ +21.53 WR= 58.6% avg=$+0.035 avgL=$-1.744 worst=$-10.17 maxDD=$ 65.01 worstDay=$-19.42
+
+  L counter                  n= 348 net/wk=$  +6.15 net=$ +31.99 WR= 50.9% avg=$+0.092 avgL=$-1.342 worst=$-10.36 maxDD=$ 32.21 worstDay=$-9.43
+  L retrace                  n= 348 net/wk=$  +5.61 net=$ +29.19 WR= 63.2% avg=$+0.084 avgL=$-2.092 worst=$-10.17 maxDD=$ 29.57 worstDay=$-12.09
+  L bounded                  n= 348 net/wk=$  +4.52 net=$ +23.50 WR= 59.5% avg=$+0.068 avgL=$-1.828 worst=$-10.17 maxDD=$ 34.22 worstDay=$-16.71
+
+--- 1. exits with 60u SL (~$6.00, fills at the stop level) ---

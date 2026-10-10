@@ -1,0 +1,185 @@
+{
+  "config": {
+    "n_bars": 259999,
+    "start": "2026-02-23 10:01:00",
+    "end": "2026-08-22 23:20:00",
+    "n_probes": 15,
+    "warmup_bars": 2000,
+    "tolerance": 1e-09,
+    "builder_kwargs": {},
+    "seed": 0
+  },
+  "verdict": "PASS",
+  "n_probes": 15,
+  "n_clean_probes": 15,
+  "n_leaky_probes": 0,
+  "features_flagged": [],
+  "feature_detail": {},
+  "probes": [
+    {
+      "probe": 0,
+      "bar_idx": 2000,
+      "timestamp": "2026-02-24 19:21:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 19.2
+    },
+    {
+      "probe": 1,
+      "bar_idx": 20428,
+      "timestamp": "2026-03-09 14:29:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 44.3
+    },
+    {
+      "probe": 2,
+      "bar_idx": 38856,
+      "timestamp": "2026-03-22 09:37:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 56.0
+    },
+    {
+      "probe": 3,
+      "bar_idx": 57285,
+      "timestamp": "2026-04-04 04:46:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 45.0
+    },
+    {
+      "probe": 4,
+      "bar_idx": 75713,
+      "timestamp": "2026-04-16 23:54:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 56.9
+    },
+    {
+      "probe": 5,
+      "bar_idx": 94142,
+      "timestamp": "2026-04-29 19:03:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 63.6
+    },
+    {
+      "probe": 6,
+      "bar_idx": 112570,
+      "timestamp": "2026-05-12 14:11:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 74.4
+    },
+    {
+      "probe": 7,
+      "bar_idx": 130999,
+      "timestamp": "2026-05-25 09:20:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 105.8
+    },
+    {
+      "probe": 8,
+      "bar_idx": 149427,
+      "timestamp": "2026-06-07 04:28:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 108.9
+    },
+    {
+      "probe": 9,
+      "bar_idx": 167855,
+      "timestamp": "2026-06-19 23:36:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 94.8
+    },
+    {
+      "probe": 10,
+      "bar_idx": 186284,
+      "timestamp": "2026-07-02 18:45:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 97.3
+    },
+    {
+      "probe": 11,
+      "bar_idx": 204712,
+      "timestamp": "2026-07-15 13:53:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 67.8
+    },
+    {
+      "probe": 12,
+      "bar_idx": 223141,
+      "timestamp": "2026-07-28 09:03:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 72.6
+    },
+    {
+      "probe": 13,
+      "bar_idx": 241569,
+      "timestamp": "2026-08-10 04:11:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 54.1
+    },
+    {
+      "probe": 14,
+      "bar_idx": 259998,
+      "timestamp": "2026-08-22 23:20:00",
+      "n_features": 116,
+      "n_mismatches": 0,
+      "max_abs_diff": 0.0,
+      "ok": true,
+      "mismatches": [],
+      "elapsed_s": 43.9
+    }
+  ]
+}

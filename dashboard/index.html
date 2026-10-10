@@ -1,1469 +1,630 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genesis Trading Terminal</title>
-    <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
-    <style>
-        :root {
-            --bg-primary: #0e1117;
-            --bg-secondary: #161b22;
-            --bg-tertiary: #1c2128;
-            --bg-hover: #21262d;
-            --border: #30363d;
-            --border-light: #484f58;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-muted: #6e7681;
-            --accent: #58a6ff;
-            --green: #3fb950;
-            --red: #f85149;
-            --yellow: #d29922;
-            --orange: #db6d28;
-            --purple: #bc8cff;
-            --cyan: #39d353;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 12px;
-            overflow: hidden;
-            height: 100vh;
-        }
-
-        /* ============ TOP BAR ============ */
-        .topbar {
-            height: 36px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            gap: 16px;
-            z-index: 100;
-        }
-
-        .topbar .logo {
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .topbar .symbol-tabs {
-            display: flex;
-            gap: 0;
-            height: 100%;
-        }
-
-        .symbol-tab {
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            color: var(--text-secondary);
-            transition: all 0.15s;
-            font-weight: 500;
-        }
-
-        .symbol-tab:hover { color: var(--text-primary); background: var(--bg-hover); }
-        .symbol-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-        .symbol-tab .price {
-            font-weight: 600;
-            font-size: 12px;
-        }
-
-        .symbol-tab .change {
-            font-size: 10px;
-            padding: 1px 4px;
-            border-radius: 3px;
-        }
-
-        .symbol-tab .change.up { background: rgba(63,185,80,0.15); color: var(--green); }
-        .symbol-tab .change.down { background: rgba(248,81,73,0.15); color: var(--red); }
-
-        .topbar .spacer { flex: 1; }
-
-        .topbar .status-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .topbar .dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            display: inline-block; margin-right: 4px;
-        }
-
-        .dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); }
-        .dot.red { background: var(--red); }
-        .dot.yellow { background: var(--yellow); }
-
-        /* ============ MAIN LAYOUT ============ */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            grid-template-rows: 1fr 240px;
-            height: calc(100vh - 36px);
-            gap: 1px;
-            background: var(--border);
-        }
-
-        /* ============ CHART PANEL ============ */
-        .chart-panel {
-            background: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chart-toolbar {
-            height: 32px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 8px;
-            gap: 4px;
-        }
-
-        .chart-toolbar .tf-btn {
-            padding: 3px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 11px;
-            font-weight: 500;
-            border: none;
-            background: none;
-        }
-
-        .chart-toolbar .tf-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
-        .chart-toolbar .tf-btn.active { background: var(--accent); color: #fff; }
-
-        .chart-toolbar .separator {
-            width: 1px;
-            height: 16px;
-            background: var(--border);
-            margin: 0 4px;
-        }
-
-        .chart-toolbar .indicator-btn {
-            padding: 3px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 11px;
-            border: 1px solid var(--border);
-            background: none;
-        }
-
-        .chart-toolbar .indicator-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .chart-toolbar .indicator-btn.active { background: rgba(88,166,255,0.15); border-color: var(--accent); color: var(--accent); }
-
-        .chart-container {
-            flex: 1;
-            position: relative;
-            min-height: 0;
-        }
-
-        .chart-overlay {
-            position: absolute;
-            top: 8px;
-            left: 12px;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .chart-overlay .ohlc {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 11px;
-            color: var(--text-secondary);
-            display: flex;
-            gap: 12px;
-        }
-
-        .chart-overlay .ohlc span { color: var(--text-muted); }
-        .chart-overlay .ohlc .val { color: var(--text-primary); font-weight: 500; }
-
-        .chart-overlay .signal-badge {
-            margin-top: 4px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .signal-badge.buy { background: rgba(63,185,80,0.2); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
-        .signal-badge.sell { background: rgba(248,81,73,0.2); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
-        .signal-badge.hold { background: rgba(139,148,158,0.2); color: var(--text-secondary); border: 1px solid rgba(139,148,158,0.3); }
-
-        /* ============ SIDE PANEL ============ */
-        .side-panel {
-            background: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .panel-header {
-            height: 32px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-        }
-
-        .panel-section {
-            border-bottom: 1px solid var(--border);
-            padding: 10px 12px;
-        }
-
-        .panel-section h4 {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .position-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-        }
-
-        .position-row .label { color: var(--text-secondary); }
-        .position-row .value { font-weight: 600; font-family: 'Consolas', monospace; }
-        .position-row .value.positive { color: var(--green); }
-        .position-row .value.negative { color: var(--red); }
-
-        .position-card {
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 8px;
-        }
-
-        .position-card .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .position-card .symbol {
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .position-card .side-badge {
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .side-badge.long { background: rgba(63,185,80,0.2); color: var(--green); }
-        .side-badge.short { background: rgba(248,81,73,0.2); color: var(--red); }
-        .side-badge.flat { background: rgba(139,148,158,0.15); color: var(--text-secondary); }
-
-        /* ============ ORDER ENTRY ============ */
-        .order-entry {
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            padding: 12px;
-        }
-
-        .order-btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .order-btn {
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .order-btn.buy {
-            background: var(--green);
-            color: #fff;
-        }
-
-        .order-btn.buy:hover { background: #46c95f; }
-
-        .order-btn.sell {
-            background: var(--red);
-            color: #fff;
-        }
-
-        .order-btn.sell:hover { background: #ff6b63; }
-
-        .order-btn.close {
-            background: var(--yellow);
-            color: #000;
-        }
-
-        .order-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-        /* ============ WORLD MODEL PANEL ============ */
-        .wm-card {
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 8px;
-        }
-
-        .wm-card .direction {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
-
-        .wm-card .direction .arrow {
-            width: 0; height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-        }
-
-        .wm-card .direction .arrow.up {
-            border-bottom: 8px solid var(--green);
-        }
-
-        .wm-card .direction .arrow.down {
-            border-top: 8px solid var(--red);
-        }
-
-        .wm-bar {
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 4px;
-        }
-
-        .wm-bar .fill {
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.3s;
-        }
-
-        /* ============ BOTTOM PANEL ============ */
-        .bottom-panel {
-            grid-column: 1 / -1;
-            background: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .bottom-tabs {
-            display: flex;
-            height: 28px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            padding: 0 8px;
-        }
-
-        .bottom-tab {
-            padding: 0 12px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 11px;
-            font-weight: 500;
-            border-bottom: 2px solid transparent;
-        }
-
-        .bottom-tab:hover { color: var(--text-primary); }
-        .bottom-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-        .bottom-content {
-            flex: 1;
-            overflow: auto;
-        }
-
-        .bottom-content > div { display: none; height: 100%; }
-        .bottom-content > div.active { display: flex; }
-
-        /* ============ TABLES ============ */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Consolas', monospace;
-            font-size: 11px;
-        }
-
-        .data-table th {
-            text-align: left;
-            padding: 6px 10px;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-family: 'Segoe UI', sans-serif;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: var(--bg-secondary);
-        }
-
-        .data-table td {
-            padding: 5px 10px;
-            border-bottom: 1px solid rgba(48,54,61,0.5);
-        }
-
-        .data-table tr:hover td { background: var(--bg-hover); }
-
-        .data-table .up { color: var(--green); }
-        .data-table .down { color: var(--red); }
-        .data-table .flat { color: var(--text-muted); }
-
-        /* ============ CHART SUB-CHARTS ============ */
-        .subchart-container {
-            border-top: 1px solid var(--border);
-            height: 80px;
-            position: relative;
-        }
-
-        .subchart-label {
-            position: absolute;
-            top: 4px;
-            left: 8px;
-            font-size: 10px;
-            color: var(--text-muted);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        /* ============ HEATMAP ============ */
-        .heatmap-grid {
-            display: grid;
-            gap: 2px;
-            padding: 8px;
-        }
-
-        .heatmap-cell {
-            padding: 6px 4px;
-            text-align: center;
-            border-radius: 3px;
-            font-family: 'Consolas', monospace;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        /* ============ ALERTS ============ */
-        .alert-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            font-size: 11px;
-        }
-
-        .alert-item.info { background: rgba(88,166,255,0.08); border-left: 2px solid var(--accent); }
-        .alert-item.warn { background: rgba(210,153,34,0.08); border-left: 2px solid var(--yellow); }
-        .alert-item.danger { background: rgba(248,81,73,0.08); border-left: 2px solid var(--red); }
-        .alert-item.success { background: rgba(63,185,80,0.08); border-left: 2px solid var(--green); }
-
-        .alert-time { color: var(--text-muted); font-size: 10px; white-space: nowrap; }
-
-        /* ============ SCROLLBAR ============ */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
-
-        /* ============ RESPONSIVE ============ */
-        @media (max-width: 1200px) {
-            .main-layout { grid-template-columns: 1fr 280px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesis Trading Terminal</title>
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--bg3:#1f2937;--bg4:#374151;--bdr:#1f2937;--t1:#e5e7eb;--t2:#9ca3af;--t3:#6b7280;--acc:#3b82f6;--grn:#10b981;--red:#ef4444;--yel:#f59e0b;--pur:#8b5cf6;--org:#f97316;--cyan:#06b6d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t1);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:12px;overflow:hidden;height:100vh}
+
+/* TOP BAR */
+.topbar{height:42px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 12px;gap:2px}
+.logo{font-weight:800;font-size:15px;color:var(--acc);margin-right:16px;letter-spacing:1.5px}
+.logo span{color:var(--grn);font-size:10px;margin-left:4px;vertical-align:super}
+.tabs{display:flex;height:100%;gap:1px}
+.tab{padding:0 16px;display:flex;align-items:center;gap:8px;cursor:pointer;border-bottom:2px solid transparent;color:var(--t2);font-weight:500;font-size:11px;transition:all .15s}
+.tab:hover{color:var(--t1);background:var(--bg3)}
+.tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+.tab .sym{font-weight:700;font-size:12px}
+.tab .px{font-family:'JetBrains Mono',Consolas,monospace;font-weight:600;font-size:12px}
+.tab .ch{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}
+.tab .ch.up{background:rgba(16,185,129,.15);color:var(--grn)}
+.tab .ch.dn{background:rgba(239,68,68,.15);color:var(--red)}
+.spacer{flex:1}
+.status{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--t2)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dot.g{background:var(--grn);box-shadow:0 0 8px var(--grn)}
+.dot.r{background:var(--red)}
+.dot.y{background:var(--yel);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.clock{font-family:'JetBrains Mono',Consolas,monospace;font-weight:600;font-size:11px}
+
+/* MAIN LAYOUT */
+.main{display:grid;grid-template-columns:200px 1fr 320px;grid-template-rows:1fr 240px;height:calc(100vh - 42px);gap:1px;background:var(--bdr)}
+
+/* LEFT: Market Watch + Health */
+.sidebar{background:var(--bg);display:flex;flex-direction:column}
+.sidebar-header{height:30px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 10px;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--t2)}
+.mw-row{display:grid;grid-template-columns:60px 1fr 55px;padding:6px 10px;border-bottom:1px solid rgba(31,41,55,.5);cursor:pointer;transition:background .1s;font-size:11px}
+.mw-row:hover{background:var(--bg3)}
+.mw-row.active{background:var(--bg3);border-left:2px solid var(--acc)}
+.mw-sym{font-weight:700;color:var(--t1)}
+.mw-price{font-family:'JetBrains Mono',Consolas,monospace;text-align:right;font-weight:600}
+.mw-chg{text-align:right;font-family:'JetBrains Mono',Consolas,monospace;font-size:10px}
+.mw-chg.up{color:var(--grn)}.mw-chg.dn{color:var(--red)}
+
+/* Health Panel */
+.health-panel{padding:10px;border-bottom:1px solid var(--bdr)}
+.health-ring{width:80px;height:80px;margin:0 auto 8px}
+.health-score{font-size:22px;font-weight:800;text-align:center}
+.health-label{text-align:center;font-size:9px;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.health-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-top:4px}
+.health-bar .fill{height:100%;border-radius:2px;transition:width .5s}
+.rec-list{margin-top:8px}
+.rec-item{font-size:9px;color:var(--t2);padding:3px 0;border-bottom:1px solid rgba(31,41,55,.3)}
+.rec-item:last-child{border:none}
+.rec-item::before{content:'→ ';color:var(--yel)}
+
+/* CENTER: Chart */
+.chart-panel{background:var(--bg);display:flex;flex-direction:column}
+.chart-toolbar{height:34px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 8px;gap:4px}
+.chart-toolbar button{padding:4px 10px;border-radius:4px;cursor:pointer;color:var(--t2);font-size:10px;font-weight:500;border:none;background:none;transition:all .1s}
+.chart-toolbar button:hover{background:var(--bg4);color:var(--t1)}
+.chart-toolbar button.on{background:var(--acc);color:#fff}
+.chart-toolbar .sep{width:1px;height:16px;background:var(--bdr);margin:0 4px}
+.chart-area{flex:1;position:relative;min-height:0}
+.equity-area{height:140px;border-top:1px solid var(--bdr);background:var(--bg2);position:relative}
+.equity-label{position:absolute;top:4px;left:8px;font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;z-index:1}
+
+/* RIGHT: Side Panel */
+.side-panel{background:var(--bg);display:flex;flex-direction:column;overflow-y:auto}
+.side-section{border-bottom:1px solid var(--bdr);padding:10px}
+.side-section h4{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.side-section h4 .icon{font-size:11px}
+.pr{display:flex;justify-content:space-between;align-items:center;padding:2px 0}
+.pr .l{color:var(--t2);font-size:10px}
+.pr .v{font-weight:600;font-family:'JetBrains Mono',Consolas,monospace;font-size:11px}
+.pr .v.pos{color:var(--grn)}.pr .v.neg{color:var(--red)}.pr .v.warn{color:var(--yel)}
+
+/* Strategy Cards */
+.strat-card{background:var(--bg3);border-radius:6px;padding:10px;margin-top:6px;border-left:3px solid var(--acc)}
+.strat-card.smc{border-left-color:var(--acc)}
+.strat-card.drift{border-left-color:var(--pur)}
+.strat-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.strat-name{font-weight:700;font-size:11px}
+.badge{padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase}
+.badge.long{background:rgba(16,185,129,.15);color:var(--grn)}
+.badge.short{background:rgba(239,68,68,.15);color:var(--red)}
+.badge.flat{background:rgba(107,114,128,.15);color:var(--t2)}
+.badge.scanning{background:rgba(59,130,246,.15);color:var(--acc)}
+
+/* Brain Panel */
+.brain-card{background:var(--bg3);border-radius:6px;padding:10px;margin-top:6px;border-left:3px solid var(--yel)}
+.brain-thought{font-size:10px;color:var(--t2);font-style:italic;margin-top:4px;line-height:1.4}
+.conviction-bar{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-top:6px}
+.conviction-bar .fill{height:100%;border-radius:3px;transition:width .3s}
+
+/* BOTTOM: Tabs */
+.bottom-panel{grid-column:1/-1;background:var(--bg);display:flex;flex-direction:column}
+.bottom-tabs{display:flex;height:30px;background:var(--bg2);border-bottom:1px solid var(--bdr);padding:0 8px}
+.bt{padding:0 14px;display:flex;align-items:center;cursor:pointer;color:var(--t2);font-size:10px;font-weight:500;border-bottom:2px solid transparent;transition:all .1s}
+.bt:hover{color:var(--t1)}.bt.active{color:var(--acc);border-bottom-color:var(--acc)}
+.bottom-content{flex:1;overflow:auto}
+.bottom-content>div{display:none;height:100%}
+.bottom-content>div.active{display:block}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',Consolas,monospace;font-size:10px}
+th{text-align:left;padding:5px 10px;color:var(--t3);font-weight:500;font-family:'Inter',sans-serif;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--bg2);font-size:9px;text-transform:uppercase;letter-spacing:.3px}
+td{padding:5px 10px;border-bottom:1px solid rgba(31,41,55,.3)}
+tr:hover td{background:var(--bg3)}
+.up{color:var(--grn)}.dn{color:var(--red)}
+
+/* Category badges */
+.cat-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:8px;font-weight:600;text-transform:uppercase}
+.cat-good_fade{background:rgba(16,185,129,.15);color:var(--grn)}
+.cat-algo_spike_trap{background:rgba(239,68,68,.15);color:var(--red)}
+.cat-trend_against{background:rgba(249,115,22,.15);color:var(--org)}
+.cat-cluster_continuation{background:rgba(139,92,246,.15);color:var(--pur)}
+.cat-vol_collapse{background:rgba(6,182,212,.15);color:var(--cyan)}
+.cat-overtrade{background:rgba(245,158,11,.15);color:var(--yel)}
+.cat-noise_fade_win{background:rgba(16,185,129,.1);color:var(--grn)}
+.cat-good_timing{background:rgba(59,130,246,.15);color:var(--acc)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+
+/* Responsive */
+@media(max-width:1200px){.main{grid-template-columns:160px 1fr 280px}}
+</style>
 </head>
 <body>
-    <!-- TOP BAR -->
-    <div class="topbar">
-        <div class="logo">&#9889; GENESIS</div>
-        <div class="symbol-tabs" id="symbolTabs">
-            <div class="symbol-tab active" data-index="R_75" onclick="switchSymbol('R_75')">
-                <span>V75</span>
-                <span class="price" id="tab-price-R_75">--</span>
-                <span class="change" id="tab-change-R_75">0.00%</span>
-            </div>
-            <div class="symbol-tab" data-index="R_10" onclick="switchSymbol('R_10')">
-                <span>V10</span>
-                <span class="price" id="tab-price-R_10">--</span>
-                <span class="change" id="tab-change-R_10">0.00%</span>
-            </div>
-            <div class="symbol-tab" data-index="BOOM500" onclick="switchSymbol('BOOM500')">
-                <span>BOOM</span>
-                <span class="price" id="tab-price-BOOM500">--</span>
-                <span class="change" id="tab-change-BOOM500">0.00%</span>
-            </div>
-            <div class="symbol-tab" data-index="CRASH500" onclick="switchSymbol('CRASH500')">
-                <span>CRASH</span>
-                <span class="price" id="tab-price-CRASH500">--</span>
-                <span class="change" id="tab-change-CRASH500">0.00%</span>
-            </div>
-        </div>
-        <div class="spacer"></div>
-        <div class="status-group">
-            <span><span class="dot" id="wsDot"></span><span id="wsLabel">Connecting</span></span>
-            <span id="clock"></span>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="logo">⚡ GENESIS <span>LIVE</span></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="spacer"></div>
+    <div class="status">
+        <span id="brainStatus"><span class="dot g"></span> Brain Active</span>
+        <span id="uptime">0m</span>
+        <span class="clock" id="clock">--:--:--</span>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+    <!-- LEFT: Market Watch + Health -->
+    <div class="sidebar">
+        <div class="sidebar-header">Market Watch</div>
+        <div id="marketWatch"></div>
+        
+        <div class="sidebar-header" style="margin-top:auto">System Health</div>
+        <div class="health-panel">
+            <div class="health-score" id="healthScore">--</div>
+            <div class="health-label" id="healthLabel">Initializing</div>
+            <div class="health-bar"><div class="fill" id="healthBar" style="width:50%;background:var(--yel)"></div></div>
+            <div class="rec-list" id="recList"></div>
         </div>
     </div>
 
-    <!-- MAIN LAYOUT -->
-    <div class="main-layout">
-        <!-- CHART PANEL -->
-        <div class="chart-panel">
-            <div class="chart-toolbar">
-                <button class="tf-btn active" data-tf="1m" onclick="switchTimeframe('1m', this)">1M</button>
-                <button class="tf-btn" data-tf="5m" onclick="switchTimeframe('5m', this)">5M</button>
-                <button class="tf-btn" data-tf="15m" onclick="switchTimeframe('15m', this)">15M</button>
-                <button class="tf-btn" data-tf="1h" onclick="switchTimeframe('1h', this)">1H</button>
-                <div class="separator"></div>
-                <button class="indicator-btn active" id="ind-ema" onclick="toggleIndicator('ema', this)">EMA</button>
-                <button class="indicator-btn" id="ind-bb" onclick="toggleIndicator('bb', this)">BB</button>
-                <button class="indicator-btn" id="ind-vol" onclick="toggleIndicator('vol', this)">VOL</button>
-                <button class="indicator-btn" id="ind-rsi" onclick="toggleIndicator('rsi', this)">RSI</button>
-                <button class="indicator-btn" id="ind-macd" onclick="toggleIndicator('macd', this)">MACD</button>
-                <div class="separator"></div>
-                <button class="indicator-btn" id="ind-wm" onclick="toggleIndicator('wm', this)" style="border-color:var(--purple);color:var(--purple)">WM Signal</button>
-            </div>
-            <div class="chart-container" id="mainChart"></div>
-            <div class="subchart-container" id="volumeChart" style="display:none">
-                <div class="subchart-label">Volume</div>
-            </div>
-            <div class="subchart-container" id="rsiChart" style="display:none;height:60px">
-                <div class="subchart-label">RSI (14)</div>
-            </div>
-            <div class="subchart-container" id="macdChart" style="display:none;height:70px">
-                <div class="subchart-label">MACD</div>
-            </div>
+    <!-- CENTER: Chart + Equity -->
+    <div class="chart-panel">
+        <div class="chart-toolbar">
+            <button class="on" onclick="setTF('1m',this)">1M</button>
+            <button onclick="setTF('5m',this)">5M</button>
+            <button onclick="setTF('15m',this)">15M</button>
+            <button onclick="setTF('1h',this)">1H</button>
+            <div class="sep"></div>
+            <button class="toggle on" id="tog-ema" onclick="toggleIndicator('ema',this)">EMA</button>
+            <button class="toggle" id="tog-vol" onclick="toggleIndicator('vol',this)">Vol</button>
+            <span class="label" id="candleInfo">--</span>
         </div>
-
-        <!-- SIDE PANEL -->
-        <div class="side-panel">
-            <div class="panel-header">Trading Panel</div>
-
-            <!-- Current Position -->
-            <div class="panel-section">
-                <h4>Current Position</h4>
-                <div class="position-card">
-                    <div class="header">
-                        <span class="symbol" id="pos-symbol">V75</span>
-                        <span class="side-badge flat" id="pos-side">FLAT</span>
-                    </div>
-                    <div class="position-row"><span class="label">Entry</span><span class="value" id="pos-entry">--</span></div>
-                    <div class="position-row"><span class="label">Current</span><span class="value" id="pos-current">--</span></div>
-                    <div class="position-row"><span class="label">P&L</span><span class="value" id="pos-pnl">$0.00</span></div>
-                    <div class="position-row"><span class="label">Duration</span><span class="value" id="pos-duration">--</span></div>
-                </div>
-            </div>
-
-            <!-- World Model -->
-            <div class="panel-section">
-                <h4>World Model Prediction</h4>
-                <div class="wm-card">
-                    <div class="direction" id="wm-direction">
-                        <span class="arrow up"></span>
-                        <span>UP</span>
-                    </div>
-                    <div class="position-row"><span class="label">Mean</span><span class="value" id="wm-mean">+0.001471</span></div>
-                    <div class="position-row"><span class="label">Std Dev</span><span class="value" id="wm-std">0.009610</span></div>
-                    <div class="position-row"><span class="label">SNR</span><span class="value" id="wm-snr">0.15</span></div>
-                    <div style="margin-top:6px">
-                        <div class="position-row"><span class="label">Confidence</span><span class="value" id="wm-conf">15%</span></div>
-                        <div class="wm-bar"><div class="fill" id="wm-conf-bar" style="width:15%;background:var(--accent)"></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Order Entry -->
-            <div class="panel-section">
-                <h4>Manual Override</h4>
-                <div class="order-entry">
-                    <div class="position-row"><span class="label">Position Size</span><span class="value">1.0x</span></div>
-                    <div class="order-btn-group">
-                        <button class="order-btn buy" onclick="manualOrder('BUY')">BUY</button>
-                        <button class="order-btn sell" onclick="manualOrder('SELL')">SELL</button>
-                    </div>
-                    <div class="order-btn-group" style="margin-top:4px">
-                        <button class="order-btn close" onclick="manualOrder('CLOSE')" style="grid-column:1/-1">CLOSE POSITION</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Portfolio Summary -->
-            <div class="panel-section" style="flex:1;overflow-y:auto">
-                <h4>Portfolio</h4>
-                <div class="position-row"><span class="label">Total Equity</span><span class="value" id="p-equity">$40,000</span></div>
-                <div class="position-row"><span class="label">Total P&L</span><span class="value" id="p-pnl">$0.00</span></div>
-                <div class="position-row"><span class="label">Drawdown</span><span class="value" id="p-dd">0.0%</span></div>
-                <div class="position-row"><span class="label">Win Rate</span><span class="value" id="p-winrate">0%</span></div>
-                <div class="position-row"><span class="label">Kelly</span><span class="value" id="p-kelly">0.25</span></div>
-                <div class="position-row"><span class="label">Diversification</span><span class="value" id="p-div">0.00</span></div>
-            </div>
-        </div>
-
-        <!-- BOTTOM PANEL -->
-        <div class="bottom-panel">
-            <div class="bottom-tabs">
-                <div class="bottom-tab active" onclick="switchBottomTab('positions', this)">Positions</div>
-                <div class="bottom-tab" onclick="switchBottomTab('trades', this)">Trade History</div>
-                <div class="bottom-tab" onclick="switchBottomTab('correlation', this)">Correlation</div>
-                <div class="bottom-tab" onclick="switchBottomTab('alerts', this)">Alerts</div>
-                <div class="bottom-tab" onclick="switchBottomTab('log', this)">Log</div>
-            </div>
-            <div class="bottom-content">
-                <!-- Positions -->
-                <div id="bp-positions" class="active" style="flex-direction:row;padding:8px;gap:8px;overflow-x:auto">
-                    <table class="data-table" style="min-width:100%">
-                        <thead><tr>
-                            <th>Symbol</th><th>Side</th><th>Entry</th><th>Current</th>
-                            <th>P&L</th><th>DD</th><th>Trades</th><th>WM Signal</th><th>Confidence</th>
-                        </tr></thead>
-                        <tbody id="positionsBody"></tbody>
-                    </table>
-                </div>
-                <!-- Trade History -->
-                <div id="bp-trades" style="flex-direction:row;padding:8px;overflow:auto">
-                    <table class="data-table" style="min-width:100%">
-                        <thead><tr>
-                            <th>Time</th><th>Symbol</th><th>Side</th><th>Entry</th><th>Exit</th><th>P&L</th>
-                        </tr></thead>
-                        <tbody id="tradesBody"></tbody>
-                    </table>
-                </div>
-                <!-- Correlation -->
-                <div id="bp-correlation" style="flex-direction:row;padding:8px;justify-content:center;align-items:start">
-                    <div id="corrMatrix" style="max-width:400px"></div>
-                </div>
-                <!-- Alerts -->
-                <div id="bp-alerts" style="flex-direction:column;padding:8px;overflow-y:auto">
-                    <div class="alert-item info"><span class="alert-time">--:--</span> System ready</div>
-                </div>
-                <!-- Log -->
-                <div id="bp-log" style="flex-direction:column;padding:8px;overflow-y:auto;font-family:Consolas,monospace;font-size:11px;color:var(--text-secondary)">
-                    <div>[INIT] Genesis Terminal v2.0</div>
-                </div>
-            </div>
+        <div class="chart-area" id="mainChart"></div>
+        <div class="equity-area">
+            <div class="equity-label">Equity Curve</div>
+            <div id="equityChart" style="width:100%;height:100%"></div>
         </div>
     </div>
 
-    <script>
-    // ================================================================
-    // STATE
-    // ================================================================
-    const STATE = {
-        activeSymbol: 'R_75',
-        timeframe: '1m',
-        indicators: { ema: true, bb: false, vol: false, rsi: false, macd: false, wm: false },
-        candleData: {},    // symbol -> { candles: [], ema9: [], ema21: [], bb: {} }
-        wsData: {},        // symbol -> latest data from server
-        tradeHistory: [],
-        alerts: [],
-        charts: {},        // symbol -> { main, volume, rsi, macd }
-    };
+    <!-- RIGHT: Side Panel -->
+    <div class="side-panel">
+        <!-- SMC Strategy -->
+        <div class="side-section">
+            <h4><span class="icon">🎯</span> SMC Spike Hunter</h4>
+            <div class="strat-card smc">
+                <div class="strat-hd"><span class="strat-name" id="smcSym">BOOM500</span><span class="badge scanning" id="smcStatus">SCANNING</span></div>
+                <div class="pr"><span class="l">RSI</span><span class="v" id="smcRsi">--</span></div>
+                <div class="pr"><span class="l">H1 Zones</span><span class="v" id="smcZones">0</span></div>
+                <div class="pr"><span class="l">Confluence</span><span class="v" id="smcConfluence">0/3</span></div>
+                <div class="pr"><span class="l">Trades</span><span class="v" id="smcTrades">0</span></div>
+                <div class="pr"><span class="l">Win Rate</span><span class="v" id="smcWr">0%</span></div>
+                <div class="pr"><span class="l">PnL</span><span class="v" id="smcPnl">$0.00</span></div>
+            </div>
+        </div>
 
-    const SYMBOL_CONFIG = {
-        'R_75':      { name: 'Volatility 75', short: 'V75',  color: '#58a6ff' },
-        'R_10':      { name: 'Volatility 10', short: 'V10',  color: '#3fb950' },
-        'BOOM500':   { name: 'Boom 500',      short: 'BOOM', color: '#d29922' },
-        'CRASH500':  { name: 'Crash 500',     short: 'CRASH',color: '#f85149' },
-    };
+        <!-- Drift Fade Strategy -->
+        <div class="side-section">
+            <h4><span class="icon">🌊</span> Drift Fade</h4>
+            <div class="strat-card drift">
+                <div class="strat-hd"><span class="strat-name" id="driftSym">BOOM500</span><span class="badge scanning" id="driftStatus">SCANNING</span></div>
+                <div class="pr"><span class="l">Median Range</span><span class="v" id="driftMedian">--</span></div>
+                <div class="pr"><span class="l">Spike Threshold</span><span class="v" id="driftThreshold">3.0x</span></div>
+                <div class="pr"><span class="l">Cluster Filter</span><span class="v" id="driftCluster">ON</span></div>
+                <div class="pr"><span class="l">Trades</span><span class="v" id="driftTrades">0</span></div>
+                <div class="pr"><span class="l">Win Rate</span><span class="v" id="driftWr">0%</span></div>
+                <div class="pr"><span class="l">PnL</span><span class="v" id="driftPnl">$0.00</span></div>
+            </div>
+        </div>
 
-    // ================================================================
-    // CHART SETUP (Lightweight Charts)
-    // ================================================================
-    let mainChart, candleSeries, ema9Series, ema21Series, bbUpperSeries, bbLowerSeries, bbMiddleSeries, wmSeries;
-    let volumeChart, volumeSeries;
-    let rsiChartInstance, rsiSeries;
-    let macdChartInstance, macdLineSeries, macdHistSeries, macdSignalSeries;
+        <!-- Strategy Brain -->
+        <div class="side-section">
+            <h4><span class="icon">🧠</span> Strategy Brain</h4>
+            <div class="brain-card">
+                <div class="pr"><span class="l">Conviction</span><span class="v" id="brainConv">--</span></div>
+                <div class="conviction-bar"><div class="fill" id="brainConvBar" style="width:50%;background:var(--acc)"></div></div>
+                <div class="pr"><span class="l">Regime</span><span class="v" id="brainRegime">--</span></div>
+                <div class="pr"><span class="l">WM Bias</span><span class="v" id="brainWmBias">--</span></div>
+                <div class="pr"><span class="l">Consec. Losses</span><span class="v" id="brainLosses">0</span></div>
+                <div class="pr"><span class="l">Adjustments</span><span class="v" id="brainAdj">0</span></div>
+                <div class="brain-thought" id="brainThought">Waiting for trades...</div>
+            </div>
+        </div>
 
-    function createCharts() {
-        const container = document.getElementById('mainChart');
+        <!-- Post-Mortem Categories -->
+        <div class="side-section">
+            <h4><span class="icon">📊</span> Post-Mortem</h4>
+            <div id="categoryReport"></div>
+        </div>
 
-        // Main candlestick chart
-        mainChart = LightweightCharts.createChart(container, {
-            width: container.clientWidth,
-            height: container.clientHeight,
-            layout: {
-                background: { color: '#0e1117' },
-                textColor: '#8b949e',
-                fontSize: 11,
-            },
-            grid: {
-                vertLines: { color: 'rgba(48,54,61,0.4)' },
-                horzLines: { color: 'rgba(48,54,61,0.4)' },
-            },
-            crosshair: {
-                mode: LightweightCharts.CrosshairMode.Normal,
-                vertLine: { color: 'rgba(88,166,255,0.3)', width: 1, style: 2 },
-                horzLine: { color: 'rgba(88,166,255,0.3)', width: 1, style: 2 },
-            },
-            rightPriceScale: {
-                borderColor: '#30363d',
-                scaleMargins: { top: 0.05, bottom: 0.05 },
-            },
-            timeScale: {
-                borderColor: '#30363d',
-                timeVisible: true,
-                secondsVisible: false,
-            },
-        });
+        <!-- Parameters -->
+        <div class="side-section">
+            <h4><span class="icon">⚙️</span> Adaptive Params</h4>
+            <div class="pr"><span class="l">Min Conviction</span><span class="v" id="paramConv">0.30</span></div>
+            <div class="pr"><span class="l">Drift Filter</span><span class="v" id="paramDrift">0.40</span></div>
+            <div class="pr"><span class="l">Spike Filter</span><span class="v" id="paramSpike">15x</span></div>
+            <div class="pr"><span class="l">TP</span><span class="v" id="paramTp">3.0</span></div>
+            <div class="pr"><span class="l">SL</span><span class="v" id="paramSl">1.0</span></div>
+        </div>
+    </div>
 
-        candleSeries = mainChart.addCandlestickSeries({
-            upColor: '#3fb950',
-            downColor: '#f85149',
-            borderUpColor: '#3fb950',
-            borderDownColor: '#f85149',
-            wickUpColor: '#3fb950',
-            wickDownColor: '#f85149',
-        });
+    <!-- BOTTOM: Tabs -->
+    <div class="bottom-panel">
+        <div class="bottom-tabs">
+            <div class="bt active" onclick="showBottom('trades')">TRADES</div>
+            <div class="bt" onclick="showBottom('journal')">JOURNAL</div>
+            <div class="bt" onclick="showBottom('thinking')">THINKING</div>
+            <div class="bt" onclick="showBottom('alerts')">ALERTS</div>
+        </div>
+        <div class="bottom-content">
+            <div id="panel-trades" class="active">
+                <table>
+                    <thead><tr><th>#</th><th>Time</th><th>Strategy</th><th>Side</th><th>Entry</th><th>Exit</th><th>P&L</th><th>Bars</th><th>Reason</th></tr></thead>
+                    <tbody id="tradesBody"></tbody>
+                </table>
+            </div>
+            <div id="panel-journal">
+                <table>
+                    <thead><tr><th>#</th><th>Time</th><th>Category</th><th>Direction</th><th>P&L</th><th>Diagnosis</th><th>Fix</th></tr></thead>
+                    <tbody id="journalBody"></tbody>
+                </table>
+            </div>
+            <div id="panel-thinking">
+                <table>
+                    <thead><tr><th>Time</th><th>Decision</th><th>Conviction</th><th>WM Bias</th><th>Reason</th></tr></thead>
+                    <tbody id="thinkingBody"></tbody>
+                </table>
+            </div>
+            <div id="panel-alerts"><div style="padding:12px;color:var(--t3)">No alerts</div></div>
+        </div>
+    </div>
+</div>
 
-        // EMA lines
-        ema9Series = mainChart.addLineSeries({
-            color: '#58a6ff',
-            lineWidth: 1,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
+<script>
+// ── State ──────────────────────────────────────────────────────────────
+let activeTab = 'BOOM500';
+let chart = null, candleSeries = null, emaSeries = null, volumeSeries = null;
+let equityChart = null, equitySeries = null;
+let candles = {}, structures = {};
+let lastPrices = {};
+let symbols = [];
+let brainData = {};
 
-        ema21Series = mainChart.addLineSeries({
-            color: '#d29922',
-            lineWidth: 1,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
+// ── Init ───────────────────────────────────────────────────────────────
+function init() {
+    initChart();
+    initEquityChart();
+    fetchState();
+    setInterval(fetchState, 2000);
+    setInterval(fetchBrainData, 3000);
+    setInterval(fetchTrades, 2000);
+    setInterval(fetchJournal, 3000);
+    setInterval(() => {
+        document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+    }, 1000);
+}
 
-        // Bollinger Bands
-        bbUpperSeries = mainChart.addLineSeries({
-            color: 'rgba(188,140,255,0.5)',
-            lineWidth: 1,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
-        bbLowerSeries = mainChart.addLineSeries({
-            color: 'rgba(188,140,255,0.5)',
-            lineWidth: 1,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
-        bbMiddleSeries = mainChart.addLineSeries({
-            color: 'rgba(188,140,255,0.3)',
-            lineWidth: 1,
-            lineStyle: 2,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
+function initChart() {
+    chart = LightweightCharts.createChart(document.getElementById('mainChart'), {
+        layout: { background: { color: '#0a0e17' }, textColor: '#9ca3af', fontSize: 10 },
+        grid: { vertLines: { color: '#111827' }, horzLines: { color: '#111827' } },
+        crosshair: { mode: 0 },
+        rightPriceScale: { borderColor: '#1f2937' },
+        timeScale: { borderColor: '#1f2937', timeVisible: true, secondsVisible: false },
+    });
+    candleSeries = chart.addCandlestickSeries({
+        upColor: '#10b981', downColor: '#ef4444',
+        borderUpColor: '#10b981', borderDownColor: '#ef4444',
+        wickUpColor: '#10b981', wickDownColor: '#ef4444',
+    });
+    volumeSeries = chart.addHistogramSeries({
+        priceFormat: { type: 'volume' }, priceScaleId: 'vol',
+    });
+    chart.priceScale('vol').applyOptions({ scaleMargins: { top: 0.85, bottom: 0 } });
+    chart.timeScale().fitContent();
+}
 
-        // WM signal markers
-        wmSeries = mainChart.addLineSeries({
-            color: 'rgba(188,140,255,0.6)',
-            lineWidth: 2,
-            priceLineVisible: false,
-            lastValueVisible: false,
-            visible: false,
-        });
+function initEquityChart() {
+    equityChart = LightweightCharts.createChart(document.getElementById('equityChart'), {
+        layout: { background: { color: '#111827' }, textColor: '#6b7280', fontSize: 9 },
+        grid: { vertLines: { color: '#1f2937' }, horzLines: { color: '#1f2937' } },
+        rightPriceScale: { borderColor: '#1f2937' },
+        timeScale: { visible: false },
+        handleScroll: false,
+        handleScale: false,
+    });
+    equitySeries = equityChart.addAreaSeries({
+        topColor: 'rgba(59,130,246,0.3)', bottomColor: 'rgba(59,130,246,0.02)',
+        lineColor: '#3b82f6', lineWidth: 2,
+    });
+}
 
-        // Crosshair OHLC display
-        mainChart.subscribeCrosshairMove((param) => {
-            if (!param || !param.time) return;
-            const data = param.seriesData.get(candleSeries);
-            if (data) {
-                updateOHLCDisplay(data);
-            }
-        });
+// ── Tab Switching ──────────────────────────────────────────────────────
+function switchTab(symbol) {
+    activeTab = symbol;
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.s === symbol));
+    document.querySelectorAll('.mw-row').forEach(r => r.classList.toggle('active', r.dataset.s === symbol));
+    loadCandles(symbol);
+}
 
-        // Volume chart
-        const volContainer = document.getElementById('volumeChart');
-        volumeChart = LightweightCharts.createChart(volContainer, {
-            width: volContainer.clientWidth,
-            height: 80,
-            layout: { background: { color: '#0e1117' }, textColor: '#6e7681', fontSize: 10 },
-            grid: { vertLines: { color: 'rgba(48,54,61,0.2)' }, horzLines: { color: 'rgba(48,54,61,0.2)' } },
-            rightPriceScale: { borderColor: '#30363d', scaleMargins: { top: 0.1, bottom: 0.1 } },
-            timeScale: { borderColor: '#30363d', visible: false },
-        });
-
-        volumeSeries = volumeChart.addHistogramSeries({
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
-
-        // RSI chart
-        const rsiContainer = document.getElementById('rsiChart');
-        rsiChartInstance = LightweightCharts.createChart(rsiContainer, {
-            width: rsiContainer.clientWidth,
-            height: 60,
-            layout: { background: { color: '#0e1117' }, textColor: '#6e7681', fontSize: 10 },
-            grid: { vertLines: { color: 'rgba(48,54,61,0.2)' }, horzLines: { color: 'rgba(48,54,61,0.2)' } },
-            rightPriceScale: { borderColor: '#30363d', scaleMargins: { top: 0.05, bottom: 0.05 } },
-            timeScale: { borderColor: '#30363d', visible: false },
-        });
-
-        rsiSeries = rsiChartInstance.addLineSeries({
-            color: '#58a6ff',
-            lineWidth: 1,
-            priceLineVisible: false,
-        });
-
-        // MACD chart
-        const macdContainer = document.getElementById('macdChart');
-        macdChartInstance = LightweightCharts.createChart(macdContainer, {
-            width: macdContainer.clientWidth,
-            height: 70,
-            layout: { background: { color: '#0e1117' }, textColor: '#6e7681', fontSize: 10 },
-            grid: { vertLines: { color: 'rgba(48,54,61,0.2)' }, horzLines: { color: 'rgba(48,54,61,0.2)' } },
-            rightPriceScale: { borderColor: '#30363d', scaleMargins: { top: 0.1, bottom: 0.1 } },
-            timeScale: { borderColor: '#30363d', visible: false },
-        });
-
-        macdHistSeries = macdChartInstance.addHistogramSeries({
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
-
-        macdLineSeries = macdChartInstance.addLineSeries({
-            color: '#58a6ff',
-            lineWidth: 1,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
-
-        macdSignalSeries = macdChartInstance.addLineSeries({
-            color: '#d29922',
-            lineWidth: 1,
-            priceLineVisible: false,
-            lastValueVisible: false,
-        });
-
-        // Resize handler
-        window.addEventListener('resize', () => {
-            const c = document.getElementById('mainChart');
-            mainChart.resize(c.clientWidth, c.clientHeight);
-            volumeChart.resize(volContainer.clientWidth, 80);
-            rsiChartInstance.resize(rsiContainer.clientWidth, 60);
-            macdChartInstance.resize(macdContainer.clientWidth, 70);
-        });
-
-        // Sync time scales
-        mainChart.timeScale().subscribeVisibleLogicalRangeChange((range) => {
-            if (range) {
-                volumeChart.timeScale().setVisibleLogicalRange(range);
-                rsiChartInstance.timeScale().setVisibleLogicalRange(range);
-                macdChartInstance.timeScale().setVisibleLogicalRange(range);
-            }
-        });
-    }
-
-    // ================================================================
-    // TECHNICAL INDICATORS
-    // ================================================================
-    function computeEMA(data, period) {
-        const k = 2 / (period + 1);
-        const ema = [];
-        let prev = data[0]?.close || 0;
-        for (const d of data) {
-            prev = d.close * k + prev * (1 - k);
-            ema.push({ time: d.time, value: prev });
+// ── Data Fetching ──────────────────────────────────────────────────────
+async function fetchState() {
+    try {
+        const resp = await fetch('/api/state');
+        const state = await resp.json();
+        
+        // Update symbols if new
+        if (state.prices && Object.keys(state.prices).length !== symbols.length) {
+            symbols = Object.keys(state.prices);
+            renderTabs();
+            renderMarketWatch();
         }
-        return ema;
-    }
-
-    function computeBollingerBands(data, period = 20, mult = 2) {
-        const upper = [], lower = [], middle = [];
-        for (let i = 0; i < data.length; i++) {
-            if (i < period - 1) {
-                upper.push({ time: data[i].time, value: data[i].close });
-                lower.push({ time: data[i].time, value: data[i].close });
-                middle.push({ time: data[i].time, value: data[i].close });
-                continue;
-            }
-            const slice = data.slice(i - period + 1, i + 1).map(d => d.close);
-            const mean = slice.reduce((a, b) => a + b, 0) / period;
-            const std = Math.sqrt(slice.reduce((a, b) => a + (b - mean) ** 2, 0) / period);
-            middle.push({ time: data[i].time, value: mean });
-            upper.push({ time: data[i].time, value: mean + mult * std });
-            lower.push({ time: data[i].time, value: mean - mult * std });
+        
+        // Update prices
+        for (const [sym, price] of Object.entries(state.prices || {})) {
+            lastPrices[sym] = price;
+            updatePriceDisplay(sym, price);
         }
-        return { upper, lower, middle };
-    }
-
-    function computeRSI(data, period = 14) {
-        const rsi = [];
-        const gains = [], losses = [];
-        for (let i = 1; i < data.length; i++) {
-            const change = data[i].close - data[i - 1].close;
-            gains.push(change > 0 ? change : 0);
-            losses.push(change < 0 ? -change : 0);
-            if (i < period) {
-                rsi.push({ time: data[i].time, value: 50 });
-                continue;
-            }
-            const avgGain = gains.slice(-period).reduce((a, b) => a + b, 0) / period;
-            const avgLoss = losses.slice(-period).reduce((a, b) => a + b, 0) / period;
-            const rs = avgGain / (avgLoss + 1e-10);
-            rsi.push({ time: data[i].time, value: 100 - 100 / (1 + rs) });
-        }
-        return rsi;
-    }
-
-    function computeMACD(data, fast = 12, slow = 26, signal = 9) {
-        const emaFast = computeEMA(data, fast);
-        const emaSlow = computeEMA(data, slow);
-        const macdLine = emaFast.map((d, i) => ({
-            time: d.time,
-            value: d.value - (emaSlow[i]?.value || 0),
-        }));
-
-        // Signal line
-        const k = 2 / (signal + 1);
-        const signalLine = [];
-        let prev = 0;
-        for (const d of macdLine) {
-            prev = d.value * k + prev * (1 - k);
-            signalLine.push({ time: d.time, value: prev });
-        }
-
-        // Histogram
-        const histogram = macdLine.map((d, i) => ({
-            time: d.time,
-            value: d.value - (signalLine[i]?.value || 0),
-            color: d.value > (signalLine[i]?.value || 0)
-                ? 'rgba(63,185,80,0.6)' : 'rgba(248,81,73,0.6)',
-        }));
-
-        return { macdLine, signalLine, histogram };
-    }
-
-    // ================================================================
-    // DATA LOADING
-    // ================================================================
-    async function fetchCandles(symbol) {
-        try {
-            // Try fetching from the API
-            const resp = await fetch(`/api/candles?symbol=${symbol}&count=500`);
-            if (resp.ok) {
-                const data = await resp.json();
-                if (data.candles && data.candles.length > 0) {
-                    return data.candles.map(c => ({
-                        time: c.epoch,
-                        open: c.open,
-                        high: c.high,
-                        low: c.low,
-                        close: c.close,
-                        volume: c.volume || 0,
-                    }));
-                }
-            }
-        } catch(e) {}
-
-        // Fallback: generate realistic synthetic data
-        return generateSyntheticCandles(500);
-    }
-
-    function generateSyntheticCandles(count) {
-        const candles = [];
-        let price = SYMBOL_CONFIG[STATE.activeSymbol]?.name === 'Boom 500' ? 4750
-                   : SYMBOL_CONFIG[STATE.activeSymbol]?.name === 'Crash 500' ? 2980
-                   : SYMBOL_CONFIG[STATE.activeSymbol]?.name === 'Volatility 10' ? 4766
-                   : 52200;
-        let now = Math.floor(Date.now() / 1000) - count * 60;
-
-        for (let i = 0; i < count; i++) {
-            const vol = price * 0.001;
-            const open = price;
-            const change = (Math.random() - 0.48) * vol;
-            const close = open + change;
-            const high = Math.max(open, close) + Math.random() * vol * 0.5;
-            const low = Math.min(open, close) - Math.random() * vol * 0.5;
-            const volume = Math.random() * 1000 + 100;
-
-            candles.push({
-                time: now,
-                open: parseFloat(open.toFixed(2)),
-                high: parseFloat(high.toFixed(2)),
-                low: parseFloat(low.toFixed(2)),
-                close: parseFloat(close.toFixed(2)),
-                volume: parseFloat(volume.toFixed(0)),
-            });
-
-            price = close;
-            now += 60;
-        }
-
-        return candles;
-    }
-
-    async function loadChartData(symbol) {
-        const candles = await fetchCandles(symbol);
-        STATE.candleData[symbol] = { candles };
-
-        // Compute indicators
-        const ema9 = computeEMA(candles, 9);
-        const ema21 = computeEMA(candles, 21);
-        const bb = computeBollingerBands(candles);
-        const rsi = computeRSI(candles);
-        const macd = computeMACD(candles);
-
-        STATE.candleData[symbol].ema9 = ema9;
-        STATE.candleData[symbol].ema21 = ema21;
-        STATE.candleData[symbol].bb = bb;
-        STATE.candleData[symbol].rsi = rsi;
-        STATE.candleData[symbol].macd = macd;
-
-        // Volume data
-        STATE.candleData[symbol].volume = candles.map(c => ({
-            time: c.time,
-            value: c.volume,
-            color: c.close >= c.open ? 'rgba(63,185,80,0.3)' : 'rgba(248,81,73,0.3)',
-        }));
-
-        updateChartDisplay(symbol);
-    }
-
-    function updateChartDisplay(symbol) {
-        const d = STATE.candleData[symbol];
-        if (!d || !d.candles.length) return;
-
-        candleSeries.setData(d.candles);
-
-        if (STATE.indicators.ema) {
-            ema9Series.setData(d.ema9);
-            ema21Series.setData(d.ema21);
-            ema9Series.applyOptions({ visible: true });
-            ema21Series.applyOptions({ visible: true });
-        } else {
-            ema9Series.applyOptions({ visible: false });
-            ema21Series.applyOptions({ visible: false });
-        }
-
-        if (STATE.indicators.bb) {
-            bbUpperSeries.setData(d.bb.upper);
-            bbLowerSeries.setData(d.bb.lower);
-            bbMiddleSeries.setData(d.bb.middle);
-            bbUpperSeries.applyOptions({ visible: true });
-            bbLowerSeries.applyOptions({ visible: true });
-            bbMiddleSeries.applyOptions({ visible: true });
-        } else {
-            bbUpperSeries.applyOptions({ visible: false });
-            bbLowerSeries.applyOptions({ visible: false });
-            bbMiddleSeries.applyOptions({ visible: false });
-        }
-
-        if (STATE.indicators.wm) {
-            wmSeries.applyOptions({ visible: true });
-        } else {
-            wmSeries.applyOptions({ visible: false });
-        }
-
-        // Sub-charts
-        document.getElementById('volumeChart').style.display = STATE.indicators.vol ? 'block' : 'none';
-        document.getElementById('rsiChart').style.display = STATE.indicators.rsi ? 'block' : 'none';
-        document.getElementById('macdChart').style.display = STATE.indicators.macd ? 'block' : 'none';
-
-        if (STATE.indicators.vol) volumeSeries.setData(d.volume);
-        if (STATE.indicators.rsi) rsiSeries.setData(d.rsi);
-        if (STATE.indicators.macd) {
-            macdLineSeries.setData(d.macd.macdLine);
-            macdSignalSeries.setData(d.macd.signalLine);
-            macdHistSeries.setData(d.macd.histogram);
-        }
-
-        mainChart.timeScale().fitContent();
-        if (STATE.indicators.vol) volumeChart.timeScale().fitContent();
-        if (STATE.indicators.rsi) rsiChartInstance.timeScale().fitContent();
-        if (STATE.indicators.macd) macdChartInstance.timeScale().fitContent();
-    }
-
-    // ================================================================
-    // REAL-TIME UPDATES
-    // ================================================================
-    function addCandleUpdate(symbol, candle) {
-        if (!STATE.candleData[symbol]) return;
-        const d = STATE.candleData[symbol];
-        const last = d.candles[d.candles.length - 1];
-
-        if (last && candle.time === last.time) {
-            // Update existing candle
-            Object.assign(last, candle);
-        } else {
-            d.candles.push(candle);
-            if (d.candles.length > 1000) d.candles.shift();
-        }
-
-        // Update indicators incrementally
-        d.ema9 = computeEMA(d.candles, 9);
-        d.ema21 = computeEMA(d.candles, 21);
-        d.bb = computeBollingerBands(d.candles);
-        d.rsi = computeRSI(d.candles);
-        d.macd = computeMACD(d.candles);
-        d.volume = d.candles.map(c => ({
-            time: c.time,
-            value: c.volume,
-            color: c.close >= c.open ? 'rgba(63,185,80,0.3)' : 'rgba(248,81,73,0.3)',
-        }));
-
-        if (symbol === STATE.activeSymbol) {
-            const lastCandle = d.candles[d.candles.length - 1];
-            candleSeries.update(lastCandle);
-            if (STATE.indicators.ema) {
-                ema9Series.update(d.ema9[d.ema9.length - 1]);
-                ema21Series.update(d.ema21[d.ema21.length - 1]);
-            }
-            if (STATE.indicators.bb) {
-                const bi = d.bb.upper.length - 1;
-                bbUpperSeries.update(d.bb.upper[bi]);
-                bbLowerSeries.update(d.bb.lower[bi]);
-                bbMiddleSeries.update(d.bb.middle[bi]);
-            }
-            if (STATE.indicators.vol) volumeSeries.update(d.volume[d.volume.length - 1]);
-            if (STATE.indicators.rsi) rsiSeries.update(d.rsi[d.rsi.length - 1]);
-            if (STATE.indicators.macd) {
-                const mi = d.macd.macdLine.length - 1;
-                macdLineSeries.update(d.macd.macdLine[mi]);
-                macdSignalSeries.update(d.macd.signalLine[mi]);
-                macdHistSeries.update(d.macd.histogram[mi]);
+        
+        // Update SMC data
+        if (state.smc) {
+            for (const [sym, d] of Object.entries(state.smc)) {
+                updateSmcDisplay(sym, d);
             }
         }
+    } catch(e) {}
+}
+
+async function fetchBrainData() {
+    try {
+        const resp = await fetch('/api/brain/' + activeTab);
+        const data = await resp.json();
+        brainData[activeTab] = data;
+        updateBrainDisplay(data);
+        updateEquityCurve(data.equity_curve || []);
+    } catch(e) {}
+}
+
+async function fetchTrades() {
+    try {
+        const resp = await fetch('/api/trades/' + activeTab);
+        const trades = await resp.json();
+        renderTrades(trades);
+    } catch(e) {}
+}
+
+async function fetchJournal() {
+    try {
+        const resp = await fetch('/api/journal/' + activeTab);
+        const data = await resp.json();
+        renderJournal(data.recent_trades || []);
+        renderCategoryReport(data.category_report || {});
+        renderThinking(data);
+    } catch(e) {}
+}
+
+// ── Rendering ──────────────────────────────────────────────────────────
+function renderTabs() {
+    const container = document.getElementById('tabs');
+    container.innerHTML = symbols.map(s => `
+        <div class="tab ${s===activeTab?'active':''}" data-s="${s}" onclick="switchTab('${s}')">
+            <span class="sym">${s.replace('500','').replace('1000','')}</span>
+            <span class="px" id="px-${s}">--</span>
+            <span class="ch" id="ch-${s}">0%</span>
+        </div>
+    `).join('');
+}
+
+function renderMarketWatch() {
+    const container = document.getElementById('marketWatch');
+    container.innerHTML = symbols.map(s => `
+        <div class="mw-row ${s===activeTab?'active':''}" data-s="${s}" onclick="switchTab('${s}')">
+            <span class="mw-sym">${s.replace('500','').replace('1000','')}</span>
+            <span class="mw-price" id="mw-${s}">--</span>
+            <span class="mw-chg" id="mwc-${s}">--</span>
+        </div>
+    `).join('');
+}
+
+function updatePriceDisplay(sym, price) {
+    const decimals = sym.includes('1000') ? 4 : 3;
+    const el = document.getElementById('px-' + sym);
+    if (el) el.textContent = price.toFixed(decimals);
+    const mw = document.getElementById('mw-' + sym);
+    if (mw) mw.textContent = price.toFixed(decimals);
+}
+
+function updateSmcDisplay(sym, data) {
+    if (sym !== activeTab) return;
+    const d = data;
+    document.getElementById('smcSym').textContent = sym;
+    document.getElementById('smcRsi').textContent = d.rsi ? d.rsi.toFixed(1) : '--';
+    document.getElementById('smcRsi').className = 'v ' + (d.rsi <= 15 ? 'pos' : d.rsi >= 85 ? 'neg' : '');
+    document.getElementById('smcZones').textContent = d.zone_count || 0;
+    document.getElementById('smcConfluence').textContent = (d.confluence || 0) + '/3';
+    document.getElementById('smcConfluence').className = 'v ' + (d.confluence >= 3 ? 'pos' : '');
+    document.getElementById('smcTrades').textContent = d.trades || 0;
+    document.getElementById('smcWr').textContent = d.win_rate ? d.win_rate.toFixed(0) + '%' : '0%';
+    const pnl = d.total_pnl || 0;
+    document.getElementById('smcPnl').textContent = '$' + pnl.toFixed(2);
+    document.getElementById('smcPnl').className = 'v ' + (pnl > 0 ? 'pos' : pnl < 0 ? 'neg' : '');
+    
+    const pos = d.position === 1 ? 'LONG' : d.position === -1 ? 'SHORT' : 'FLAT';
+    const posClass = d.position === 1 ? 'long' : d.position === -1 ? 'short' : 'flat';
+    document.getElementById('smcStatus').textContent = pos;
+    document.getElementById('smcStatus').className = 'badge ' + posClass;
+}
+
+function updateBrainDisplay(data) {
+    if (!data) return;
+    
+    // Health
+    const score = data.health_score || 0;
+    document.getElementById('healthScore').textContent = (score * 100).toFixed(0) + '%';
+    document.getElementById('healthScore').style.color = score > 0.7 ? 'var(--grn)' : score > 0.4 ? 'var(--yel)' : 'var(--red)';
+    document.getElementById('healthLabel').textContent = data.health_status || 'UNKNOWN';
+    const bar = document.getElementById('healthBar');
+    bar.style.width = (score * 100) + '%';
+    bar.style.background = score > 0.7 ? 'var(--grn)' : score > 0.4 ? 'var(--yel)' : 'var(--red)';
+    
+    // Recommendations
+    const recList = document.getElementById('recList');
+    recList.innerHTML = (data.recommendations || []).slice(0, 3).map(r => 
+        `<div class="rec-item">${r}</div>`
+    ).join('');
+    
+    // Brain params
+    document.getElementById('brainConv').textContent = data.wm_bias || '--';
+    document.getElementById('brainConv').className = 'v ' + (data.wm_bias === 'UP' ? 'pos' : data.wm_bias === 'DOWN' ? 'neg' : '');
+    document.getElementById('brainConvBar').style.width = ((data.wm_confidence || 0) * 100) + '%';
+    document.getElementById('brainRegime').textContent = data.regime || '--';
+    document.getElementById('brainWmBias').textContent = (data.wm_bias || 'FLAT') + ' (' + (data.wm_confidence || 0).toFixed(2) + ')';
+    document.getElementById('brainLosses').textContent = data.consecutive_losses || 0;
+    document.getElementById('brainLosses').className = 'v ' + ((data.consecutive_losses || 0) >= 3 ? 'neg' : '');
+    document.getElementById('brainAdj').textContent = data.adjustments_made || 0;
+    
+    // Adaptive params
+    document.getElementById('paramConv').textContent = (data.min_conviction || 0.3).toFixed(2);
+    document.getElementById('paramDrift').textContent = (data.drift_filter || 0.4).toFixed(2);
+    document.getElementById('paramSpike').textContent = (data.spike_size_filter || 15).toFixed(0) + 'x';
+    
+    // Brain thought (latest trade diagnosis)
+    const recent = data.recent_trades || [];
+    if (recent.length > 0) {
+        const last = recent[recent.length - 1];
+        document.getElementById('brainThought').textContent = last.diagnosis || 'No diagnosis yet';
     }
+}
 
-    // ================================================================
-    // WEBSOCKET
-    // ================================================================
-    let ws = null;
-    let reconnectTimer = null;
+function updateEquityCurve(equityData) {
+    if (!equityData || equityData.length === 0) return;
+    const data = equityData.map((v, i) => ({ time: i, value: v }));
+    equitySeries.setData(data);
+    equityChart.timeScale().fitContent();
+}
 
-    function connectWebSocket() {
-        try {
-            ws = new WebSocket(`ws://${location.hostname}:8081`);
-            ws.onopen = () => {
-                document.getElementById('wsDot').className = 'dot green';
-                document.getElementById('wsLabel').textContent = 'Connected';
-                addLog('[WS] Connected to server');
-            };
-            ws.onmessage = (e) => {
-                try {
-                    const data = JSON.parse(e.data);
-                    handleServerData(data);
-                } catch(err) {}
-            };
-            ws.onclose = () => {
-                document.getElementById('wsDot').className = 'dot red';
-                document.getElementById('wsLabel').textContent = 'Disconnected';
-                reconnectTimer = setTimeout(connectWebSocket, 3000);
-            };
-            ws.onerror = () => {
-                document.getElementById('wsDot').className = 'dot yellow';
-                document.getElementById('wsLabel').textContent = 'Polling';
-                startPolling();
-            };
-        } catch(e) {
-            startPolling();
-        }
+function renderTrades(trades) {
+    const body = document.getElementById('tradesBody');
+    if (!body) return;
+    body.innerHTML = '';
+    (trades || []).slice().reverse().forEach((t, i) => {
+        const row = document.createElement('tr');
+        const pnl = t.pnl || 0;
+        const side = t.side || (t.direction > 0 ? 'LONG' : 'SHORT');
+        row.innerHTML = `<td>${i+1}</td><td>${t.time||'--'}</td><td>${t.strategy||'--'}</td>` +
+            `<td class="${side==='LONG'?'up':'dn'}">${side}</td>` +
+            `<td>${(t.entry||0).toFixed(3)}</td><td>${(t.exit||0).toFixed(3)}</td>` +
+            `<td class="${pnl>=0?'up':'dn'}">$${pnl.toFixed(4)}</td>` +
+            `<td>${t.bars_held||0}</td><td>${t.reason||t.exit_reason||'--'}</td>`;
+        body.appendChild(row);
+    });
+}
+
+function renderJournal(trades) {
+    const body = document.getElementById('journalBody');
+    if (!body) return;
+    body.innerHTML = '';
+    (trades || []).slice().reverse().forEach((t, i) => {
+        const row = document.createElement('tr');
+        const pnl = t.pnl || 0;
+        const cat = t.category || 'unknown';
+        row.innerHTML = `<td>${i+1}</td><td>${t.time||'--'}</td>` +
+            `<td><span class="cat-badge cat-${cat}">${cat}</span></td>` +
+            `<td>${t.direction||'--'}</td>` +
+            `<td class="${pnl>=0?'up':'dn'}">$${pnl.toFixed(4)}</td>` +
+            `<td style="max-width:300px;font-size:9px;color:var(--t2)">${t.diagnosis||'--'}</td>` +
+            `<td style="font-size:9px;color:var(--yel)">${t.suggested_fix||''}</td>`;
+        body.appendChild(row);
+    });
+}
+
+function renderCategoryReport(report) {
+    const container = document.getElementById('categoryReport');
+    if (!container) return;
+    let html = '';
+    for (const [cat, stats] of Object.entries(report)) {
+        html += `<div class="pr">
+            <span class="l"><span class="cat-badge cat-${cat}">${cat}</span></span>
+            <span class="v">${stats.trades}T WR=${stats.win_rate.toFixed(0)}%</span>
+        </div>`;
     }
+    container.innerHTML = html || '<div style="color:var(--t3);font-size:10px">No data yet</div>';
+}
 
-    function startPolling() {
-        setInterval(async () => {
-            try {
-                const r = await fetch('/api/data');
-                const d = await r.json();
-                handleServerData(d);
-            } catch(e) {}
-        }, 2000);
+function renderThinking(data) {
+    const body = document.getElementById('thinkingBody');
+    if (!body) return;
+    body.innerHTML = '';
+    const recent = data.recent_trades || [];
+    recent.slice().reverse().forEach(t => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${t.time||'--'}</td>` +
+            `<td>${t.diagnosis ? 'ANALYZED' : 'PENDING'}</td>` +
+            `<td>${(t.conviction||0).toFixed(2)}</td>` +
+            `<td>${t.regime||'--'}</td>` +
+            `<td style="max-width:400px;font-size:9px;color:var(--t2)">${t.diagnosis||'--'}</td>`;
+        body.appendChild(row);
+    });
+}
+
+// ── Chart Updates ──────────────────────────────────────────────────────
+async function loadCandles(symbol) {
+    try {
+        const resp = await fetch('/api/candles/' + symbol);
+        const data = await resp.json();
+        candles[symbol] = data;
+        updateChart(symbol);
+    } catch(e) {}
+}
+
+function updateChart(symbol) {
+    if (symbol !== activeTab) return;
+    const data = candles[symbol] || [];
+    if (!data.length) return;
+    
+    candleSeries.setData(data.map(c => ({
+        time: c.time, open: c.open, high: c.high, low: c.low, close: c.close,
+    })));
+    
+    volumeSeries.setData(data.map(c => ({
+        time: c.time, value: c.volume || 0,
+        color: c.close >= c.open ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)',
+    })));
+    
+    // EMA
+    if (emaSeries) chart.removeSeries(emaSeries);
+    const closes = data.map(c => c.close);
+    const ema20 = computeEMA(closes, 20);
+    emaSeries = chart.addLineSeries({ color: '#3b82f6', lineWidth: 1, priceLineVisible: false });
+    emaSeries.setData(data.map((c, i) => ({ time: c.time, value: ema20[i] })));
+    
+    chart.timeScale().fitContent();
+}
+
+function computeEMA(prices, period) {
+    const k = 2 / (period + 1);
+    const ema = [prices[0]];
+    for (let i = 1; i < prices.length; i++) {
+        ema.push(prices[i] * k + ema[i-1] * (1 - k));
     }
+    return ema;
+}
 
-    function handleServerData(data) {
-        const indices = data.indices || {};
-        const portfolio = data.portfolio || {};
-        const corr = data.correlation_matrix || {};
-        const opt = data.optimizer || {};
+// ── UI Helpers ─────────────────────────────────────────────────────────
+function setTF(tf, btn) {
+    document.querySelectorAll('.chart-toolbar button:not(.toggle)').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+}
 
-        // Update tab prices
-        for (const [name, m] of Object.entries(indices)) {
-            STATE.wsData[name] = m;
+function toggleIndicator(name, btn) {
+    btn.classList.toggle('on');
+    updateChart(activeTab);
+}
 
-            const priceEl = document.getElementById(`tab-price-${name}`);
-            const changeEl = document.getElementById(`tab-change-${name}`);
-            if (priceEl && m.equity) {
-                const pnl = m.total_pnl || 0;
-                const changePct = (pnl / 10000 * 100);
-                priceEl.textContent = `$${(m.equity || 10000).toFixed(0)}`;
-                changeEl.textContent = `${changePct >= 0 ? '+' : ''}${changePct.toFixed(2)}%`;
-                changeEl.className = `change ${changePct >= 0 ? 'up' : 'down'}`;
-            }
-        }
+function showBottom(name) {
+    document.querySelectorAll('.bottom-tabs .bt').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.bottom-content > div').forEach(d => d.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('panel-' + name).classList.add('active');
+}
 
-        // Update active symbol panel
-        updateSidePanel(STATE.activeSymbol);
-
-        // Update portfolio
-        updatePortfolio(portfolio, opt);
-
-        // Update positions table
-        updatePositionsTable(indices);
-
-        // Update correlation
-        updateCorrelation(corr);
-
-        // Update OHLC overlay with simulated candle
-        if (indices[STATE.activeSymbol]) {
-            const m = indices[STATE.activeSymbol];
-            const simulatedCandle = {
-                time: Math.floor(Date.now() / 1000),
-                open: (m.equity || 10000),
-                high: (m.equity || 10000) * 1.0001,
-                low: (m.equity || 10000) * 0.9999,
-                close: (m.equity || 10000),
-                volume: 100,
-            };
-            addCandleUpdate(STATE.activeSymbol, simulatedCandle);
-        }
-    }
-
-    function updateSidePanel(symbol) {
-        const m = STATE.wsData[symbol];
-        if (!m) return;
-
-        const config = SYMBOL_CONFIG[symbol];
-        document.getElementById('pos-symbol').textContent = config.short;
-
-        const pos = m.position === 1 ? 'LONG' : m.position === -1 ? 'SHORT' : 'FLAT';
-        const posBadge = document.getElementById('pos-side');
-        posBadge.textContent = pos;
-        posBadge.className = `side-badge ${pos.toLowerCase()}`;
-
-        document.getElementById('pos-current').textContent = `$${(m.equity || 10000).toFixed(2)}`;
-        const pnl = m.total_pnl || 0;
-        const pnlEl = document.getElementById('pos-pnl');
-        pnlEl.textContent = `$${pnl.toFixed(2)}`;
-        pnlEl.className = `value ${pnl >= 0 ? 'positive' : 'negative'}`;
-        document.getElementById('pos-duration').textContent = `${m.trade_count || 0} trades`;
-
-        // World model
-        const dir = m.wm_direction || 'FLAT';
-        const dirEl = document.getElementById('wm-direction');
-        if (dir === 'UP') {
-            dirEl.innerHTML = '<span class="arrow up"></span><span style="color:var(--green)">UP</span>';
-        } else if (dir === 'DOWN') {
-            dirEl.innerHTML = '<span class="arrow down"></span><span style="color:var(--red)">DOWN</span>';
-        } else {
-            dirEl.innerHTML = '<span style="color:var(--text-muted)">FLAT</span>';
-        }
-
-        document.getElementById('wm-mean').textContent = (m.wm_mean || 0).toFixed(6);
-        document.getElementById('wm-std').textContent = (m.wm_std || 0).toFixed(6);
-        const snr = (m.wm_std || 0.001) > 0 ? Math.abs(m.wm_mean || 0) / m.wm_std : 0;
-        document.getElementById('wm-snr').textContent = snr.toFixed(3);
-        const conf = ((m.wm_confidence || 0) * 100).toFixed(0);
-        document.getElementById('wm-conf').textContent = conf + '%';
-        document.getElementById('wm-conf-bar').style.width = conf + '%';
-        document.getElementById('wm-conf-bar').style.background = conf > 60 ? 'var(--green)' : conf > 30 ? 'var(--yellow)' : 'var(--accent)';
-    }
-
-    function updatePortfolio(p, opt) {
-        const totalEq = p.total_equity || 0;
-        const totalPnl = p.total_pnl || 0;
-        const dd = (p.portfolio_drawdown || 0) * 100;
-
-        document.getElementById('p-equity').textContent = `$${totalEq.toLocaleString()}`;
-        const pnlEl = document.getElementById('p-pnl');
-        pnlEl.textContent = `$${totalPnl.toFixed(2)}`;
-        pnlEl.className = `value ${totalPnl >= 0 ? 'positive' : 'negative'}`;
-        const ddEl = document.getElementById('p-dd');
-        ddEl.textContent = `${dd.toFixed(1)}%`;
-        ddEl.className = `value ${dd < 5 ? 'positive' : dd < 10 ? '' : 'negative'}`;
-        document.getElementById('p-winrate').textContent = `${((p.overall_win_rate || 0) * 100).toFixed(0)}%`;
-        document.getElementById('p-div').textContent = (p.diversification_score || 0).toFixed(2);
-
-        if (opt.kelly) {
-            document.getElementById('p-kelly').textContent = (opt.kelly.kelly_fraction || 0.25).toFixed(3);
-        }
-    }
-
-    function updatePositionsTable(indices) {
-        let html = '';
-        for (const [name, m] of Object.entries(indices)) {
-            const config = SYMBOL_CONFIG[name];
-            const pos = m.position === 1 ? 'LONG' : m.position === -1 ? 'SHORT' : 'FLAT';
-            const posClass = m.position === 1 ? 'up' : m.position === -1 ? 'down' : 'flat';
-            const pnl = m.total_pnl || 0;
-            const dd = (m.current_drawdown || 0) * 100;
-            const dir = m.wm_direction || 'FLAT';
-            const dirClass = dir === 'UP' ? 'up' : dir === 'DOWN' ? 'down' : 'flat';
-            const conf = ((m.wm_confidence || 0) * 100).toFixed(0);
-
-            html += `<tr>
-                <td><strong>${config.short}</strong></td>
-                <td class="${posClass}">${pos}</td>
-                <td>--</td>
-                <td>$${(m.equity || 10000).toFixed(0)}</td>
-                <td class="${pnl >= 0 ? 'up' : 'down'}">$${pnl.toFixed(2)}</td>
-                <td>${dd.toFixed(1)}%</td>
-                <td>${m.trade_count || 0}</td>
-                <td class="${dirClass}">${dir}</td>
-                <td>${conf}%</td>
-            </tr>`;
-        }
-        document.getElementById('positionsBody').innerHTML = html;
-    }
-
-    function updateCorrelation(corr) {
-        const indices = Object.keys(corr);
-        if (indices.length === 0) return;
-
-        let html = `<div class="heatmap-grid" style="grid-template-columns:repeat(${indices.length + 1}, 1fr)">`;
-        html += '<div></div>';
-        indices.forEach(i => html += `<div style="text-align:center;font-size:10px;color:var(--text-muted)">${SYMBOL_CONFIG[i]?.short || i}</div>`);
-
-        indices.forEach(i1 => {
-            html += `<div style="font-size:10px;color:var(--text-muted);display:flex;align-items:center;justify-content:end;padding-right:4px">${SYMBOL_CONFIG[i1]?.short || i1}</div>`;
-            indices.forEach(i2 => {
-                const v = corr[i1]?.[i2] || 0;
-                const hue = v >= 0 ? 120 : 0;
-                const alpha = Math.min(Math.abs(v) * 0.6, 0.6);
-                html += `<div class="heatmap-cell" style="background:hsla(${hue},70%,40%,${alpha})">${v.toFixed(2)}</div>`;
-            });
-        });
-        html += '</div>';
-        document.getElementById('corrMatrix').innerHTML = html;
-    }
-
-    // ================================================================
-    // UI INTERACTIONS
-    // ================================================================
-    function switchSymbol(symbol) {
-        STATE.activeSymbol = symbol;
-        document.querySelectorAll('.symbol-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector(`.symbol-tab[data-index="${symbol}"]`).classList.add('active');
-
-        if (STATE.candleData[symbol]) {
-            updateChartDisplay(symbol);
-        } else {
-            loadChartData(symbol);
-        }
-
-        updateSidePanel(symbol);
-        addLog(`[CHART] Switched to ${symbol}`);
-    }
-
-    function switchTimeframe(tf, btn) {
-        STATE.timeframe = tf;
-        document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        loadChartData(STATE.activeSymbol);
-        addLog(`[CHART] Timeframe: ${tf}`);
-    }
-
-    function toggleIndicator(name, btn) {
-        STATE.indicators[name] = !STATE.indicators[name];
-        btn.classList.toggle('active');
-        updateChartDisplay(STATE.activeSymbol);
-        addLog(`[IND] ${name.toUpperCase()} ${STATE.indicators[name] ? 'ON' : 'OFF'}`);
-    }
-
-    function switchBottomTab(name, tab) {
-        document.querySelectorAll('.bottom-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.bottom-content > div').forEach(d => d.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('bp-' + name).classList.add('active');
-    }
-
-    function updateOHLCDisplay(data) {
-        // Could show crosshair OHLC data - placeholder
-    }
-
-    function manualOrder(action) {
-        addAlert('info', `Manual ${action} order submitted for ${STATE.activeSymbol}`);
-        addLog(`[ORDER] Manual ${action} for ${STATE.activeSymbol}`);
-    }
-
-    function addAlert(level, message) {
-        const now = new Date().toLocaleTimeString();
-        const el = document.getElementById('bp-alerts');
-        const html = `<div class="alert-item ${level}"><span class="alert-time">${now}</span> ${message}</div>`;
-        el.insertAdjacentHTML('afterbegin', html);
-        if (el.children.length > 50) el.lastChild.remove();
-    }
-
-    function addLog(message) {
-        const now = new Date().toLocaleTimeString();
-        const el = document.getElementById('bp-log');
-        const div = document.createElement('div');
-        div.textContent = `[${now}] ${message}`;
-        el.appendChild(div);
-        if (el.children.length > 200) el.firstChild.remove();
-        el.scrollTop = el.scrollHeight;
-    }
-
-    // ================================================================
-    // CLOCK
-    // ================================================================
-    function updateClock() {
-        document.getElementById('clock').textContent = new Date().toLocaleTimeString() + ' UTC';
-    }
-
-    // ================================================================
-    // INIT
-    // ================================================================
-    async function init() {
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        createCharts();
-        await loadChartData(STATE.activeSymbol);
-        connectWebSocket();
-
-        addLog('[INIT] Genesis Trading Terminal v2.0 ready');
-        addLog('[INIT] Loading chart data...');
-        addLog('[INIT] WebSocket connecting...');
-
-        // Load other symbols in background
-        for (const sym of Object.keys(SYMBOL_CONFIG)) {
-            if (sym !== STATE.activeSymbol) {
-                loadChartData(sym);
-            }
-        }
-    }
-
-    init();
-    </script>
+// ── Start ──────────────────────────────────────────────────────────────
+window.addEventListener('load', init);
+</script>
 </body>
 </html>

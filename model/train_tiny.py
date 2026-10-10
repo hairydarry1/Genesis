@@ -98,6 +98,86 @@ class TinyWorldModel(nn.Module):
 
 
 # ---------------------------------------------------------------------------
+# Improved model: 2-layer residual with wider hidden
+# ---------------------------------------------------------------------------
+class WideTinyWorldModel(nn.Module):
+    """
+    Improved distributional world model with residual connections.
+
+    Architecture:
+        Linear(8, 32) -> LayerNorm -> GELU -> Dropout
+        Residual block: Linear(32, 32) -> LayerNorm -> GELU -> Dropout
+        mean_head: Linear(32, horizon)
+        log_var_head: Linear(32, horizon)
+
+    ~2300 params (4x more than TinyWorldModel, still tiny).
+    """
+
+    def __init__(self, n_features: int = 8, horizon: int = 10, hidden: int = 32, dropout: float = 0.15):
+        super().__init__()
+        self.horizon = horizon
+        self.n_features = n_features
+        self.hidden = hidden
+
+        # Input projection
+        self.input_proj = nn.Sequential(
+            nn.Linear(n_features, hidden),
+            nn.LayerNorm(hidden),
+            nn.GELU(),
+            nn.Dropout(dropout),
+        )
+
+        # Residual block
+        self.res_block = nn.Sequential(
+            nn.Linear(hidden, hidden),
+            nn.LayerNorm(hidden),
+            nn.GELU(),
+            nn.Dropout(dropout),
+        )
+
+        # Output heads
+        self.mean_head = nn.Linear(hidden, horizon)
+        self.log_var_head = nn.Linear(hidden, horizon)
+
+        # Initialize log_var head to zeros (starts at variance=1)
+        nn.init.zeros_(self.log_var_head.weight)
+        nn.init.zeros_(self.log_var_head.bias)
+
+    def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        h = self.input_proj(x)
+        h = h + self.res_block(h)  # residual connection
+        mean = self.mean_head(h)
+        log_var = self.log_var_head(h)
+        log_var = torch.clamp(log_var, min=-20.0, max=5.0)
+        return mean, log_var
+
+    @property
+    def param_count(self) -> int:
+        return sum(p.numel() for p in self.parameters())
+
+
+# Model registry
+MODEL_REGISTRY = {
+    "tiny": TinyWorldModel,
+    "wide": WideTinyWorldModel,
+}
+
+
+def build_model(
+    model_type: str,
+    n_features: int = 8,
+    horizon: int = 10,
+    hidden: int = 16,
+    dropout: float = 0.1,
+) -> nn.Module:
+    """Build model by type name."""
+    cls = MODEL_REGISTRY.get(model_type, TinyWorldModel)
+    if model_type == "wide" and hidden == 16:
+        hidden = 32  # default wider hidden for WideTiny
+    return cls(n_features=n_features, horizon=horizon, hidden=hidden, dropout=dropout)
+
+
+# ---------------------------------------------------------------------------
 # Gaussian NLL loss
 # ---------------------------------------------------------------------------
 def gaussian_nll_loss(
@@ -192,6 +272,7 @@ def train_tiny(
     var_reg_weight: float = 0.05,
     val_split: float = 0.15,
     device_str: str | None = None,
+    **kwargs,
 ) -> dict:
     """Train the tiny 8-feature model."""
     device = torch.device(device_str if device_str else ("cuda" if torch.cuda.is_available() else "cpu"))
@@ -231,11 +312,24 @@ def train_tiny(
     )
 
     # Build model
-    model = TinyWorldModel(
+    model_type = kwargs.get('model_type', 'tiny')
+    model = build_model(
+        model_type=model_type,
         n_features=len(feature_names), horizon=horizon,
         hidden=hidden_dim, dropout=dropout,
     ).to(device)
-    logger.info("model params=%d", model.param_count)
+    logger.info("model_type=%s params=%d", model_type, model.param_count)
+
+    # Initialize variance head from empirical target statistics.
+    # Without this, log_var starts at 0 (variance=1.0) which is
+    # orders of magnitude off from actual variance (~1e-6 for
+    # synthetic indices), causing severe miscalibration.
+    emp_var = torch.tensor(train_targets, dtype=torch.float32).var(dim=0).clamp(min=1e-12)
+    emp_log_var = torch.log(emp_var)
+    with torch.no_grad():
+        model.log_var_head.bias.copy_(emp_log_var)
+    logger.info("variance initialized: mean_var=%.2e, mean_log_var=%.2f",
+                emp_var.mean().item(), emp_log_var.mean().item())
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-5)
@@ -319,6 +413,7 @@ def train_tiny(
             torch.save({
                 "model_state_dict": model.state_dict(),
                 "feature_names": feature_names,
+                "model_type": model_type,
                 "epoch": epoch,
                 "val_nll": val_nll,
                 "val_mae": val_mae,
@@ -405,16 +500,18 @@ def evaluate_walk_forward(
     horizon = ckpt["horizon"]
     saved_T = ckpt.get("temperature", 1.0)
 
-    # Build model
-    model = TinyWorldModel(
+    # Build model (supports both tiny and wide variants)
+    model_type = ckpt.get("model_type", "tiny")
+    model = build_model(
+        model_type=model_type,
         n_features=len(feature_names), horizon=horizon,
         hidden=ckpt.get("hidden_dim", 16),
-        dropout=ckpt.get("dropout", 0.0),  # no dropout at eval time
+        dropout=0.0,  # no dropout at eval time
     ).to(device)
     model.load_state_dict(ckpt["model_state_dict"])
     model.eval()
 
-    logger.info("loaded checkpoint params=%d T_saved=%.4f", model.param_count, saved_T)
+    logger.info("loaded checkpoint model_type=%s params=%d T_saved=%.4f", model_type, model.param_count, saved_T)
 
     # Load and filter dataset
     ds = load_tiny_dataset(dataset_path)
@@ -673,6 +770,8 @@ def main():
     parser.add_argument("--dropout", type=float, default=0.1)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--var-reg", type=float, default=0.05)
+    parser.add_argument("--model", type=str, default="tiny", choices=list(MODEL_REGISTRY.keys()),
+                        help="Model architecture: tiny (516 params) or wide (2300 params)")
     parser.add_argument("--device", default=None)
     parser.add_argument("--eval-only", action="store_true", help="Skip training, just run walk-forward eval")
     args = parser.parse_args()
@@ -691,6 +790,7 @@ def main():
             weight_decay=args.weight_decay,
             var_reg_weight=args.var_reg,
             device_str=args.device,
+            model_type=args.model,
         )
 
     # Walk-forward evaluation

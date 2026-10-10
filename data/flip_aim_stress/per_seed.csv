@@ -1,0 +1,85 @@
+engine,sizing,rule,seed,flip,ruin
+incumbent,fixed,no-aim,11,7.000000000000001,48.699999999999996
+incumbent,fixed,no-aim,23,7.6499999999999995,46.85
+incumbent,fixed,no-aim,29,7.199999999999999,44.45
+incumbent,fixed,no-aim,37,7.000000000000001,47.0
+incumbent,fixed,no-aim,47,7.55,47.25
+incumbent,fixed,no-aim,53,7.249999999999999,45.300000000000004
+incumbent,fixed,no-aim,61,7.6499999999999995,46.45
+incumbent,fixed,aim $3,11,2.75,39.15
+incumbent,fixed,aim $3,23,2.85,36.449999999999996
+incumbent,fixed,aim $3,29,3.2,34.4
+incumbent,fixed,aim $3,37,2.9000000000000004,37.5
+incumbent,fixed,aim $3,47,2.8000000000000003,36.5
+incumbent,fixed,aim $3,53,2.55,36.25
+incumbent,fixed,aim $3,61,3.4000000000000004,37.3
+incumbent,fixed,aim $4,11,3.05,39.050000000000004
+incumbent,fixed,aim $4,23,3.65,36.95
+incumbent,fixed,aim $4,29,4.0,34.9
+incumbent,fixed,aim $4,37,3.55,37.85
+incumbent,fixed,aim $4,47,3.0,36.65
+incumbent,fixed,aim $4,53,3.45,37.2
+incumbent,fixed,aim $4,61,3.75,37.45
+incumbent,ladder,no-aim,11,26.950000000000003,69.55
+incumbent,ladder,no-aim,23,27.900000000000002,68.5
+incumbent,ladder,no-aim,29,29.049999999999997,67.35
+incumbent,ladder,no-aim,37,28.050000000000004,68.5
+incumbent,ladder,no-aim,47,27.650000000000002,69.05
+incumbent,ladder,no-aim,53,29.7,67.7
+incumbent,ladder,no-aim,61,28.199999999999996,68.7
+incumbent,ladder,aim $3,11,34.4,62.9
+incumbent,ladder,aim $3,23,34.9,61.85000000000001
+incumbent,ladder,aim $3,29,37.5,58.8
+incumbent,ladder,aim $3,37,34.599999999999994,62.35000000000001
+incumbent,ladder,aim $3,47,36.25,61.0
+incumbent,ladder,aim $3,53,36.75,60.25
+incumbent,ladder,aim $3,61,35.9,60.8
+incumbent,ladder,aim $4,11,34.25,62.849999999999994
+incumbent,ladder,aim $4,23,35.0,62.64999999999999
+incumbent,ladder,aim $4,29,38.2,58.95
+incumbent,ladder,aim $4,37,35.099999999999994,62.45
+incumbent,ladder,aim $4,47,35.8,61.45
+incumbent,ladder,aim $4,53,36.8,60.3
+incumbent,ladder,aim $4,61,36.1,61.3
+timebnd5000,fixed,no-aim,11,19.8,40.849999999999994
+timebnd5000,fixed,no-aim,23,21.6,37.8
+timebnd5000,fixed,no-aim,29,21.3,35.9
+timebnd5000,fixed,no-aim,37,20.849999999999998,39.95
+timebnd5000,fixed,no-aim,47,20.4,38.6
+timebnd5000,fixed,no-aim,53,22.5,37.45
+timebnd5000,fixed,no-aim,61,21.55,38.0
+timebnd5000,fixed,aim $3,11,4.0,46.7
+timebnd5000,fixed,aim $3,23,4.2,43.45
+timebnd5000,fixed,aim $3,29,4.45,42.75
+timebnd5000,fixed,aim $3,37,3.95,45.35
+timebnd5000,fixed,aim $3,47,4.55,43.7
+timebnd5000,fixed,aim $3,53,3.5999999999999996,43.15
+timebnd5000,fixed,aim $3,61,4.0,44.75
+timebnd5000,fixed,aim $4,11,12.8,40.5
+timebnd5000,fixed,aim $4,23,14.75,37.25
+timebnd5000,fixed,aim $4,29,14.249999999999998,35.85
+timebnd5000,fixed,aim $4,37,13.55,38.800000000000004
+timebnd5000,fixed,aim $4,47,12.75,37.75
+timebnd5000,fixed,aim $4,53,14.000000000000002,37.45
+timebnd5000,fixed,aim $4,61,13.5,37.75
+timebnd5000,ladder,no-aim,11,41.4,58.15
+timebnd5000,ladder,no-aim,23,41.949999999999996,57.75
+timebnd5000,ladder,no-aim,29,45.050000000000004,54.6
+timebnd5000,ladder,no-aim,37,41.5,58.050000000000004
+timebnd5000,ladder,no-aim,47,42.75,56.65
+timebnd5000,ladder,no-aim,53,44.65,55.00000000000001
+timebnd5000,ladder,no-aim,61,43.8,55.55
+timebnd5000,ladder,aim $3,11,36.65,62.45
+timebnd5000,ladder,aim $3,23,36.15,62.6
+timebnd5000,ladder,aim $3,29,38.65,60.550000000000004
+timebnd5000,ladder,aim $3,37,35.699999999999996,63.05
+timebnd5000,ladder,aim $3,47,38.35,60.650000000000006
+timebnd5000,ladder,aim $3,53,38.550000000000004,60.3
+timebnd5000,ladder,aim $3,61,37.35,61.4
+timebnd5000,ladder,aim $4,11,42.699999999999996,56.99999999999999
+timebnd5000,ladder,aim $4,23,43.2,56.49999999999999
+timebnd5000,ladder,aim $4,29,45.9,53.949999999999996
+timebnd5000,ladder,aim $4,37,42.6,56.75
+timebnd5000,ladder,aim $4,47,45.2,54.6
+timebnd5000,ladder,aim $4,53,45.550000000000004,54.25
+timebnd5000,ladder,aim $4,61,45.7,53.900000000000006

@@ -6,7 +6,7 @@ Logs trades, tracks performance, validates strategy against backtest targets.
 
 import csv
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # === CONFIGURATION ===
 TRACKER_FILE = "SpikeCatcher/paper_trading_log.csv"
@@ -43,12 +43,24 @@ def init_tracker():
             ])
         print(f"[INIT] Created tracker: {TRACKER_FILE}")
 
-def log_trade(symbol, action, direction, entry, exit_price, pnl, reason, bars, hour, cold, equity):
-    """Log a single trade."""
+def log_trade(symbol, action, direction, entry, exit_price, pnl, reason, bars, hour, cold, equity, event_ts=None):
+    """Log a single trade.
+
+    Stamps EVENT time when event_ts (epoch seconds) is provided — the tick
+    timestamp the engine acted on. In live mode event time == wall clock by
+    construction; in replay mode it is the historical clock, making replay
+    logs day-analyzable exactly like live logs. All stamps are UTC (the
+    trading day, halt resets, and cold hours are all UTC-defined).
+    Without event_ts, falls back to now (UTC) for ad-hoc callers.
+    """
+    if event_ts is not None:
+        stamp = datetime.fromtimestamp(event_ts, tz=timezone.utc).isoformat()
+    else:
+        stamp = datetime.now(timezone.utc).isoformat()
     with open(TRACKER_FILE, 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
-            datetime.now().isoformat(), symbol, action, direction,
+            stamp, symbol, action, direction,
             f"{entry:.5f}", f"{exit_price:.5f}", f"{pnl:.4f}",
             reason, bars, hour, cold, f"{equity:.2f}"
         ])
@@ -69,6 +81,12 @@ def get_trades(symbol=None):
 
 def calculate_stats(trades):
     """Calculate performance statistics."""
+    if not trades:
+        return None
+    
+    # Only CLOSED rows carry PnL; OPEN rows are entry markers and would
+    # otherwise dilute WR and PnL stats.
+    trades = [t for t in trades if t.get('action') == 'CLOSE']
     if not trades:
         return None
     
@@ -95,6 +113,16 @@ def calculate_stats(trades):
     cold_trades = [t for t in trades if t['cold_hour'] == 'True']
     hot_trades = [t for t in trades if t['cold_hour'] == 'False']
     
+    # Per-day breakdown (UTC event-time stamps: valid for replay too, not
+    # just live — every row carries the clock the engine acted on)
+    by_day = {}
+    for t in trades:
+        by_day.setdefault(t['timestamp'][:10], []).append(float(t['pnl']))
+    daily = {d: {"n": len(v),
+                 "wr": 100 * sum(1 for p in v if p > 0) / len(v),
+                 "pnl": sum(v)}
+             for d, v in sorted(by_day.items())}
+    
     return {
         'n': n,
         'wins': wins,
@@ -108,6 +136,7 @@ def calculate_stats(trades):
         'reasons': reasons,
         'cold_trades': len(cold_trades),
         'hot_trades': len(hot_trades),
+        'daily': daily,
     }
 
 def check_red_flags(stats, symbol):
@@ -152,6 +181,10 @@ def print_report(symbol=None):
     print(f"\n  EXIT REASONS:")
     for reason, count in sorted(stats['reasons'].items()):
         print(f"    {reason}: {count} trades ({count/stats['n']*100:.1f}%)")
+    
+    print(f"\n  DAILY BREAKDOWN (UTC):")
+    for d, s in stats['daily'].items():
+        print(f"    {d}  n={s['n']:4d}  WR {s['wr']:5.1f}%  PnL ${s['pnl']:+9.2f}")
     
     print(f"\n  COLD HOUR ANALYSIS:")
     print(f"    Cold hour trades: {stats['cold_trades']} ({stats['cold_trades']/stats['n']*100:.1f}%)")

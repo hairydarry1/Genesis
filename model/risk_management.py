@@ -235,20 +235,26 @@ class RiskManager:
             return 1.0
     
     def _apply_portfolio_limits(self, proposed_size: float, index_type: str) -> float:
-        """Apply portfolio-level exposure limits."""
-        current_total = sum(abs(p) for p in self._index_positions.values())
-        current_index = abs(self._index_positions.get(index_type, 0.0))
+        """Apply portfolio-level exposure limits.
+
+        NOTE: the computed size REPLACES this index's current position
+        (target sizing), so this index's own current exposure does not count
+        against its own headroom.
+        """
+        others_total = sum(
+            abs(p)
+            for name, p in self._index_positions.items()
+            if name != index_type
+        )
         
-        # Check total portfolio exposure
-        remaining_total = self.cfg.max_portfolio_exposure - current_total
+        # Check total portfolio exposure (excluding this index's old position,
+        # which the proposed size replaces)
+        remaining_total = self.cfg.max_portfolio_exposure - others_total
         if remaining_total <= 0:
             return 0.0
         
-        # Check single index exposure
-        remaining_index = self.cfg.max_single_index_exposure - current_index
-        
-        # Take the minimum
-        return min(proposed_size, remaining_total, remaining_index)
+        # Take the minimum (single-index cap applied directly)
+        return min(proposed_size, remaining_total, self.cfg.max_single_index_exposure)
     
     def should_trade(
         self,

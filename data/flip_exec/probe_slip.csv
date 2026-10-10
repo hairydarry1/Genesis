@@ -1,0 +1,2 @@
+mode,spike_ts_utc,spike_delta,side,assumed_fill,actual_deal,adverse_price_units,adverse_usd,spread_at_order,note,entry_x,act_2h,trend_2h,min_2k
+PROBE-MANEXIT,2026-09-16T12:14:54.914320+00:00,+0.00000,sell,9405.15730,9405.15730,+0.00000,+0.0000,,probe manual,,,

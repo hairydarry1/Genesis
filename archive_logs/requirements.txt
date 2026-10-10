@@ -1,0 +1,16 @@
+# Core ML
+torch>=2.0
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3
+pandas>=2.0
+
+# Data / logging
+pyarrow>=14.0        # parquet storage for tick/bar data
+structlog>=23.0
+
+# Deriv API websocket layer
+websockets>=11.0
+
+# Dev / testing
+pytest>=7.0

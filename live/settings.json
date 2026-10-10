@@ -1,0 +1,54 @@
+{
+    "indices": [
+        {
+            "symbol": "R_75",
+            "name": "Volatility 75",
+            "world_model": "checkpoints_tiny_clean/world_model_best.pt",
+            "policy": "checkpoints_tiny/policy_best.pt",
+            "enabled": true
+        },
+        {
+            "symbol": "R_10",
+            "name": "Volatility 10",
+            "world_model": "checkpoints_vol10/world_model_best.pt",
+            "policy": "checkpoints_vol10/policy_best.pt",
+            "enabled": true
+        },
+        {
+            "symbol": "BOOM500",
+            "name": "Boom 500",
+            "world_model": "checkpoints_boom_500_clean/world_model_best.pt",
+            "policy": "checkpoints_boom_500/policy_best.pt",
+            "enabled": true
+        },
+        {
+            "symbol": "CRASH500",
+            "name": "Crash 500",
+            "world_model": "checkpoints_crash_500_clean/world_model_best.pt",
+            "policy": "checkpoints_crash_500/policy_best.pt",
+            "enabled": true
+        }
+    ],
+    "risk": {
+        "max_drawdown_pct": 10.0,
+        "cooldown_losses": 5,
+        "max_position_per_index": 1,
+        "max_total_exposure": 3
+    },
+    "llm": {
+        "enabled": true,
+        "gemini_api_key": "",
+        "groq_api_key": "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",
+        "openrouter_api_key": "",
+        "openai_api_key": "",
+        "ollama_model": "phi3:mini",
+        "model": "gemini-2.0-flash",
+        "timeout_seconds": 10
+    },
+    "execution": {
+        "mode": "paper",
+        "app_id": 1089,
+        "history_bars": 500,
+        "initial_equity": 10000.0
+    }
+}

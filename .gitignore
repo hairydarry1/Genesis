@@ -10,3 +10,14 @@ data/ticks/
 
 # Node deps
 dashboard/terminal/node_modules/
+
+# Experiment / run logs (regenerable output)
+*.log
+*.jsonl
+/*.txt
+!requirements.txt
+phase0_*.txt
+phase1_*.txt
+
+# Model checkpoints & training artifacts (large, regenerable)
+checkpoints*/

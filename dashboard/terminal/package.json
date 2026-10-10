@@ -1,26 +1,26 @@
 {
-  "name": "genesis-terminal",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
+  "name": "genesis-spike-catcher",
+  "version": "2.0.0",
+  "description": "Genesis Spike Catcher — Live Trading Dashboard",
+  "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "dev": "vite --port 3000",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "lightweight-charts": "^4.2.2",
     "zustand": "^5.0.0",
-    "clsx": "^2.1.0"
+    "lightweight-charts": "^4.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.13.3",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.1.0",
-    "typescript": "~5.7.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "electron": "^44.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.6.0",
     "vite": "^6.0.0"
   }
 }

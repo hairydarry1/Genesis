@@ -1,0 +1,30 @@
+
+FLIP1000 @ 5.0x min_age=1  (148 trades, 1.00wk, NET +34.75$)
+  avg win $+1.530   avg loss $-1.026   1 loss = 0.67 wins   breakeven WR 40.1% vs actual 49.3%
+  loss size (USD): median -0.796  p90 |loss| -2.126  worst -4.128
+  worst losing streak: 2 trades = $-5.90   losing days 3/8   worst day 09-07 $-9.52
+  $10 hist path: final $40.85  min equity $4.89
+
+FLIP1000 @ 5.0x min_age=0  (246 trades, 1.00wk, NET +25.73$)
+  avg win $+1.358   avg loss $-0.996   1 loss = 0.73 wins   breakeven WR 42.3% vs actual 46.7%
+  loss size (USD): median -0.741  p90 |loss| -2.035  worst -4.592
+  worst losing streak: 8 trades = $-12.13   losing days 3/8   worst day 09-07 $-2.94
+  $10 hist path: final $23.12  min equity $1.50
+
+FLIP500 @ 3.5x min_age=2  (389 trades, 1.00wk, NET +28.57$)
+  avg win $+1.055   avg loss $-0.738   1 loss = 0.70 wins   breakeven WR 41.1% vs actual 45.2%
+  loss size (USD): median -0.592  p90 |loss| -1.474  worst -3.233
+  worst losing streak: 5 trades = $-6.83   losing days 4/8   worst day 09-04 $-9.13
+  $10 hist path: final $0.00  min equity $0.00
+
+FLIP500 @ 3.5x min_age=0  (1358 trades, 1.00wk, NET +51.40$)
+  avg win $+1.127   avg loss $-0.601   1 loss = 0.53 wins   breakeven WR 34.8% vs actual 37.0%
+  loss size (USD): median -0.436  p90 |loss| -1.342  worst -2.904
+  worst losing streak: 13 trades = $-9.22   losing days 2/8   worst day 09-04 $-33.90
+  $10 hist path: final $0.00  min equity $0.00
+
+FLIP300 @ 3.0x min_age=0  (2850 trades, 1.00wk, NET +88.47$)
+  avg win $+1.674   avg loss $-0.786   1 loss = 0.47 wins   breakeven WR 32.0% vs actual 33.2%
+  loss size (USD): median -0.386  p90 |loss| -2.156  worst -5.302
+  worst losing streak: 17 trades = $-17.52   losing days 4/8   worst day 09-03 $-36.27
+  $10 hist path: final $0.00  min equity $0.00

@@ -1,0 +1,191 @@
+==============================================================================
+  1) SL vs TP DISTANCE ASYMMETRY (median M1 range, Sep 1-7)
+==============================================================================
+  boom500    med_range=   0.563 (0.01% of px)  SL= 0.04%  TP=0.40%  SL/TP =   0.1x
+  crash500   med_range=   0.348 (0.01% of px)  SL= 0.04%  TP=0.40%  SL/TP =   0.1x
+  boom1000   med_range=   0.870 (0.01% of px)  SL= 0.02%  TP=0.40%  SL/TP =   0.0x
+  crash1000  med_range=   0.360 (0.01% of px)  SL= 0.02%  TP=0.40%  SL/TP =   0.0x
+
+==============================================================================
+  2) EXECUTOR REPLAY (real timestamps) + SL-EXIT AUDIT
+==============================================================================
+
+  BOOM500: 224 closed trades | equity 281.65 (+40.8%)
+    WR 82.1% | total $+81.65
+    sl exits: n=34  avg move -0.106%  total $-1161.42  (intended loss/trade = $4.00; sizing uses 1.5x-median attached stop)
+    tp exits: n=183  avg move +0.024%  total $+1253.15
+    exit mix: {'tp': 183, 'sl': 34, 'safety_spike': 7}
+  [HALT] Daily loss limit 50% hit. No new entries today.
+
+  CRASH500: 206 closed trades | equity 200.12 (+0.1%)
+    WR 80.6% | total $+0.12
+    sl exits: n=35  avg move -0.102%  total $-549.47  (intended loss/trade = $4.00; sizing uses 1.5x-median attached stop)
+    tp exits: n=166  avg move +0.024%  total $+555.80
+    exit mix: {'tp': 166, 'sl': 35, 'safety_spike': 5}
+
+  BOOM1000: 120 closed trades | equity 270.00 (+35.0%)
+    WR 89.2% | total $+70.00
+    sl exits: n=13  avg move -0.075%  total $-663.51  (intended loss/trade = $4.00; sizing uses 1.5x-median attached stop)
+    tp exits: n=107  avg move +0.012%  total $+733.50
+    exit mix: {'tp': 107, 'sl': 13}
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+
+  CRASH1000: 119 closed trades | equity 76.79 (-61.6%)
+    WR 88.2% | total $-123.21
+    sl exits: n=14  avg move -0.098%  total $-552.33  (intended loss/trade = $4.00; sizing uses 1.5x-median attached stop)
+    tp exits: n=105  avg move +0.012%  total $+429.12
+    exit mix: {'tp': 105, 'sl': 14}
+
+==============================================================================
+  3) VARIANT LADDER (same ticks, same sizing) — isolate the gap
+==============================================================================
+
+  BOOM500:
+    A EA geometry (1.5xSL,2xTP,to8)    n= 224  WR  82.1%  PnL $  +81.65
+    B EA stops, no attach (1xSL)       n= 224  WR  82.1%  PnL $  +81.65
+    C Phase1 sems + halts              n= 151  WR  55.6%  PnL $ +406.34
+    D Phase1 sems, NO halts            n= 151  WR  55.6%  PnL $ +406.34
+
+  CRASH500:
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    A EA geometry (1.5xSL,2xTP,to8)    n= 206  WR  80.6%  PnL $   +0.12
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    B EA stops, no attach (1xSL)       n= 206  WR  80.6%  PnL $   +0.12
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    C Phase1 sems + halts              n= 147  WR  60.5%  PnL $ +651.61
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    D Phase1 sems, NO halts            n= 151  WR  60.3%  PnL $ +623.17
+
+  BOOM1000:
+    A EA geometry (1.5xSL,2xTP,to8)    n= 120  WR  89.2%  PnL $  +70.00
+    B EA stops, no attach (1xSL)       n= 120  WR  89.2%  PnL $  +70.00
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    C Phase1 sems + halts              n=  87  WR  71.3%  PnL $  -91.66
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    D Phase1 sems, NO halts            n=  97  WR  73.2%  PnL $  +21.52
+
+  CRASH1000:
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    A EA geometry (1.5xSL,2xTP,to8)    n= 119  WR  88.2%  PnL $ -123.21
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    B EA stops, no attach (1xSL)       n= 119  WR  88.2%  PnL $ -123.21
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    C Phase1 sems + halts              n=  71  WR  59.2%  PnL $ -198.23
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    D Phase1 sems, NO halts            n=  92  WR  59.8%  PnL $ -199.25
+
+  ALL-SYMBOL TOTALS                 
+    A EA geometry (1.5xSL,2xTP,to8)    PnL $  +28.55
+    B EA stops, no attach (1xSL)       PnL $  +28.55
+    C Phase1 sems + halts              PnL $ +768.05
+    D Phase1 sems, NO halts            PnL $ +851.78
+
+==============================================================================
+  3b) EA-DEFAULTS LADDER (EA v2.15 config -> Phase 1 semantics)
+==============================================================================
+
+  BOOM500:
+    E0 EA defaults (to5,SL1x,TP2x intrabar, safety, hrs0-6, cd10) n= 178  WR  75.8%  PnL $ -166.58
+    E1 E0 w/ hold 8                                              n= 178  WR  75.8%  PnL $ -166.58
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E2 E1 w/ Phase1 TP (0.4pct, bar-close)                       n= 129  WR  45.7%  PnL $ -173.79
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E3 E2 w/o tick safety exit                                   n= 127  WR  47.2%  PnL $ -169.75
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E4 E3 w/o SL (Phase1 exits, EA hours)                        n= 124  WR  49.2%  PnL $ -166.98
+    E5 E4 w/ cold hours [1,5,12,14,15,19] (= Phase1 sems, no cd) n= 151  WR  55.6%  PnL $ +406.34
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E6 E5 + cooldown 10 bars (full EA-align candidate)           n= 128  WR  57.0%  PnL $ +474.09
+
+  CRASH500:
+    E0 EA defaults (to5,SL1x,TP2x intrabar, safety, hrs0-6, cd10) n= 160  WR  81.2%  PnL $  -29.30
+    E1 E0 w/ hold 8                                              n= 160  WR  81.2%  PnL $  -29.30
+    E2 E1 w/ Phase1 TP (0.4pct, bar-close)                       n= 120  WR  53.3%  PnL $  +15.32
+    E3 E2 w/o tick safety exit                                   n= 113  WR  50.4%  PnL $  -64.08
+    E4 E3 w/o SL (Phase1 exits, EA hours)                        n= 111  WR  51.4%  PnL $  -48.01
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E5 E4 w/ cold hours [1,5,12,14,15,19] (= Phase1 sems, no cd) n= 151  WR  60.3%  PnL $ +623.17
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E6 E5 + cooldown 10 bars (full EA-align candidate)           n= 122  WR  58.2%  PnL $ +117.49
+
+  BOOM1000:
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E0 EA defaults (to5,SL1x,TP2x intrabar, safety, hrs0-6, cd10) n= 106  WR  89.6%  PnL $  -39.68
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E1 E0 w/ hold 8                                              n= 106  WR  89.6%  PnL $  -39.68
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E2 E1 w/ Phase1 TP (0.4pct, bar-close)                       n=  86  WR  68.6%  PnL $ +107.56
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E3 E2 w/o tick safety exit                                   n=  85  WR  69.4%  PnL $ +155.99
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E4 E3 w/o SL (Phase1 exits, EA hours)                        n=  83  WR  69.9%  PnL $ +502.58
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E5 E4 w/ cold hours [1,5,12,14,15,19] (= Phase1 sems, no cd) n=  97  WR  73.2%  PnL $  +21.52
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E6 E5 + cooldown 10 bars (full EA-align candidate)           n=  91  WR  75.8%  PnL $ +134.68
+
+  CRASH1000:
+    E0 EA defaults (to5,SL1x,TP2x intrabar, safety, hrs0-6, cd10) n= 112  WR  92.9%  PnL $ +494.17
+    E1 E0 w/ hold 8                                              n= 112  WR  92.9%  PnL $ +494.17
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E2 E1 w/ Phase1 TP (0.4pct, bar-close)                       n=  85  WR  64.7%  PnL $ -177.91
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E3 E2 w/o tick safety exit                                   n=  84  WR  65.5%  PnL $ -178.70
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E4 E3 w/o SL (Phase1 exits, EA hours)                        n=  83  WR  65.1%  PnL $ -175.59
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E5 E4 w/ cold hours [1,5,12,14,15,19] (= Phase1 sems, no cd) n=  92  WR  59.8%  PnL $ -199.25
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+  [HALT] Daily loss limit 50% hit. No new entries today.
+    E6 E5 + cooldown 10 bars (full EA-align candidate)           n=  89  WR  60.7%  PnL $ -198.74
+
+  EA-LADDER ALL-SYMBOL TOTALS                                 
+    E0 EA defaults (to5,SL1x,TP2x intrabar, safety, hrs0-6, cd10) PnL $ +258.61
+    E1 E0 w/ hold 8                                              PnL $ +258.61
+    E2 E1 w/ Phase1 TP (0.4pct, bar-close)                       PnL $ -228.83
+    E3 E2 w/o tick safety exit                                   PnL $ -256.54
+    E4 E3 w/o SL (Phase1 exits, EA hours)                        PnL $ +111.99
+    E5 E4 w/ cold hours [1,5,12,14,15,19] (= Phase1 sems, no cd) PnL $ +851.78
+    E6 E5 + cooldown 10 bars (full EA-align candidate)           PnL $ +527.52
+
+==============================================================================
+  4) REFERENCE: PHASE1-STYLE BAR BACKTEST on Sep (WR basis, %-pnl)
+==============================================================================
+  boom500    n= 200  WR  57.0%  avg +0.0081%  USD-equiv (executor sizing) $ +362.80
+  crash500   n= 191  WR  57.6%  avg +0.0052%  USD-equiv (executor sizing) $ +223.30
+  boom1000   n= 110  WR  70.0%  avg -0.0001%  USD-equiv (executor sizing) $   -4.73
+  crash1000  n= 131  WR  69.5%  avg -0.0012%  USD-equiv (executor sizing) $  -68.87

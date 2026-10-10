@@ -1,0 +1,687 @@
+{
+ "archive_days": 13.351863414351852,
+ "seeds": [
+  11,
+  23,
+  29,
+  37,
+  47,
+  53,
+  61
+ ],
+ "n_sims": 2000,
+ "rows": [
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 11,
+   "flip": 7.000000000000001,
+   "ruin": 48.699999999999996
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 23,
+   "flip": 7.6499999999999995,
+   "ruin": 46.85
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 29,
+   "flip": 7.199999999999999,
+   "ruin": 44.45
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 37,
+   "flip": 7.000000000000001,
+   "ruin": 47.0
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 47,
+   "flip": 7.55,
+   "ruin": 47.25
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 53,
+   "flip": 7.249999999999999,
+   "ruin": 45.300000000000004
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 61,
+   "flip": 7.6499999999999995,
+   "ruin": 46.45
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 11,
+   "flip": 2.75,
+   "ruin": 39.15
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 23,
+   "flip": 2.85,
+   "ruin": 36.449999999999996
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 29,
+   "flip": 3.2,
+   "ruin": 34.4
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 37,
+   "flip": 2.9000000000000004,
+   "ruin": 37.5
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 47,
+   "flip": 2.8000000000000003,
+   "ruin": 36.5
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 53,
+   "flip": 2.55,
+   "ruin": 36.25
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 61,
+   "flip": 3.4000000000000004,
+   "ruin": 37.3
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 11,
+   "flip": 3.05,
+   "ruin": 39.050000000000004
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 23,
+   "flip": 3.65,
+   "ruin": 36.95
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 29,
+   "flip": 4.0,
+   "ruin": 34.9
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 37,
+   "flip": 3.55,
+   "ruin": 37.85
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 47,
+   "flip": 3.0,
+   "ruin": 36.65
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 53,
+   "flip": 3.45,
+   "ruin": 37.2
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 61,
+   "flip": 3.75,
+   "ruin": 37.45
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 11,
+   "flip": 26.950000000000003,
+   "ruin": 69.55
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 23,
+   "flip": 27.900000000000002,
+   "ruin": 68.5
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 29,
+   "flip": 29.049999999999997,
+   "ruin": 67.35
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 37,
+   "flip": 28.050000000000004,
+   "ruin": 68.5
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 47,
+   "flip": 27.650000000000002,
+   "ruin": 69.05
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 53,
+   "flip": 29.7,
+   "ruin": 67.7
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 61,
+   "flip": 28.199999999999996,
+   "ruin": 68.7
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 11,
+   "flip": 34.4,
+   "ruin": 62.9
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 23,
+   "flip": 34.9,
+   "ruin": 61.85000000000001
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 29,
+   "flip": 37.5,
+   "ruin": 58.8
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 37,
+   "flip": 34.599999999999994,
+   "ruin": 62.35000000000001
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 47,
+   "flip": 36.25,
+   "ruin": 61.0
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 53,
+   "flip": 36.75,
+   "ruin": 60.25
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 61,
+   "flip": 35.9,
+   "ruin": 60.8
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 11,
+   "flip": 34.25,
+   "ruin": 62.849999999999994
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 23,
+   "flip": 35.0,
+   "ruin": 62.64999999999999
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 29,
+   "flip": 38.2,
+   "ruin": 58.95
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 37,
+   "flip": 35.099999999999994,
+   "ruin": 62.45
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 47,
+   "flip": 35.8,
+   "ruin": 61.45
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 53,
+   "flip": 36.8,
+   "ruin": 60.3
+  },
+  {
+   "engine": "incumbent",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 61,
+   "flip": 36.1,
+   "ruin": 61.3
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 11,
+   "flip": 19.8,
+   "ruin": 40.849999999999994
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 23,
+   "flip": 21.6,
+   "ruin": 37.8
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 29,
+   "flip": 21.3,
+   "ruin": 35.9
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 37,
+   "flip": 20.849999999999998,
+   "ruin": 39.95
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 47,
+   "flip": 20.4,
+   "ruin": 38.6
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 53,
+   "flip": 22.5,
+   "ruin": 37.45
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "no-aim",
+   "seed": 61,
+   "flip": 21.55,
+   "ruin": 38.0
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 11,
+   "flip": 4.0,
+   "ruin": 46.7
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 23,
+   "flip": 4.2,
+   "ruin": 43.45
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 29,
+   "flip": 4.45,
+   "ruin": 42.75
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 37,
+   "flip": 3.95,
+   "ruin": 45.35
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 47,
+   "flip": 4.55,
+   "ruin": 43.7
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 53,
+   "flip": 3.5999999999999996,
+   "ruin": 43.15
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $3",
+   "seed": 61,
+   "flip": 4.0,
+   "ruin": 44.75
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 11,
+   "flip": 12.8,
+   "ruin": 40.5
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 23,
+   "flip": 14.75,
+   "ruin": 37.25
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 29,
+   "flip": 14.249999999999998,
+   "ruin": 35.85
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 37,
+   "flip": 13.55,
+   "ruin": 38.800000000000004
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 47,
+   "flip": 12.75,
+   "ruin": 37.75
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 53,
+   "flip": 14.000000000000002,
+   "ruin": 37.45
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "fixed",
+   "rule": "aim $4",
+   "seed": 61,
+   "flip": 13.5,
+   "ruin": 37.75
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 11,
+   "flip": 41.4,
+   "ruin": 58.15
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 23,
+   "flip": 41.949999999999996,
+   "ruin": 57.75
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 29,
+   "flip": 45.050000000000004,
+   "ruin": 54.6
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 37,
+   "flip": 41.5,
+   "ruin": 58.050000000000004
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 47,
+   "flip": 42.75,
+   "ruin": 56.65
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 53,
+   "flip": 44.65,
+   "ruin": 55.00000000000001
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "no-aim",
+   "seed": 61,
+   "flip": 43.8,
+   "ruin": 55.55
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 11,
+   "flip": 36.65,
+   "ruin": 62.45
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 23,
+   "flip": 36.15,
+   "ruin": 62.6
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 29,
+   "flip": 38.65,
+   "ruin": 60.550000000000004
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 37,
+   "flip": 35.699999999999996,
+   "ruin": 63.05
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 47,
+   "flip": 38.35,
+   "ruin": 60.650000000000006
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 53,
+   "flip": 38.550000000000004,
+   "ruin": 60.3
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $3",
+   "seed": 61,
+   "flip": 37.35,
+   "ruin": 61.4
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 11,
+   "flip": 42.699999999999996,
+   "ruin": 56.99999999999999
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 23,
+   "flip": 43.2,
+   "ruin": 56.49999999999999
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 29,
+   "flip": 45.9,
+   "ruin": 53.949999999999996
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 37,
+   "flip": 42.6,
+   "ruin": 56.75
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 47,
+   "flip": 45.2,
+   "ruin": 54.6
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 53,
+   "flip": 45.550000000000004,
+   "ruin": 54.25
+  },
+  {
+   "engine": "timebnd5000",
+   "sizing": "ladder",
+   "rule": "aim $4",
+   "seed": 61,
+   "flip": 45.7,
+   "ruin": 53.900000000000006
+  }
+ ]
+}

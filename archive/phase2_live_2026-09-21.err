@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\hp\Desktop\code\Genesis\eval\paper_trading_protected.py", line 565, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\paper_trading_protected.py", line 549, in main
+    run_live(args, engines, book)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Desktop\code\Genesis\eval\paper_trading_protected.py", line 412, in run_live
+    px = info.bid if info.bid > 0 else info.trade_tick_price
+                                       ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SymbolInfo' object has no attribute 'trade_tick_price'. Did you mean: 'trade_tick_size'?

@@ -1,0 +1,72 @@
+==========================================================================
+  FLIP150  ticks=606,125  span=169.1h  median_tick_delta=0.00620
+==========================================================================
+  large moves: n=12078  up=6143  down=5935  (up share 50.9%)
+  size (x median): p50 3.5  p95 285.5  max 700.9
+  total up size 341745 vs down 343131  (ratio 0.996; 1.00 = no weekly drift)
+  direction runs (phases): n=4774  len p50 2  p90 5  max 24  runs>=5: 711
+    up-run mean len 2.57 vs down-run 2.49  (asymmetry = structure)
+  alternation rate: 39.5% (50% = coin, high = mean-reverting spikes)
+  large-move gap (ticks): p50 35  p90 115  max 435  (nominal period: 150)
+  inter-move drift: matches PREV move 77.5%   matches NEXT move 65.6%   (50% = neutral)
+    drift magnitude per segment (x median): mean 52.5  p50 36.1
+    pre-flip segments (n=4773): still OLD dir 63.8%   already NEW dir 33.8%
+    continue segments (n=7304): matches phase 86.4%
+  P(same dir | gap<=p50): 60.2%  (n=6082)
+  P(same dir | gap>p90): 62.6%  (n=1199)
+  pre-flip segment drift (x median): mean +4.92  p25 -49.10  p75 +52.63
+
+==========================================================================
+  FLIP300  ticks=608,354  span=169.1h  median_tick_delta=0.05020
+==========================================================================
+  large moves: n=11662  up=5777  down=5885  (up share 49.5%)
+  size (x median): p50 3.3  p95 458.5  max 1415.9
+  total up size 356715 vs down 348172  (ratio 1.025; 1.00 = no weekly drift)
+  direction runs (phases): n=2771  len p50 2  p90 10  max 57  runs>=5: 791
+    up-run mean len 4.17 vs down-run 4.25  (asymmetry = structure)
+  alternation rate: 23.8% (50% = coin, high = mean-reverting spikes)
+  large-move gap (ticks): p50 36  p90 119  max 504  (nominal period: 300)
+  inter-move drift: matches PREV move 87.4%   matches NEXT move 81.1%   (50% = neutral)
+    drift magnitude per segment (x median): mean 54.9  p50 37.5
+    pre-flip segments (n=2770): still OLD dir 62.1%   already NEW dir 35.8%
+    continue segments (n=8891): matches phase 95.2%
+  P(same dir | gap<=p50): 77.0%  (n=5925)
+  P(same dir | gap>p90): 73.0%  (n=1164)
+  pre-flip segment drift (x median): mean -1.58  p25 -58.12  p75 +62.19
+
+==========================================================================
+  FLIP500  ticks=607,699  span=169.1h  median_tick_delta=0.01750
+==========================================================================
+  large moves: n=10628  up=5198  down=5430  (up share 48.9%)
+  size (x median): p50 3.3  p95 578.4  max 2005.3
+  total up size 353255 vs down 356509  (ratio 0.991; 1.00 = no weekly drift)
+  direction runs (phases): n=1814  len p50 2  p90 16  max 72  runs>=5: 690
+    up-run mean len 5.73 vs down-run 5.99  (asymmetry = structure)
+  alternation rate: 17.1% (50% = coin, high = mean-reverting spikes)
+  large-move gap (ticks): p50 39  p90 130  max 578  (nominal period: 500)
+  inter-move drift: matches PREV move 90.7%   matches NEXT move 87.0%   (50% = neutral)
+    drift magnitude per segment (x median): mean 60.4  p50 41.1
+    pre-flip segments (n=1813): still OLD dir 60.2%   already NEW dir 38.2%
+    continue segments (n=8814): matches phase 97.0%
+  P(same dir | gap<=p50): 83.3%  (n=5337)
+  P(same dir | gap>p90): 81.0%  (n=1055)
+  pre-flip segment drift (x median): mean +3.81  p25 -45.58  p75 +52.83
+
+==========================================================================
+  FLIP1000  ticks=606,793  span=169.1h  median_tick_delta=0.00850
+==========================================================================
+  large moves: n=9553  up=4939  down=4614  (up share 51.7%)
+  size (x median): p50 3.3  p95 563.9  max 3844.2
+  total up size 381623 vs down 385645  (ratio 0.990; 1.00 = no weekly drift)
+  direction runs (phases): n=1006  len p50 4  p90 25  max 103  runs>=5: 479
+    up-run mean len 9.82 vs down-run 9.17  (asymmetry = structure)
+  alternation rate: 10.5% (50% = coin, high = mean-reverting spikes)
+  large-move gap (ticks): p50 44  p90 145  max 591  (nominal period: 1000)
+  inter-move drift: matches PREV move 94.5%   matches NEXT move 91.9%   (50% = neutral)
+    drift magnitude per segment (x median): mean 67.1  p50 46.2
+    pre-flip segments (n=1005): still OLD dir 61.0%   already NEW dir 36.9%
+    continue segments (n=8547): matches phase 98.4%
+  P(same dir | gap<=p50): 89.7%  (n=4818)
+  P(same dir | gap>p90): 88.8%  (n=946)
+  pre-flip segment drift (x median): mean -2.97  p25 -60.64  p75 +53.79
+

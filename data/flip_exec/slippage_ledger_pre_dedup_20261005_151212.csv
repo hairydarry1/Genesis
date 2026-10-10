@@ -1,0 +1,5 @@
+mode,spike_ts_utc,spike_delta,side,assumed_fill,actual_deal,adverse_price_units,adverse_usd,spread_at_order,note,entry_x,act_2h,trend_2h,min_2k
+ENTRY,2026-10-05T13:34:33.054000+00:00,+5.33480,buy,9609.54630,9609.54630,+0.00000,+0.0000,0.62610,done,620.33,1,0,0
+ENTRY,2026-10-05T13:34:33.054000+00:00,+5.33480,buy,9609.54630,9609.54640,+0.00010,+0.0000,0.62610,done,620.33,1,0,0
+EXIT,2026-10-05T13:57:43+00:00,+0.00000,sell,9600.76530,9600.76530,+0.00000,+0.0000,0.62610,broker-close (spike path) [manual/broker close deal 20708863975],620.33,1,0,0
+EXIT,2026-10-05T13:57:42.048000+00:00,-21.22750,sell,9600.74630,9600.76530,-0.01900,-0.0019,0.62610,done,,,,

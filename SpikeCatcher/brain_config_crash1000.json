@@ -1,0 +1,14 @@
+{
+  "symbol": "crash1000",
+  "updated_at": "2026-09-03T21:37:31",
+  "verdict": "HOLD",
+  "reason": "no candidate beat the baseline on validation",
+  "recommended": {
+    "entry_bar": 3,
+    "hold": 5,
+    "cooldown": 3,
+    "gate": false
+  },
+  "baseline_val_pf": 1.3884644615656274,
+  "candidate_val_pf": null
+}

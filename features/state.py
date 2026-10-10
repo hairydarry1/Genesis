@@ -213,9 +213,14 @@ class StateBuilder:
         window_start = max(0, bar_idx - self._structure_window + 1)
         window_end = min(bar_idx + 1, n_bars)
         
-        # Check if we already have structures for this range
-        cache_key = window_start // self._structure_window
+        # Check if we already have structures for this range.
+        # NOTE: the key must be the EXACT window bounds — the slice depends on
+        # bar_idx, so coarser keys (e.g. window_start // window_size) would
+        # return structures detected over a DIFFERENT bar range (stale cache).
+        cache_key = (window_start, window_end)
         if cache_key not in self._structure_cache:
+            if len(self._structure_cache) >= 8:
+                self._structure_cache.clear()
             # Detect structures on this window slice
             window_bars = bars.iloc[window_start:window_end].copy()
             window_bars = window_bars.reset_index(drop=True)
@@ -258,18 +263,28 @@ class StateBuilder:
             self._ts_index[tf] = {
                 "timestamps": ts.values,
                 "indices": np.arange(len(ts)),
+                # Bars are stamped by OPEN time: a bar stamped t spans
+                # [t, t + interval) and only CLOSES at t + interval.
+                "interval": pd.Timedelta(tf).to_timedelta64(),
             }
 
     def _find_bar_index(self, tf: str, timestamp: pd.Timestamp) -> int | None:
-        """Find the bar index for a given timestamp in a timeframe."""
-        ts_array = self._ts_index[tf]["timestamps"]
-        idx_array = self._ts_index[tf]["indices"]
+        """Find the index of the last CLOSED bar for a timestamp in a timeframe.
+
+        Causality rule: at decision time T we may only use bars whose close
+        time (open stamp + interval) is <= T. Selecting by open stamp alone
+        would expose the still-forming bar's OHLC — which contains price
+        action AFTER T (up to interval-1 seconds of lookahead).
+        """
+        meta = self._ts_index[tf]
+        ts_array = meta["timestamps"]
+        idx_array = meta["indices"]
 
         # Normalize incoming timestamp for comparison
         norm_ts = self._normalize_ts(timestamp)
 
-        # Find the last bar whose timestamp <= the target
-        mask = ts_array <= norm_ts
+        # Find the last bar that has fully closed by the target time
+        mask = (ts_array + meta["interval"]) <= norm_ts
         if not mask.any():
             return None
         return int(idx_array[mask][-1])
@@ -1277,14 +1292,17 @@ class StateBuilder:
         precomputed_pd = self._precompute_premium_discount(finest)
         precomputed_structs = self._precompute_all_structure_counts()
 
-        # 3) Map timestamps → bar index per timeframe
+        # 3) Map timestamps → bar index per timeframe (CAUSAL: only closed bars)
         bar_idx_matrix = np.full((len(timestamps), len(self.timeframes)), -1, dtype=np.intp)
         for tf_i, tf in enumerate(self.timeframes):
             ts_arr = self._ts_index[tf]["timestamps"]
-            resolved = np.searchsorted(ts_arr, timestamps, side='right') - 1
+            interval = self._ts_index[tf]["interval"]
+            close_times = ts_arr + interval  # bar open + interval = bar close time
+            resolved = np.searchsorted(close_times, timestamps, side='right') - 1
             for i in range(len(timestamps)):
                 r = int(resolved[i])
-                if 0 <= r < len(ts_arr) and ts_arr[r] <= timestamps[i]:
+                # Bar must be closed: close_time <= decision_time
+                if 0 <= r < len(ts_arr) and close_times[r] <= timestamps[i]:
                     bar_idx_matrix[i, tf_i] = r
 
         t_idx = _time.time()

@@ -1,9 +1,9 @@
 @echo off
-echo ========================================
-echo   Genesis Trading Dashboard
-echo ========================================
+echo ============================================
+echo   Genesis Trading Terminal
+echo ============================================
 echo.
-echo Starting dashboard server...
+echo Starting server on http://localhost:8080
 echo.
-python dashboard/server.py --port 8080
+python -m dashboard.server --port 8080 --ws-port 8081
 pause

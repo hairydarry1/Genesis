@@ -1,0 +1,21 @@
+{
+ "ping": {
+  "echo_req": {
+   "ping": 1,
+   "req_id": 1
+  },
+  "msg_type": "ping",
+  "ping": "pong",
+  "req_id": 1
+ },
+ "authorize_ok": false,
+ "authorize_note": "no token: catalog endpoints return empty by design; market data still works",
+ "active_symbols_ok": true,
+ "n_symbols_total": 0,
+ "flip_symbols": [],
+ "boom_crash_count": 0,
+ "boom_symbols": [],
+ "crash_symbols": [],
+ "contracts": {},
+ "feed": {}
+}

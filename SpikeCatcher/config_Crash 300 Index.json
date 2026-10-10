@@ -1,0 +1,13 @@
+{
+  "updated_at": "2026-08-31T03:07:23.656657",
+  "version": "v2",
+  "total_trades": 4,
+  "win_rate": 25.0,
+  "total_pnl": -0.16000000000000003,
+  "safety_exits": 1,
+  "safety_saved": 0.0875,
+  "consecutive_losses": 0,
+  "max_consecutive_losses": 3,
+  "tp_mult": 2.5,
+  "sl_mult": 1.0
+}

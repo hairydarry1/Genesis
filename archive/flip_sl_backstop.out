@@ -1,0 +1,37 @@
+=== SL backstop sweep | flip1000 | 34.0 gap-masked days | 3,482,113 ticks ===
+live convention: rolling 5000-tick median, mult=5.0, min_age=1, delay=300, spread=0.0626 USD/trip
+per-unit book: $0.1000/u at 0.1 lots -> 25u=$2.50  40u=$4.00  60u=$6.00  100u=$10.00
+
+  computing rolling medians over 3,482,113 ticks (bisect window)...
+  done in 156.4s
+  cached -> data/flip_exec/_rolling_med_flip1000.npz
+--- LS ---  parity vs flip_rolling_engine.run_conv: BIT-EXACT (shared n=634 net=$+5.22)
+    trip count 634, fills 634, spread cost $39.69 of net $+5.22
+
+  SL        hits    trunc$  metrics
+  25u/$2.50    95     +4.01                               n= 719 net/wk=$  +0.25 net=$  +1.21 WR= 47.3% avg=$+0.002 avgL=$-1.257 worst=$-2.56 maxDD=$ 80.15 worstDay=$-14.03
+      survival ($10, 4wk) flip/ruin:   1.8/71.5    1.7/71.2    1.7/70.7
+  40u/$4.00    36     +6.71                               n= 667 net/wk=$  -0.31 net=$  -1.49 WR= 48.6% avg=$-0.002 avgL=$-1.288 worst=$-4.06 maxDD=$ 79.97 worstDay=$-14.16
+      survival ($10, 4wk) flip/ruin:   1.8/74.4    2.1/74.2    1.8/74.2
+  60u/$6.00     8     +0.27                               n= 640 net/wk=$  +1.02 net=$  +4.96 WR= 48.3% avg=$+0.008 avgL=$-1.271 worst=$-6.06 maxDD=$ 83.11 worstDay=$-14.95
+      survival ($10, 4wk) flip/ruin:   2.3/71.8    2.6/71.0    2.4/70.3
+  100u/$10.00     1     -0.30                               n= 634 net/wk=$  +1.14 net=$  +5.52 WR= 48.7% avg=$+0.009 avgL=$-1.293 worst=$-10.06 maxDD=$ 82.43 worstDay=$-14.97
+      survival ($--- L long-only ---  parity vs flip_rolling_engine.run_conv: BIT-EXACT (shared n=324 net=$+39.51)
+    trip count 324, fills 324, spread cost $20.29 of net $+39.51
+
+  SL        hits    trunc$  metrics
+  25u/$2.50    48     +1.97                               n= 369 net/wk=$  +7.73 net=$ +37.54 WR= 50.1% avg=$+0.102 avgL=$-1.267 worst=$-2.56 maxDD=$ 29.28 worstDay=$-10.08
+      survival ($10, 4wk) flip/ruin:   3.6/35.9    3.2/36.1    3.4/33.3
+  40u/$4.00    18     +3.42                               n= 340 net/wk=$  +7.43 net=$ +36.09 WR= 51.5% avg=$+0.106 avgL=$-1.311 worst=$-4.06 maxDD=$ 27.42 worstDay=$-13.18
+      survival ($10, 4wk) flip/ruin:   3.7/39.0    3.5/38.0    3.2/35.4
+  60u/$6.00     5     -1.16                               n= 328 net/wk=$  +8.38 net=$ +40.67 WR= 51.5% avg=$+0.124 avgL=$-1.295 worst=$-6.06 maxDD=$ 30.69 worstDay=$-9.43
+      survival ($10, 4wk) flip/ruin:   3.8/32.8    3.9/30.8    4.0/30.7
+  none         0     +0.00                               n= 324 net/wk=$  +8.14 net=$ +39.51 WR= 52.2% avg=$+0.122 avgL=$-1.336 worst=$-10.36 maxDD=$ 32.21 worstDay=$-9.43
+      survival ($10, 4wk) flip/ruin:   4.0/34.6    4.0/32.5    3.9/32.8
+
+$10, 4wk) flip/ruin:   3.8/32.8    3.9/30.8    4.0/30.7
+  100u/$10.00     1     -0.30                               n= 324 net/wk=$  +8.20 net=$ +39.81 WR= 52.2% avg=$+0.123 avgL=$-1.334 worst=$-10.06 maxDD=$ 31.91 worstDay=$-9.43
+      survival ($10, 4wk) flip/ruin:   4.0/34.2    4.0/31.9    4.0/32.2
+  none         0     +0.00                               n= 324 net/wk=$  +8.14 net=$ +39.51 WR= 52.2% avg=$+0.122 avgL=$-1.336 worst=$-10.36 maxDD=$ 32.21 worstDay=$-9.43
+      survival ($10, 4wk) flip/ruin:   4.0/34.6    4.0/32.5    3.9/32.8
+

@@ -1,0 +1,16 @@
+{
+  "symbol": "boom500",
+  "updated_at": "2026-09-03T21:37:31",
+  "verdict": "HOLD",
+  "reason": "no candidate beat the baseline on validation",
+  "recommended": {
+    "entry_bar": 1,
+    "hold": 2,
+    "cooldown": 1,
+    "gate": true,
+    "gate_mult": 8.0,
+    "gate_window": 3
+  },
+  "baseline_val_pf": 2.059969163353055,
+  "candidate_val_pf": null
+}
